@@ -1,7 +1,7 @@
 name: Build and push
 on: [push]
 jobs:
-  main:
+  build-and-push:
     runs-on: ubuntu-latest
     steps:
       - name: Set up Docker Buildx
