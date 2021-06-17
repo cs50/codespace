@@ -19,6 +19,15 @@ RUN apt-get update && \
         wget \
         zip
 
+# Node.js 14.x and npm
+RUN curl -fsSL https://deb.nodesource.com/setup_14.x | bash - && \
+    apt-get install --yes nodejs
+
+# CS50 apt packages
+RUN curl --silent https://packagecloud.io/install/repositories/cs50/repo/script.deb.sh | bash && \
+    apt-get install --yes \
+        libcs50
+
 RUN pip3 install --upgrade pip
 RUN pip3 install \
     check50 \
@@ -26,6 +35,8 @@ RUN pip3 install \
     Flask \
     Flask-Session \
     pylint
+
+RUN npm install --global http-server
 
 COPY files/ /
 RUN chmod a+rx /opt/cs50/bin/*

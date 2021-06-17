@@ -1,0 +1,46 @@
+#!/bin/bash
+
+# Default options
+a="-a 0.0.0.0"
+c="-c-1"
+cors="--cors"
+i="-i false"
+port="-p 8080"
+options="--no-dotfiles"
+
+# Override default options
+while test ${#} -gt 0
+do
+    if [[ "$1" =~ ^-a$ ]]; then
+        a="$1 $2"
+        shift
+        shift
+    elif [[ "$1" =~ ^-c-?[0-9]+$ ]]; then
+        c="$1"
+        shift
+    elif [[ "$1" =~ ^--cors(=.*)?$ ]]; then
+        cors="$1"
+        shift
+    elif [[ "$1" =~ ^-i$ ]]; then
+        i="$1 $2"
+        shift
+        shift
+    elif [[ "$1" =~ ^-p[^\s]+ ]]; then
+        port="$1"
+        shift
+    elif [[ "$1" == "-p" ]]; then
+        port="$1 $2"
+        shift
+        shift
+    else
+        options+=" $1"
+        shift
+    fi
+done
+
+# Kill any process listing on the specified port
+# using regex to handle -pxxxx, -p xxxx, --port xxxx, --port=xxxx
+fuser --kill -INT "${port//[^0-9]}/tcp" &>/dev/null
+
+# Spawn http-server, retaining colorized output using expect's unbuffer
+/usr/local/bin/http-server $a $c $cors $i $port $options
