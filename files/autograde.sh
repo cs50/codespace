@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -e -o pipefail
+set -e
 
 args=( $INPUT_CHECK50_ARGS )
 
