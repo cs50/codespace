@@ -1,0 +1,49 @@
+#!/bin/bash
+
+# Enable development mode by default
+export FLASK_ENV="${FLASK_ENV:-development}"
+
+# But not debug mode
+export FLASK_DEBUG="${FLASK_DEBUG:-0}"
+
+if [[ "$1" == "run" ]]; then
+
+    # Default options
+    host="--host=0.0.0.0"
+    port="--port=8080"
+    reload="--reload"
+
+    # Override default options
+    options=""
+    shift
+    while test ${#} -gt 0
+    do
+        if [[ "$1" =~ ^--host= || "$1" =~ ^-h[^\s]+ ]]; then
+            host="$1"
+        elif [[ "$1" == "-h" || "$1" == "--host" ]]; then
+            host="$1 $2"
+            shift
+        elif [[ "$1" =~ ^--port= || "$1" =~ ^-p[^\s]+ ]]; then
+            port="$1"
+        elif [[ "$1" == "-p" || "$1" == "--port"  ]]; then
+            port="$1 $2"
+            shift
+        elif [[ "$1" =~ ^--(no-)?reload$ ]]; then
+            reload="$1"
+        elif [[ "$1" =~ ^--with(out)?-threads$ ]]; then
+            threads="$1"
+        else
+            options+=" $1"
+        fi
+        shift
+    done
+
+    # Kill any process listing on the specified port
+    # using regex to handle -pxxxx, -p xxxx, --port xxxx, --port=xxxx
+    fuser --kill -INT "${port//[^0-9]}/tcp" &> /dev/null
+
+    # Spawn flask
+    /usr/local/bin/flask run $host $port $reload $threads $options
+else
+    /usr/local/bin/flask "$@"
+fi
