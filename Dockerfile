@@ -26,8 +26,7 @@ RUN pip3 install \
     Flask-Session \
     pylint
 
-COPY ./etc /etc
-COPY ./opt /opt
+COPY files/ /
 RUN chmod a+rx /opt/cs50/bin/*
 
 ENV PATH="/opt/cs50/bin:/opt/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
