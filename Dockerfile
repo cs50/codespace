@@ -8,6 +8,7 @@ RUN apt-get update && \
         clang \
         coreutils `# for fold` \
         curl \
+        gdb \
         git \
         jq \
         make \
