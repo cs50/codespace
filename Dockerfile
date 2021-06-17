@@ -4,6 +4,7 @@ ARG DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && \
     apt-get install --yes \
+        bash-completion \
         clang \
         coreutils `# for fold` \
         curl \
