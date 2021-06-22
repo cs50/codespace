@@ -34,6 +34,7 @@ if [ "$(whoami)" != "root" ]; then
     umask 0077
 
     # Aliases
+    alias check50="check50 --local"
     alias cp="cp -i"
     alias gdb="gdb -q" # Suppress gdb's startup output
     alias grep="grep --color"
