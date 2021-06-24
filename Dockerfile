@@ -37,6 +37,7 @@ RUN pip3 install \
     cs50 \
     Flask \
     Flask-Session \
+    git+https://github.com/cs50/submit50@classroom \
     pylint
 
 RUN npm install --global http-server
