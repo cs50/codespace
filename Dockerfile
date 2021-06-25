@@ -5,6 +5,7 @@ ARG DEBIAN_FRONTEND=noninteractive
 RUN yes | unminimize
 RUN apt-get update && apt-get install --yes apt-utils
 RUN apt-get update && apt-get install --yes \
+    astyle \
     bash-completion \
     clang \
     coreutils `# for fold` \
