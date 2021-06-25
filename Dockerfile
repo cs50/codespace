@@ -3,24 +3,23 @@ LABEL maintainer="sysadmins@cs50.harvard.edu"
 ARG DEBIAN_FRONTEND=noninteractive
 
 RUN yes | unminimize
-
-RUN apt-get update && \
-    apt-get install --yes \
-        bash-completion \
-        clang \
-        coreutils `# for fold` \
-        curl \
-        gdb \
-        git \
-        jq \
-        make \
-        psmisc `# for fuser` \
-        python3 \
-        python3-pip \
-        sqlite3 \
-        sudo \
-        wget \
-        zip
+RUN apt-get update && apt-get install --yes apt-utils
+RUN apt-get update && apt-get install --yes \
+    bash-completion \
+    clang \
+    coreutils `# for fold` \
+    curl \
+    gdb \
+    git \
+    jq \
+    make \
+    psmisc `# for fuser` \
+    python3 \
+    python3-pip \
+    sqlite3 \
+    sudo \
+    wget \
+    zip
 
 # Node.js 14.x and npm
 RUN curl -fsSL https://deb.nodesource.com/setup_14.x | bash - && \
@@ -42,6 +41,9 @@ RUN pip3 install \
     style50
 
 RUN npm install --global http-server
+
+RUN wget -P /opt/cs50/bin https://raw.githubusercontent.com/cs50/update50/main/update50 && \
+    chmod 755 /opt/cs50/bin/update50
 
 COPY files/ /
 RUN chmod a+rx /opt/cs50/bin/*
