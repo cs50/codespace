@@ -38,6 +38,7 @@ RUN pip3 install \
     Flask \
     Flask-Session \
     git+https://github.com/cs50/submit50@classroom \
+    help50 \
     pylint \
     style50
 
