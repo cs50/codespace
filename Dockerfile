@@ -31,13 +31,14 @@ RUN curl --silent https://packagecloud.io/install/repositories/cs50/repo/script.
     apt-get install --yes \
         libcs50
 
-RUN pip3 install --upgrade 'pip<21.1.3'
+RUN pip3 install --upgrade pip
 RUN pip3 install \
     check50 \
     cs50 \
     Flask \
     Flask-Session \
     git+https://github.com/cs50/submit50@classroom \
+    help50 \
     pylint \
     style50
 
