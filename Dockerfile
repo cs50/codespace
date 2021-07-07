@@ -19,6 +19,7 @@ RUN apt-get update && apt-get install --yes \
     python3-pip \
     sqlite3 \
     sudo \
+    valgrind \
     wget \
     zip
 

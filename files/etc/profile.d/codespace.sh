@@ -67,7 +67,7 @@ if [ "$(whoami)" != "root" ]; then
         CC="clang" \
         CFLAGS="-ggdb3 -O0 -std=c11 -Wall -Werror -Wextra -Wno-sign-compare -Wno-unused-parameter -Wno-unused-variable -Wshadow" \
         LDLIBS="-lcrypt -lcs50 -lm" \
-        command make -B $*
+        command make -B "$@"
     }
 
     valgrind() {
@@ -78,7 +78,7 @@ if [ "$(whoami)" != "root" ]; then
             fi
         done
         VALGRIND_OPTS="--memcheck:leak-check=full --memcheck:show-leak-kinds=all --memcheck:track-origins=yes" \
-        command valgrind $*
+        command valgrind "$@"
     }
 
     # Which manual sections to search
