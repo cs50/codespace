@@ -49,7 +49,20 @@ RUN wget -P /opt/cs50/bin https://raw.githubusercontent.com/cs50/update50/main/u
     chmod 755 /opt/cs50/bin/update50
 
 COPY files/ /
-RUN chmod a+rx /opt/cs50/bin/*
+RUN chmod 755 /opt/cs50/bin/*
+
+# Add courses group
+RUN groupadd --system courses
+
+# Add cs50 user
+RUN adduser --gecos "CS50,,,," --ingroup courses --disabled-login --system cs50
+
+# Staff solutions
+RUN chmod 755 /opt/cs50/bin/*
+RUN chown --recursive cs50.courses /home/cs50 && \
+    chmod --recursive 755 /home/cs50 && \
+    find /home/cs50 -type f -name "*.*" -exec chmod 644 {} +;
+
 
 ENV PATH="/opt/cs50/bin:/opt/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 RUN sed -i "s|^PATH=.*|PATH=$PATH|" /etc/environment
