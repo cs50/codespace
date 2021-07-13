@@ -9,4 +9,4 @@ if [[ "$#" -eq 0 ]]; then
 elif [[ "$#" -eq 1 ]] && [[ "$1" == *.db ]] && [[ ! -f "$1" ]]; then
     warn "$1 does not seem to exist, so it will be created as an empty database. If it should, in fact, exist, you might not be in the correct directory, in which case you can quit sqlite3 with .quit, cd into that directory, and re-run sqlite3."
 fi
-/usr/local/bin/sqlite3 -header -separator ' | ' "$@"
+/usr/bin/sqlite3 -header -separator ' | ' "$@"
