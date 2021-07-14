@@ -43,4 +43,4 @@ done
 fuser --kill -INT "${port//[^0-9]}/tcp" &>/dev/null
 
 # Spawn http-server, retaining colorized output using expect's unbuffer
-/usr/local/bin/http-server $a $c $cors $i $port $options
+/usr/bin/http-server $a $c $cors $i $port $options
