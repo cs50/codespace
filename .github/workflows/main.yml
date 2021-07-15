@@ -36,5 +36,8 @@ jobs:
       - name: Push to ghcr
         if: ${{ github.ref == 'refs/heads/main' }}
         run: |
+          docer tag cs50/codespace:${{ github.sha }} ghcr.io/cs50/codespace:${{ github.sha }}
+          docer tag cs50/codespace:latest ghcr.io/cs50/codespace:latest
+
           docker push ghcr.io/cs50/codespace:${{ github.sha }}
           docker push ghcr.io/cs50/codespace:latest
