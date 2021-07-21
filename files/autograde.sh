@@ -2,6 +2,8 @@
 
 set -e
 
+export HOME=/home/ubuntu
+
 args=( $INPUT_CHECK50_ARGS )
 
 autograde() {
