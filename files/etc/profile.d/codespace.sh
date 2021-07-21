@@ -93,7 +93,6 @@ if [ "$(whoami)" != "root" ]; then
 fi
 
 export EDITOR="nano"
-export FLASK_APP="application.py"
 
 # Add some Python package binaries to PATH
 export PATH="$HOME"/.local/bin:"$PATH"
