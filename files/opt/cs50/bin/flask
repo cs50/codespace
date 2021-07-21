@@ -1,5 +1,12 @@
 #!/bin/bash
 
+# If $FLASK_APP isn't set, check for application.py (for backwards compatibility), else implicitly default to app.py
+if [[ -z "$FLASK_APP" ]]; then
+    if [[ -f "application.py" ]]; then
+        export FLASK_APP="application.py"
+    fi
+fi
+
 # Enable development mode by default
 export FLASK_ENV="${FLASK_ENV:-development}"
 
