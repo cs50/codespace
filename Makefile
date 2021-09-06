@@ -1,10 +1,10 @@
 default: run
 
 build:
-	docker build -t cs50/cli:bookdown .
+	docker build -t cs50/codespace .
 
 rebuild:
-	docker build --no-cache -t cs50/cli:bookdown .
+	docker build --no-cache -t cs50/codespace .
 
 run:
-	docker run -it -P --rm --security-opt seccomp=unconfined -v "$(PWD)":/mnt -w /mnt cs50/cli:bookdown
+	docker run -it -P --rm --security-opt seccomp=unconfined -v "$(PWD)":/mnt cs50/codespace bash --login || true
