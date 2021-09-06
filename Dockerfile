@@ -19,7 +19,7 @@ RUN chmod a+rx /opt/cs50/bin/*
 
 
 # Temporary workaround for https://github.com/cs50/code.cs50.io/issues/19
-RUN echo "if [ -z \"\$_CODESPACE_SH\" ] ; then . /etc/profile.d/codespace.sh; export _CODESPACE_SH=1; fi" >> /etc/bash.bashrc
+RUN echo "if [ -z \"\$_PROFILE_D\" ] ; then for i in /etc/profile.d/*.sh; do . \"\$i\"; done; export _PROFILE_D=1; fi" >> /etc/bash.bashrc
 
 
 # Set user
