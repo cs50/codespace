@@ -13,7 +13,7 @@ setuptools.setup(
     ],
     packages=["command50", "debug50"],
     entry_points={
-        "console_scripts": ["command50=command50.__main__:main", "debug50=debug50.__main__:main"]
+        "console_scripts": ["command50=command50.__main__:main", "debug50=debug50.__main__:main", "rebuild50=command50.__main__:rebuild"]
     },
     install_requires=["asyncio", "websockets"]
 )

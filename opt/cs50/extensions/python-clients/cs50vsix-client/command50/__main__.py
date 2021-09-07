@@ -24,6 +24,11 @@ async def execute(command):
     await websocket.send(json.dumps(payload))
 
 
+def rebuild():
+    command = "github.codespaces.rebuildEnvironment"
+    asyncio.get_event_loop().run_until_complete(execute(command))
+
+
 def main():
     try:
         asyncio.get_event_loop().run_until_complete(execute(sys.argv[1]))
