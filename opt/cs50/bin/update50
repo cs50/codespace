@@ -6,6 +6,7 @@ path="/workspaces/$RepositoryName/.devcontainer.json"
 remote=$(curl -s "$url")
 local=$(<"$path")
 
-if [ "$remote" != "$local" ]; then
+# Force update for now
+#if [ "$remote" != "$local" ]; then
     echo "$remote" > "$path"
-fi
+#fi
