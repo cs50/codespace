@@ -16,6 +16,6 @@ if [ "$PS1" ]; then
             dir=${dir#" "} # Trim leading whitespace (in case in workspace)
             echo -n "${dir}"
         }
-        PS1="$(prompt)"
+        PS1='$(prompt)'
     fi
 fi
