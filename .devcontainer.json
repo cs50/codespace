@@ -7,7 +7,7 @@
         "vsls-contrib.gitdoc"
     ],
     "image": "ghcr.io/cs50/codespace:latest",
-    "postCreateCommand": "/opt/cs50/bin/postCreateCommand",
+    "onCreateCommand": "/opt/cs50/bin/postCreateCommand",
     "settings": {
         "breadcrumbs.enabled": false,
         "C_Cpp.autocomplete": "Disabled",
