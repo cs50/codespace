@@ -1,0 +1,11 @@
+#!/bin/bash
+
+url="https://raw.githubusercontent.com/cs50/codespace/main/.devcontainer.json"
+path="/workspaces/$RepositoryName/.devcontainer.json"
+
+remote=$(curl -s "$url")
+local=$(<"$path")
+
+if [ "$remote" != "$local" ]; then
+    echo "$remote" > "$path"
+fi
