@@ -7,10 +7,7 @@
         "vsls-contrib.gitdoc"
     ],
     "image": "ghcr.io/cs50/codespace:latest",
-    "postCreateCommand": [
-        "mkdir ${workspaceFolder}/.ssh",
-        "mkdir -p /workspaces/foo"
-    ],
+    "postCreateCommand": "ln -s /workspaces/20377622/.ssh /home/ubuntu/",
     "settings": {
         "breadcrumbs.enabled": false,
         "C_Cpp.autocomplete": "Disabled",
