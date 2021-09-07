@@ -9,6 +9,7 @@ USER root
 # Install Ubuntu packages
 RUN apt update && \
     apt install --yes \
+        gdb \
         jq
 
 
