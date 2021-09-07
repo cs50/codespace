@@ -25,8 +25,7 @@ RUN pip3 install /opt/cs50/extensions/python-clients/cs50vsix-client/
 # Temporarily remove ACLs
 # https://github.community/t/bug-umask-does-not-seem-to-be-respected/129638/9
 RUN apt update && \
-    apt install acl && \
-    sudo setfacl -bnR /workspaces/*
+    apt install acl
 
 
 # Temporary workaround for https://github.com/cs50/code.cs50.io/issues/19

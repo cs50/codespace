@@ -7,7 +7,7 @@
         "vsls-contrib.gitdoc"
     ],
     "image": "ghcr.io/cs50/codespace:latest",
-    "postCreateCommand": "ln -s /workspaces/20377622/.ssh /home/ubuntu/",
+    "postCreateCommand": "setfacl -bnR /workspaces/${localWorkspaceFolder} && ln -s /workspaces/${localWorkspaceFolder}/.ssh /home/ubuntu/",
     "settings": {
         "breadcrumbs.enabled": false,
         "C_Cpp.autocomplete": "Disabled",
