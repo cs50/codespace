@@ -12,6 +12,10 @@ RUN apt update && \
         jq
 
 
+# Install submit50@classroom
+RUN pip3 install git+https://github.com/cs50/submit50@classroom
+
+
 # Copy files to image
 COPY ./etc /etc
 COPY ./opt /opt
