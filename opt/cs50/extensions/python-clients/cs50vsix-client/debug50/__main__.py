@@ -101,7 +101,7 @@ async def monitor():
 def get_config(config_name):
     if len(sys.argv) > 1:
         for each in filter(lambda x: x["name"]==config_name, LAUNCH_CONFIG["configurations"]):
-            each["program"] = "${workspaceFolder}/" + sys.argv[1]
+            each["program"] = f"{os.getcwd()}/{sys.argv[1]}"
 
             for i in range(2, len(sys.argv)):
                 each["args"].append(sys.argv[i])
