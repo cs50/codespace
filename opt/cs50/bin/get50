@@ -1,0 +1,19 @@
+#!/usr/local/bin/python3
+
+import subprocess
+import sys
+
+GH_CLASSROOM = "classroom50"
+
+if len(sys.argv) != 2:
+    print("Usage: get50 PROBLEM")
+    sys.exit(1)
+
+problem = sys.argv[1]
+repo_url=f"git@github.com:{GH_CLASSROOM}/{problem}.git"
+
+try:
+    subprocess.check_call(f"git clone {repo_url}", shell=True)
+    subprocess.check_call(f"rm -rf {problem}/.git", shell=True)
+except Exception as e:
+    pass
