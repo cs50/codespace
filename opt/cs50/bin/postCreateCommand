@@ -14,8 +14,9 @@ fi
 
 # Install .gitignore
 cat > "/workspaces/$RepositoryName/.gitignore" <<EOT
-*
 .*
+!.devcontainer.json
+*
 !*.c
 !*.css
 !*.h
