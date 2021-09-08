@@ -11,3 +11,16 @@ if [ ! -L "/home/ubuntu/.ssh" ]; then
     rm -rf /home/ubuntu/.ssh
     ln -s "/workspaces/$RepositoryName/.ssh" /home/ubuntu/.ssh
 fi
+
+# Install .gitignore
+cat > "/workspaces/$RepositoryName/.gitignore" <<EOT
+*
+.*
+!*.c
+!*.css
+!*.h
+!*.html
+!*.js
+!.py
+!Makefile
+EOT
