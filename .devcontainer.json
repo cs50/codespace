@@ -42,7 +42,7 @@
         },
         "git.autofetch": true, /* Disable "Would you like Code to periodically run 'git fetch'?" toast */
         "git.decorations.enabled": false,
-        "gitdoc.enabled": true,
+        "gitdoc.enabled": false,
         "gitdoc.commitMessageFormat": "YYYY-MM-DDTHH:mmZ",
         "gitdoc.commitValidationLevel": "none",
         "html.suggest.html5": false,
