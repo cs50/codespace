@@ -19,6 +19,8 @@ RUN pip3 install git+https://github.com/cs50/submit50@classroom
 # Copy files to image
 COPY ./etc /etc
 COPY ./opt /opt
+COPY ./autograde.sh /
+RUN chmod a+rx /autograde.sh
 RUN chmod a+rx /opt/cs50/bin/*
 
 
