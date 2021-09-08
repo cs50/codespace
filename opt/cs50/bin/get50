@@ -15,5 +15,7 @@ repo_url=f"git@github.com:{GH_CLASSROOM}/{problem}.git"
 try:
     subprocess.check_call(f"git clone {repo_url}", shell=True)
     subprocess.check_call(f"rm -rf {problem}/.git", shell=True)
+    subprocess.check_call(f"rm -rf {problem}/.vscode", shell=True)
+    subprocess.check_call(f"rm -rf {problem}/.devcontainer", shell=True)
 except Exception as e:
     pass
