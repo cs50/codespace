@@ -5,11 +5,15 @@ import sys
 
 GH_CLASSROOM = "classroom50"
 
-if len(sys.argv) != 2:
-    print("Usage: get50 PROBLEM")
+if len(sys.argv) < 2 or len(sys.argv) > 3:
+    print("Usage: get50 PROBLEM [USERNAME]")
     sys.exit(1)
 
 problem = sys.argv[1]
+
+if (len(sys.argv)) == 3:
+    problem += f"-{sys.argv[2]}"
+
 repo_url=f"git@github.com:{GH_CLASSROOM}/{problem}.git"
 
 try:
