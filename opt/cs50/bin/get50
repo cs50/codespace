@@ -1,7 +1,13 @@
 #!/usr/local/bin/python3
 
+from os import error
+from subprocess import DEVNULL, STDOUT
 import subprocess
 import sys
+
+def contact_sysadmin():
+    print("Sorry, something is wrong! get50 ran into an error.")
+    print("Please let CS50 know by emailing sysadmins@cs50.harvard.edu.")
 
 GH_CLASSROOM = "classroom50"
 
@@ -17,9 +23,27 @@ if (len(sys.argv)) == 3:
 repo_url=f"git@github.com:{GH_CLASSROOM}/{problem}.git"
 
 try:
-    subprocess.check_call(f"git clone {repo_url}", shell=True)
+    
+    subprocess.check_output(f"git clone {repo_url}", stderr=subprocess.STDOUT, shell=True)
     subprocess.check_call(f"rm -rf {problem}/.git", shell=True)
     subprocess.check_call(f"rm -rf {problem}/.vscode", shell=True)
     subprocess.check_call(f"rm -rf {problem}/.devcontainer", shell=True)
+
+except subprocess.CalledProcessError as exc:
+    error_message = exc.output.decode("utf-8").strip()
+    key_words_empty_dir = "already exists and is not an empty directory"
+    key_words_access_right = "make sure you have the correct access rights"
+
+    if (key_words_empty_dir in error_message):
+        print(f"Looks like the directory \"{problem}\" already exists and is not empty!")
+
+    elif (key_words_access_right in error_message):
+        print(f"Unable to get distribution code \"{problem}\".\nPlease make sure you have followed the steps at cs50.ly/github to set up SSH and the repository name is correct.")
+    
+    else:
+        print(exc)
+        contact_sysadmin()
+    
 except Exception as e:
-    pass
+    print(e)
+    contact_sysadmin()
