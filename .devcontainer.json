@@ -31,7 +31,6 @@
         "editor.renderWhitespace": "boundary",
         "editor.selectionHighlight": false,
         "editor.suggestOnTriggerCharacters": false,
-        "files.autoSave": "onFocusChange",
         "files.exclude": {
             "**/.*": true
         },
