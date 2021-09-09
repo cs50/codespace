@@ -1,49 +1,89 @@
 #!/usr/local/bin/python3
 
-from os import error
-from subprocess import DEVNULL, STDOUT
+import argparse
+import logging
 import subprocess
 import sys
 
-def contact_sysadmin():
-    print("Sorry, something is wrong! get50 ran into an error.")
-    print("Please let CS50 know by emailing sysadmins@cs50.harvard.edu.")
+GH_CLASSROOM = 'classroom50'
 
-GH_CLASSROOM = "classroom50"
+DIRS_TO_REMOVE = [
+    '.git',
+    '.vscode',
+    '.devcontainer'
+]
 
-if len(sys.argv) < 2 or len(sys.argv) > 3:
-    print("Usage: get50 PROBLEM [USERNAME]")
-    sys.exit(1)
-
-problem = sys.argv[1]
-
-if (len(sys.argv)) == 3:
-    problem += f"-{sys.argv[2]}"
-
-repo_url=f"git@github.com:{GH_CLASSROOM}/{problem}.git"
-
-try:
+def main():
+    args = parse_args(sys.argv[1:])
+    configure_logging(args.verbose)
+    assignment = args.assignment
+    if args.username is not None:
+        assignment += f'-{args.username}'
     
-    subprocess.check_output(f"git clone {repo_url}", stderr=subprocess.STDOUT, shell=True)
-    subprocess.check_call(f"rm -rf {problem}/.git", shell=True)
-    subprocess.check_call(f"rm -rf {problem}/.vscode", shell=True)
-    subprocess.check_call(f"rm -rf {problem}/.devcontainer", shell=True)
+    repo_url=f'git@github.com:{GH_CLASSROOM}/{assignment}.git'
 
-except subprocess.CalledProcessError as exc:
-    error_message = exc.output.decode("utf-8").strip()
-    key_words_empty_dir = "already exists and is not an empty directory"
-    key_words_access_right = "make sure you have the correct access rights"
+    try:
+        subprocess.check_output(f'git clone {repo_url}', stderr=subprocess.STDOUT, shell=True)
+        remove_dirs(assignment)
 
-    if (key_words_empty_dir in error_message):
-        print(f"Looks like the directory \"{problem}\" already exists and is not empty!")
+    except subprocess.CalledProcessError as exc:
+        error_message = exc.output.decode('utf-8').strip()
 
-    elif (key_words_access_right in error_message):
-        print(f"Unable to get distribution code \"{problem}\".\nPlease make sure you have followed the steps at cs50.ly/github to set up SSH and the repository name is correct.")
-    
-    else:
-        print(exc)
+        key_words_empty_dir = 'already exists and is not an empty directory'
+        key_words_access_right = 'make sure you have the correct access rights'
+
+        if (key_words_empty_dir in error_message):
+            logging.debug(exc)
+            print(f'Looks like the directory \'{assignment}\' already exists and is not empty!')
+
+        if (key_words_access_right in error_message):
+            logging.debug(exc)
+            print(f'Unable to get distribution code \'{assignment}\'.\nPlease make sure you have followed the steps at cs50.ly/github to set up SSH and the repository name is correct.')   
+        
+    except Exception as e:
+        logging.info(e)
         contact_sysadmin()
-    
-except Exception as e:
-    print(e)
-    contact_sysadmin()
+
+
+def parse_args(args):
+    parser = argparse.ArgumentParser(
+        description=f'A git wrapper for getting {GH_CLASSROOM} assignment distribution code.'
+    )
+    parser.add_argument(
+        '--verbose',
+        action='store_true'
+    )
+    parser.add_argument(
+        'assignment',
+        metavar='ASSIGNMENT',
+        type=str,
+        help='the assignment repository (e.g., mario-less)'
+    )
+    parser.add_argument(
+        'username',
+        nargs='?',
+        metavar='USERNAME',
+        const=None,
+        type=str,
+        help='the github username'
+    )
+    return parser.parse_args(args)
+
+
+def remove_dirs(assignment):
+    for dir in DIRS_TO_REMOVE:
+        subprocess.check_call(f'rm -rf {assignment}/{dir}', shell=True)
+
+
+def configure_logging(verbose):
+    logging.basicConfig(format='%(message)s', level=logging.DEBUG if verbose else logging.INFO)
+
+
+def contact_sysadmin():
+    message = 'Sorry, something is wrong! get50 ran into an error.\n'\
+        'Please let CS50 know by emailing the above to sysadmins@cs50.harvard.edu.'
+    print(message)
+
+
+if __name__ == '__main__':
+    main()
