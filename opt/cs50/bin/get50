@@ -2,6 +2,7 @@
 
 import argparse
 import logging
+import os
 import subprocess
 import sys
 import termcolor
@@ -24,7 +25,11 @@ def main():
     repo_url=f'git@github.com:{GH_CLASSROOM}/{assignment}.git'
 
     try:
-        subprocess.check_output(f'git clone {repo_url}', stderr=subprocess.STDOUT, shell=True)
+        if (args.verbose):
+            print()
+            os.system(f'GIT_SSH_COMMAND="ssh -v" git clone --progress --verbose {repo_url}')
+        else:
+            subprocess.check_output(f'git clone {repo_url}', stderr=subprocess.STDOUT, shell=True)
         remove_dirs(assignment)
 
     except subprocess.CalledProcessError as exc:
