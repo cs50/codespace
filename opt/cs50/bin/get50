@@ -59,7 +59,7 @@ def parse_args(args):
     )
     parser.add_argument(
         'assignment',
-        metavar='ASSIGNMENT',
+        metavar='PROBLEM',
         type=str,
         help='the assignment repository (e.g., mario-less)'
     )
