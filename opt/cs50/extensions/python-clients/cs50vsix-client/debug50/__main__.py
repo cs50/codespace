@@ -30,6 +30,7 @@ LAUNCH_CONFIG = {
             "externalConsole": False,
             "MIMode": "gdb",
             "MIDebuggerPath": "gdb",
+            "miDebuggerArgs": "-q",
             "setupCommands": [
                 {
                     "description": "Enable pretty-printing for gdb",
@@ -169,21 +170,6 @@ def failed_to_connect_debug_service():
 
 def display_usage():
     print("Usage: debug50 PROGRAM [ARGUMENT ...]")
-
-
-def decorate(message, level):
-    bcolors = {
-        "HEADER": '\033[95m',
-        "OKBLUE": '\033[94m',
-        "OKCYAN": '\033[96m',
-        "OKGREEN": '\033[92m',
-        "WARNING": '\033[93m',
-        "FAIL": '\033[91m',
-        "ENDC": '\033[0m',
-        "BOLD": '\033[1m',
-        "UNDERLINE": '\033[4m'
-    }
-    return bcolors[level] + message + bcolors[level]
 
 
 def main():
