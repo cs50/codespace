@@ -9,7 +9,7 @@ import websockets
 
 from debug50.colors import red, yellow
 
-DEBUGGER_TIMEOUT = 5
+DEBUGGER_TIMEOUT = 10
 SOCKET_URI = "ws://localhost:60001"
 
 LAUNCH_CONFIG_C = "c"
@@ -35,6 +35,10 @@ LAUNCH_CONFIG = {
                     "description": "Enable pretty-printing for gdb",
                     "text": "-enable-pretty-printing",
                     "ignoreFailures": True
+                },
+                {
+                    "description": "Skip glibc",
+                    "text": "-interpreter-exec console \"skip -gfi **/glibc*/**/*.c\""
                 }
             ]
         },
