@@ -7,6 +7,8 @@ import pathlib
 import sys
 import websockets
 
+from debug50.colors import red, yellow
+
 DEBUGGER_TIMEOUT = 5
 SOCKET_URI = "ws://localhost:60001"
 
@@ -106,8 +108,6 @@ def get_config(config_name):
             for i in range(2, len(sys.argv)):
                 each["args"].append(sys.argv[i])
             
-            each["args"].append("&&")
-            each["args"].append("exit")
             return each
 
 
@@ -126,7 +126,7 @@ def verify_executable(source, executable):
     executableMTime = pathlib.Path(executable).stat().st_mtime_ns
     if (sourceMTime > executableMTime):
         message = "Looks like you've changed your code. Recompile and then re-run debug50!"
-        print(message)
+        print(yellow(message))
         sys.exit(1)
 
     return True
@@ -134,13 +134,13 @@ def verify_executable(source, executable):
 
 def file_not_supported():
     message = "Can't debug this program! Are you sure you're running debug50 on an executable or a Python script?"
-    print(message)
+    print(yellow(message))
     sys.exit(1)
 
 
 def executable_not_found():
     message = "Executable not found! Did you compile your code?"
-    print(message)
+    print(yellow(message))
     sys.exit(1)
 
 
@@ -148,19 +148,19 @@ def no_break_points():
     message = "Looks like you haven't set any breakpoints. "\
                 "Set at least one breakpoint by clicking to the "\
                 "left of a line number and then re-run debug50!"
-    print(message)
+    print(yellow(message))
     sys.exit(1)
 
 
 def failed_to_start_debugger():
     message = "Could not start debugger"
-    print(message)
+    print(red(message))
     sys.exit(1)
 
 
 def failed_to_connect_debug_service():
     message = "Debug service is not ready yet. Please try again."
-    print(message)
+    print(yellow(message))
 
 
 def display_usage():
