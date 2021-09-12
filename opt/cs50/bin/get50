@@ -50,7 +50,7 @@ def main():
         if (key_words_access_right in error_message):
             logging.debug(exc)
             message = f'Unable to get distribution code \'{assignment}\'.\n'\
-                f'Please make sure you have followed the steps at cs50.ly/github to set up SSH and the repository name is correct.'
+                f'Please make sure you have followed the steps at https://cs50.ly/github to set up SSH and the repository name is correct.'
             print(warning(message))
         
     except Exception as e:
