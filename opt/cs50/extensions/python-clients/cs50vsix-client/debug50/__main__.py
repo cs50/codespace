@@ -122,7 +122,7 @@ def get_file_extension(path):
 
 def verify_executable(source, executable):
     if ((not os.path.isfile(source)) or (get_file_extension(source) != ".c")):
-        file_not_supported()
+        file_not_supported(executable)
     
     if (not os.path.isfile(executable)):
         executable_not_found()
@@ -137,8 +137,8 @@ def verify_executable(source, executable):
     return True
 
 
-def file_not_supported():
-    message = "Can't debug this program! Are you sure you're running debug50 on an executable or a Python script?"
+def file_not_supported(filename):
+    message = f"Can't debug this program! Are you sure you're running debug50 on an executable or a Python script?\nUnsupported File: {filename}"
     print(yellow(message))
     sys.exit(1)
 
