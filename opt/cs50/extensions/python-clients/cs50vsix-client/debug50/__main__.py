@@ -25,7 +25,7 @@ LAUNCH_CONFIG = {
             "program": "",
             "args": [],
             "stopAtEntry": False,
-            "cwd": "${fileDirname}",
+            "cwd": "${workspaceFolder}",
             "environment": [],
             "externalConsole": False,
             "MIMode": "gdb",
@@ -76,7 +76,7 @@ async def launch():
         display_usage()
 
     except asyncio.TimeoutError:
-        failed_to_start_debugger()
+        failed_to_launch_debugger()
         
     except OSError as e:
         failed_to_connect_debug_service()
@@ -121,7 +121,7 @@ def get_file_extension(path):
 
 
 def verify_executable(source, executable):
-    if (not os.path.isfile(source)) or (get_file_extension(source) != ".c"):
+    if ((not os.path.isfile(source)) or (get_file_extension(source) != ".c")):
         file_not_supported()
     
     if (not os.path.isfile(executable)):
@@ -157,15 +157,15 @@ def no_break_points():
     sys.exit(1)
 
 
-def failed_to_start_debugger():
-    message = "Could not start debugger"
+def failed_to_launch_debugger():
+    message = "Unable to launch debugger."
     print(red(message))
     sys.exit(1)
 
 
 def failed_to_connect_debug_service():
-    message = "Debug service is not ready yet. Please try again."
-    print(yellow(message))
+    message = "Failed to connect extension server."
+    print(red(message))
 
 
 def display_usage():
