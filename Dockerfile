@@ -24,6 +24,13 @@ RUN chmod a+rx /autograde.sh
 RUN chmod a+rx /opt/cs50/bin/*
 
 
+# Load glibc-2.31 library for debugger
+RUN mkdir -p /build/glibc-eX1tMB
+RUN tar -xf /opt/cs50/glibc-2.31.tar.xz -C /build/glibc-eX1tMB
+RUN chmod a+rx /build/glibc-eX1tMB
+RUN rm -f /opt/cs50/glibc-2.31.tar.xz
+
+
 # Temporarily install Python packages locally
 RUN pip3 install /opt/cs50/extensions/python-clients/cs50vsix-client/
 
