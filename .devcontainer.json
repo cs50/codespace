@@ -32,20 +32,6 @@
         "editor.renderIndentGuides": false,
         "editor.renderWhitespace": "boundary",
         "editor.selectionHighlight": false,
-        "editor.semanticTokenColorCustomizations": {
-            "[Default Dark+]": {
-                "enabled": true,
-                "rules": {
-                    "type": "#569CD6"
-                }
-            },
-            "[Default Light+]": {
-                "enabled": true,
-                "rules": {
-                    "type": "#0000FF"
-                }
-            }
-        },
         "editor.suggestOnTriggerCharacters": false,
         "files.exclude": {
             "**/.*": true
