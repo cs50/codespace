@@ -60,8 +60,7 @@
                     "-l"
                 ],
                 "path": "bash"
-            },
-            "JavaScript Debug Terminal": null
+            }
         },
         "window.autoDetectColorScheme": true,
         "window.menuBarVisibility": "classic",
