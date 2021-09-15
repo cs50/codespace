@@ -15,7 +15,6 @@ if [ "$PS1" ]; then
             dir="${dir} $ " # Add prompt
             dir=${dir#" "} # Trim leading whitespace (in case in workspace)
             echo -n "${dir}"
-            echo -en "\033]0;$PWD\a"
         }
         PS1='$(prompt)'
     fi
