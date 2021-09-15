@@ -24,6 +24,7 @@
         "editor.folding": false,
         "editor.foldingHighlight": false,
         "editor.hover.enabled": false,
+        "editor.lightbulb.enabled": false,
         "editor.matchBrackets": "near",
         "editor.minimap.enabled": false,
         "editor.occurrencesHighlight": false,
