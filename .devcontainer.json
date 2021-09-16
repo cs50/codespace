@@ -16,8 +16,6 @@
         "C_Cpp.codeFolding": "Disabled",
         "C_Cpp.dimInactiveRegions": false,
         "C_Cpp.enhancedColorization": "Enabled",
-        "editor.autoClosingBrackets": "never",
-        "editor.autoClosingDelete": "never",
         "editor.autoClosingQuotes": "never",
         "editor.colorDecorators": false,
         "editor.emptySelectionClipboard": false,
