@@ -46,8 +46,6 @@ RUN mkdir -p /opt/cs50/extensions && \
 COPY ./etc /etc
 COPY ./opt /opt
 RUN chmod a+rx /opt/cs50/bin/*
-COPY ./opt/cs50/bin/autograde.sh /
-RUN chmod a+rx /autograde.sh
 
 
 # Temporary workaround for https://github.com/cs50/code.cs50.io/issues/19
