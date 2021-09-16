@@ -62,8 +62,8 @@ RUN echo "deb-src http://archive.ubuntu.com/ubuntu/ focal main restricted" > /et
     apt source glibc && \
     rm -f /etc/apt/sources.list.d/_.list && \
     apt update && \
-    mkdir -p /build/glibc-eX1tMB && \
-    mv glibc*/* /build/glibc-eX1tMB && \
+    mkdir -p /opt/cs50/src/glibc-xX1tMB && \
+    mv glibc*/* /opt/cs50/src/glibc-xX1tMB && \
     rm -rf glibc*
 
 
