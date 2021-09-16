@@ -35,7 +35,7 @@ RUN rm -f /opt/cs50/glibc-2.31.tar.xz
 RUN pip3 install /opt/cs50/extensions/python-clients/cs50vsix-client/
 
 
-# Temporarily remove ACLs
+# For temporarily removing ACLs via opt/cs50/bin/postCreateCommand
 # https://github.community/t/bug-umask-does-not-seem-to-be-respected/129638/9
 RUN apt update && \
     apt install acl
