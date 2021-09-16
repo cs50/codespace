@@ -60,9 +60,11 @@ RUN echo "deb-src http://archive.ubuntu.com/ubuntu/ focal main restricted" > /et
     apt source glibc && \
     rm -f /etc/apt/sources.list.d/_.list && \
     apt update && \
-    mkdir -p /opt/cs50/src/glibc-xX1tMB && \
-    mv glibc*/* /opt/cs50/src/glibc-xX1tMB && \
-    rm -rf glibc*
+    mkdir -p /opt/cs50/src/glibc-eX1tMB && \
+    mv glibc* /opt/cs50/src/glibc-eX1tMB && \
+    cd /opt/cs50/src/glibc-eX1tMB \
+    rm -rf *.tar.xz \
+    rm -rf *.dsc
 
 
 # Set user
