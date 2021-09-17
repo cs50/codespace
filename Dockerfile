@@ -8,7 +8,7 @@ USER root
 
 # Install Ubuntu packages
 RUN apt update && \
-    apt install --yes \
+    apt install --no-install-recommends --yes \
         jq
 
 
