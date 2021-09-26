@@ -8,7 +8,7 @@
         "MS-vsliveshare.vsliveshare-pack",
         "vsls-contrib.gitdoc"
     ],
-    "image": "ghcr.io/cs50/codespace:latest",
+    "image": "ghcr.io/cs50/codespace",
     "postCreateCommand": "/opt/cs50/bin/postCreateCommand",
     "settings": {
         "breadcrumbs.enabled": false,
