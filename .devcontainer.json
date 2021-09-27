@@ -4,6 +4,7 @@
         "/opt/cs50/extensions/ddb50-0.0.1.vsix",
         "ms-python.python",
         "ms-vscode.cpptools",
+        "ms-vscode.hexeditor",
         "ms-vsliveshare.vsliveshare-audio",
         "MS-vsliveshare.vsliveshare-pack",
         "vsls-contrib.gitdoc"
