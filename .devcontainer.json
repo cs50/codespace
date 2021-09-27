@@ -47,6 +47,7 @@
             }
         },
         "editor.suggestOnTriggerCharacters": false,
+        "extensions.ignoreRecommendations": true,
         "files.exclude": {
             "**/.*": true
         },
