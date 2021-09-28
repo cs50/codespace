@@ -95,7 +95,6 @@
             "terminal.ansiGreen": "#00ff00",
             "terminal.ansiBlue": "#0000ff"
         },
-        "workbench.colorTheme": "Default Dark+",
         "workbench.editor.closeOnFileDelete": true,
         "workbench.editor.untitled.hint": "hidden",
         "workbench.iconTheme": "vs-minimal", /* Simplify icons */
