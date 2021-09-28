@@ -71,6 +71,7 @@
             "workbench.action.toggleSidebarVisibility"
         ],
         "terminal.integrated.defaultProfile.linux": "bash",
+        "terminal.integrated.gpuAcceleration": "off", /* https://github.com/microsoft/vscode/issues/133710 */
         "terminal.integrated.profiles.linux": {
             "bash": {
                 "args": [
