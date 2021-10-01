@@ -1,56 +1,45 @@
-#!/bin/bash
+#!/usr/local/bin/python3
 
-# If $FLASK_APP isn't set, check for application.py (for backwards compatibility), else implicitly default to app.py
-if [[ -z "$FLASK_APP" ]]; then
-    if [[ -f "application.py" ]]; then
-        export FLASK_APP="application.py"
-    fi
-fi
+import sys
+import os
+import subprocess
+import termcolor
 
-# Enable development mode by default
-export FLASK_ENV="${FLASK_ENV:-development}"
 
-# But not debug mode
-export FLASK_DEBUG="${FLASK_DEBUG:-0}"
+def main():
 
-if [[ "$1" == "run" ]]; then
+    # If $FLASK_APP isn't set, check for application.py (for backwards compatibility), else implicitly default to app.py
+    if os.getenv('FLASK_APP') is None:
+        if os.path.isfile('./application.py'):
+            os.environ['FLASK_APP'] = 'application.py'
+        else:
+            os.environ['FLASK_APP'] = 'app.py'
 
-    # Default options
-    host="--host=0.0.0.0"
-    port="--port=8080"
-    reload="--reload"
+    # Enable development mode by default
+    os.environ['FLASK_ENV'] = 'development'
 
-    # Override default options
-    options=""
-    shift
-    while test ${#} -gt 0
-    do
-        if [[ "$1" =~ ^--host= || "$1" =~ ^-h[^\s]+ ]]; then
-            host="$1"
-        elif [[ "$1" == "-h" || "$1" == "--host" ]]; then
-            host="$1 $2"
-            shift
-        elif [[ "$1" =~ ^--port= || "$1" =~ ^-p[^\s]+ ]]; then
-            port="$1"
-        elif [[ "$1" == "-p" || "$1" == "--port"  ]]; then
-            port="$1 $2"
-            shift
-        elif [[ "$1" =~ ^--(no-)?reload$ ]]; then
-            reload="$1"
-        elif [[ "$1" =~ ^--with(out)?-threads$ ]]; then
-            threads="$1"
-        else
-            options+=" $1"
-        fi
-        shift
-    done
+    # But not debug mode
+    os.environ['FLASK_DEBUG'] = '0'
 
-    # Kill any process listing on the specified port
-    # using regex to handle -pxxxx, -p xxxx, --port xxxx, --port=xxxx
-    fuser --kill -INT "${port//[^0-9]}/tcp" &> /dev/null
+    # Construct flask command
+    command = ['flask']
 
-    # Spawn flask
-    /usr/local/bin/flask run $host $port $reload $threads $options
-else
-    /usr/local/bin/flask "$@"
-fi
+    host = '0.0.0.0' # default host
+    port = 8080 # default port
+    if (sys.argv[1] == 'run' and len(sys.argv) == 2):
+        command.extend(['run', f'--host={host}', f'--port={port}', '--reload'])
+    else:
+        command.extend(sys.argv[1:])
+        host = [host for host in command if 'host' in host][0].split('=')[1]
+        port = [port for port in command if 'port' in port][0].split('=')[1]
+
+    codespace_name = os.getenv('CODESPACE_NAME')
+    if (codespace_name is not None):
+        msg = f"\nFlask App running on https://{codespace_name}-{port}.githubpreview.dev\n"
+        print(termcolor.colored(msg, 'green'))
+    
+    subprocess.check_call(command)
+
+
+if __name__ == '__main__':
+    main()
