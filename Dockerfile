@@ -9,7 +9,8 @@ USER root
 # Install Ubuntu packages
 RUN apt update && \
     apt install --no-install-recommends --yes \
-        jq
+        jq \
+        psmisc
 
 
 # For temporarily removing ACLs via opt/cs50/bin/postCreateCommand
