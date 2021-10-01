@@ -38,7 +38,11 @@ def main():
         msg = f"\nFlask App running on https://{codespace_name}-{port}.githubpreview.dev\n"
         print(termcolor.colored(msg, 'green'))
     
-    subprocess.check_call(command)
+    # Kill any process listing on the specified port
+    os.system(f'fuser -k {port}/tcp')
+
+    # Start flask server
+    subprocess.call(command)
 
 
 if __name__ == '__main__':
