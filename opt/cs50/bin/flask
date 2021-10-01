@@ -22,7 +22,7 @@ def main():
     os.environ['FLASK_DEBUG'] = '0'
 
     # Construct flask command
-    command = ['flask']
+    command = ['/usr/local/bin/flask']
 
     host = '0.0.0.0' # default host
     port = 8080 # default port
