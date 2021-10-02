@@ -50,7 +50,8 @@ def parse_args(args):
 def display_codespace_url(port):
     codespace_name = os.getenv('CODESPACE_NAME')
     if (codespace_name is not None):
-        msg = f"\nhttp-server running on https://{codespace_name}-{port}.githubpreview.dev\n"
+        local_address = f'https://{codespace_name}-{port}.githubpreview.dev/'
+        msg = f"\nhttp-server running on {local_address}\n"
         print(termcolor.colored(msg, 'green'))
 
 
