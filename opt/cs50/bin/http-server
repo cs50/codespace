@@ -1,46 +1,31 @@
-#!/bin/bash
+#!/usr/local/bin/python3
 
-# Default options
-a="-a 0.0.0.0"
-c="-c-1"
-cors="--cors"
-i="-i false"
-port="-p 8080"
-options="--no-dotfiles"
+import sys
+import os
+import subprocess
+import termcolor
 
-# Override default options
-while test ${#} -gt 0
-do
-    if [[ "$1" =~ ^-a$ ]]; then
-        a="$1 $2"
-        shift
-        shift
-    elif [[ "$1" =~ ^-c-?[0-9]+$ ]]; then
-        c="$1"
-        shift
-    elif [[ "$1" =~ ^--cors(=.*)?$ ]]; then
-        cors="$1"
-        shift
-    elif [[ "$1" =~ ^-i$ ]]; then
-        i="$1 $2"
-        shift
-        shift
-    elif [[ "$1" =~ ^-p[^\s]+ ]]; then
-        port="$1"
-        shift
-    elif [[ "$1" == "-p" ]]; then
-        port="$1 $2"
-        shift
-        shift
-    else
-        options+=" $1"
-        shift
-    fi
-done
+def main():
 
-# Kill any process listing on the specified port
-# using regex to handle -pxxxx, -p xxxx, --port xxxx, --port=xxxx
-fuser --kill -INT "${port//[^0-9]}/tcp" &>/dev/null
+    command = ['/usr/local/bin/http-server']
+    if (len(sys.argv) == 1):
+        host = '0.0.0.0'
+        port = '8080'
+        command.extend([f'-a={host}', '-c-1', '--cors', '-i false', f'-p={port}', '--no-dotfiles'])
+    else:
+        command.extend(sys.argv[1:])
+    
+    codespace_name = os.getenv('CODESPACE_NAME')
+    if (codespace_name is not None):
+        msg = f"\nhttp-server running on https://{codespace_name}-{port}.githubpreview.dev\n"
+        print(termcolor.colored(msg, 'green'))
+    
+    # Kill any process listing on the specified port
+    os.system(f'fuser -k {port}/tcp')
+    
+    # Start http-server
+    subprocess.run(command)
 
-# Spawn http-server, retaining colorized output using expect's unbuffer
-/usr/bin/http-server $a $c $cors $i $port $options
+
+if __name__ == '__main__':
+    main()
