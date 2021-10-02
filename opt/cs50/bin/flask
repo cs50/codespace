@@ -1,10 +1,14 @@
 #!/usr/local/bin/python3
 
+import argparse
 import sys
 import os
 import subprocess
 import termcolor
 
+DEFAULT_HOST = '0.0.0.0'
+DEFAULT_PORT = 8080
+EXECUTABLE = '/usr/local/bin/flask'
 
 def main():
 
@@ -22,27 +26,43 @@ def main():
     os.environ['FLASK_DEBUG'] = '0'
 
     # Construct flask command
-    command = ['/usr/local/bin/flask']
-
-    host = '0.0.0.0' # default host
-    port = 8080 # default port
-    if (sys.argv[1] == 'run' and len(sys.argv) == 2):
-        command.extend(['run', f'--host={host}', f'--port={port}', '--reload'])
-    else:
-        command.extend(sys.argv[1:])
-        host = [host for host in command if 'host' in host][0].split('=')[1]
-        port = [port for port in command if 'port' in port][0].split('=')[1]
-
-    codespace_name = os.getenv('CODESPACE_NAME')
-    if (codespace_name is not None):
-        msg = f"\nFlask App running on https://{codespace_name}-{port}.githubpreview.dev\n"
-        print(termcolor.colored(msg, 'green'))
+    args, extra_args = parse_args(sys.argv[1:])
+    host = args.host or DEFAULT_HOST
+    port = args.port or DEFAULT_PORT
+    command = [EXECUTABLE]
     
-    # Kill any process listing on the specified port
-    os.system(f'fuser -k {port}/tcp')
+    if args.run == 'run':
+        command.extend(['run', f'--host={host}', f'--port={port}', '--reload'])
+        os.system(f'fuser -k {port}/tcp') # Kill any process listing on the specified port
+        display_codespace_url(port)
 
     # Start flask server
+    command.extend(extra_args)
     subprocess.call(command)
+
+
+def parse_args(args):
+    parser = argparse.ArgumentParser(add_help=False)
+    parser.add_argument(
+        'run',
+        nargs='?'
+    )
+    parser.add_argument(
+        '--host',
+        nargs='?'
+    )
+    parser.add_argument(
+        '--port',
+        nargs='?'
+    )
+    return parser.parse_known_args(args)
+
+
+def display_codespace_url(port):
+    codespace_name = os.getenv('CODESPACE_NAME')
+    if (codespace_name is not None):
+        msg = f"\nhttp-server running on https://{codespace_name}-{port}.githubpreview.dev\n"
+        print(termcolor.colored(msg, 'green'))
 
 
 if __name__ == '__main__':

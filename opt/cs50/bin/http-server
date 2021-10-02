@@ -1,30 +1,57 @@
 #!/usr/local/bin/python3
 
-import sys
+import argparse
 import os
 import subprocess
+import sys
 import termcolor
+
+DEFAULT_HOST = '0.0.0.0'
+DEFAULT_PORT = 8080
+EXECUTABLE = '/usr/local/bin/http-server'
 
 def main():
 
-    command = ['/usr/local/bin/http-server']
-    if (len(sys.argv) == 1):
-        host = '0.0.0.0'
-        port = '8080'
-        command.extend([f'-a={host}', '-c-1', '--cors', '-i false', f'-p={port}', '--no-dotfiles'])
-    else:
-        command.extend(sys.argv[1:])
+    # Construct http-server command
+    args, extra_args = parse_args(sys.argv[1:])
+    host = args.a or DEFAULT_HOST
+    port = args.p or DEFAULT_PORT
+    autoIndex = args.i or 'false' 
+    command = [EXECUTABLE]
     
+    if len(sys.argv) == 1:
+        command.extend([f'-a={host}', f'-p={port}', '-c-1', '--cors', f'-i {autoIndex}', '--no-dotfiles'])
+        os.system(f'fuser -k {port}/tcp') # Kill any process listing on the specified port
+        display_codespace_url(port)
+
+    # Start http-server
+    command.extend(extra_args)
+    subprocess.run(command)
+
+
+def parse_args(args):
+    parser = argparse.ArgumentParser(add_help=False)
+    parser.add_argument(
+        '-a',
+        nargs='?'
+    )
+    parser.add_argument(
+        '-p',
+        nargs='?'
+    )
+    parser.add_argument(
+        '-i',
+        nargs='?',
+        const='true'
+    )
+    return parser.parse_known_args(args)
+
+
+def display_codespace_url(port):
     codespace_name = os.getenv('CODESPACE_NAME')
     if (codespace_name is not None):
         msg = f"\nhttp-server running on https://{codespace_name}-{port}.githubpreview.dev\n"
         print(termcolor.colored(msg, 'green'))
-    
-    # Kill any process listing on the specified port
-    os.system(f'fuser -k {port}/tcp')
-    
-    # Start http-server
-    subprocess.run(command)
 
 
 if __name__ == '__main__':
