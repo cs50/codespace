@@ -19,7 +19,7 @@ def main():
     autoIndex = args.i or 'false' 
     command = [EXECUTABLE]
     
-    if len(sys.argv) == 1:
+    if sys.argv[1] is not '--help' or sys.argv[1] is not '-h':
         command.extend([f'-a={host}', f'-p={port}', '-c-1', '--cors', f'-i {autoIndex}', '--no-dotfiles'])
         os.system(f'fuser -k {port}/tcp') # Kill any process listing on the specified port
         display_codespace_url(port)
