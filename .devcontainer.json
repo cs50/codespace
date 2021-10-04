@@ -83,6 +83,7 @@
                 "path": "bash"
             }
         },
+        "terminal.integrated.sendKeybindingsToShell": true,
         "window.autoDetectColorScheme": true,
         "window.menuBarVisibility": "classic",
         "workbench.activityBar.visible": true, /* To be changed to false once menuBar is "classic" by default */
