@@ -101,7 +101,6 @@
         "workbench.iconTheme": "vs-minimal", /* Simplify icons */
         "workbench.preferredDarkColorTheme": "Default Dark+",
         "workbench.preferredLightColorTheme": "Default Light+",
-        "workbench.startupEditor": "newUntitledFile",
         "workbench.statusBar.visible": false,
         "workbench.tips.enabled": false
     }
