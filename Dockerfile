@@ -10,7 +10,10 @@ USER root
 RUN apt update && \
     apt install --no-install-recommends --yes \
         jq \
-        psmisc
+        psmisc \
+        php-cli \
+        php-mbstring \
+        php-sqlite3
 
 
 # For temporarily removing ACLs via opt/cs50/bin/postCreateCommand
@@ -47,6 +50,8 @@ RUN mkdir -p /opt/cs50/extensions && \
 COPY ./etc /etc
 COPY ./opt /opt
 RUN chmod a+rx /opt/cs50/bin/*
+RUN chmod a+rx /opt/cs50/phpliteadmin/bin/phpliteadmin
+RUN ln -s /opt/cs50/phpliteadmin/bin/phpliteadmin /opt/cs50/bin/phpliteadmin
 
 
 # Temporary workaround for https://github.com/cs50/code.cs50.io/issues/19
