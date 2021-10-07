@@ -13,6 +13,7 @@ import tempfile
 DEFAULT_HOST = '127.0.0.1'
 DEFAULT_PORT = 8082
 PHP_FILE = f'/opt/cs50/phpliteadmin/share/index.php'
+PHP_THEME = f'/opt/cs50/phpliteadmin/share/phpliteadmin.css'
 EXECUTABLE = '/usr/bin/php'
 
 
@@ -25,7 +26,8 @@ def main():
 
     # Preparing files
     tempDir = tempfile.mkdtemp()
-    shutil.copy(PHP_FILE, f'{tempDir}')
+    shutil.copy(PHP_FILE, tempDir)
+    shutil.copy(PHP_THEME, tempDir)
 
     # Update database path and name in phpliteadmin
     with open(f'{tempDir}/{os.path.basename(PHP_FILE)}', 'r+') as file:

@@ -2031,7 +2031,7 @@ if($directory!==false && is_writable($directory))
 
 echo "<div style='text-align:center;'>";
 echo $params->getForm(array(),'get');
-echo "<input type='submit' value='".$lang['logout']."' name='logout' class='btn'/>";
+// echo "<input type='submit' value='".$lang['logout']."' name='logout' class='btn'/>";
 echo "</form>";
 echo "</div>";
 echo "</div>";
@@ -4342,11 +4342,11 @@ class Authorization
 			
 			if (!isset($check_token))
 			{
-				die("CSRF token missing");
+				// die("CSRF token missing");
 			}
 			elseif(!hash_equals($_SESSION[COOKIENAME.'token'], $check_token))
 			{
-				die("CSRF token is wrong - please try to login again");
+				// die("CSRF token is wrong - please try to login again");
 			}
 		}
 	}
