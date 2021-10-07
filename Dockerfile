@@ -43,7 +43,14 @@ RUN mkdir -p /opt/cs50/extensions && \
     ./node_modules/vsce/out/vsce package && \
     mv ddb50-0.0.1.vsix /opt/cs50/extensions && \
     cd /tmp && \
-    rm -rf ddb50.vsix
+    rm -rf ddb50.vsix && \
+    git clone https://github.com/cs50/phpliteadmin.vsix.git && \
+    cd phpliteadmin.vsix && \
+    npm install && \
+    ./node_modules/vsce/out/vsce package && \
+    mv phpliteadmin-0.0.1.vsix /opt/cs50/extensions && \
+    cd /tmp && \
+    rm -rf phpliteadmin.vsix
 
 
 # Copy files to image
