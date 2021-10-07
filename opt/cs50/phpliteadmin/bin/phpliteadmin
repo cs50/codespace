@@ -45,7 +45,7 @@ def main():
     display_codespace_url(DEFAULT_PORT)
 
     # Start php server
-    subprocess.run(command)
+    subprocess.run(command, stdout=subprocess.DEVNULL, stderr=subprocess.STDOUT)
 
 
 def parse_args(args):
