@@ -49,9 +49,6 @@
             }
         },
         "editor.suggestOnTriggerCharacters": false,
-        "experiments.override.gettingStarted.overrideCategory.ms-python.python.pythonDataScienceWelcome.when": "false",
-        "experiments.override.gettingStarted.overrideCategory.ms-python.python.pythonWelcome.when": "false",
-        "experiments.override.gettingStarted.overrideCategory.ms-vscode.cpptools.cppWelcome.when": "false",
         "extensions.ignoreRecommendations": true,
         "files.exclude": {
             "**/.*": true
