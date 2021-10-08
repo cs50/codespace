@@ -104,6 +104,7 @@
         "workbench.preferredLightColorTheme": "Default Light+",
         "workbench.startupEditor": "none",
         "workbench.statusBar.visible": false,
-        "workbench.tips.enabled": false
+        "workbench.tips.enabled": false,
+        "workbench.welcomePage.walkthroughs.openOnInstall": false
     }
 }
