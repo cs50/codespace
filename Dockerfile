@@ -1,4 +1,4 @@
-FROM cs50/cli:minimal
+FROM cs50/cli
 ARG DEBIAN_FRONTEND=noninteractive
 
 
