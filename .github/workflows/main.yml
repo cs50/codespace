@@ -47,11 +47,12 @@ jobs:
         with:
           github-token: ${{ github.token }}
           script: |
-            github.rest.git.createRef({
+            github.rest.git.updateRef({
               owner: context.repo.owner,
               repo: context.repo.repo,
               ref: "refs/tags/latest",
-              sha: context.sha
+              sha: context.sha,
+              force: true
             })
 
       - name: Push (develop) to GitHub Packages
