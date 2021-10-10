@@ -3,14 +3,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
-
-      - name: Login to DockerHub
-        uses: docker/login-action@v1
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Build
         uses: docker/build-push-action@v2
@@ -18,13 +10,19 @@ jobs:
           load: true
           tags: cs50/codespace:${{ github.sha }},cs50/codespace:latest
 
+      - name: Log into Docker Hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
       - name: Push to Docker Hub
         if: ${{ github.ref == 'refs/heads/main' }}
         run: |
           docker push cs50/codespace:${{ github.sha }}
           docker push cs50/codespace:latest
 
-      - name: Log in ghcr
+      - name: Log into GitHub Packages
         if: ${{ github.ref == 'refs/heads/main' }}
         uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
         with:
@@ -32,7 +30,7 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Push to ghcr
+      - name: Push to GitHub Packages
         if: ${{ github.ref == 'refs/heads/main' }}
         run: |
           docker tag cs50/codespace:${{ github.sha }} ghcr.io/cs50/codespace:${{ github.sha }}
@@ -47,7 +45,7 @@ jobs:
         with:
           github-token: ${{ github.token }}
           script: |
-            github.git.createRef({
+            github.rest.git.createRef({
               owner: context.repo.owner,
               repo: context.repo.repo,
               ref: "refs/tags/latest",
