@@ -41,7 +41,7 @@ jobs:
           docker push ghcr.io/cs50/codespace:${{ github.sha }}
           docker push ghcr.io/cs50/codespace:latest
 
-      - name: Create tag
+      - name: Tag main as latest
         if: ${{ github.ref == 'refs/heads/main' }}
         uses: actions/github-script@v5
         with:
