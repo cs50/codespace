@@ -1,23 +1,37 @@
 #!/bin/bash
 
 # Get remote JSON
-REMOTE=$(curl https://code.cs50.io/.devcontainer.json 2> /dev/null)
+remote=$(curl https://code.cs50.io/.devcontainer.json 2> /dev/null)
 if [ $? -ne 0 ]; then
     echo "Could not update codespace. Try again later."
     exit 1
 fi
 
+# Parse remote JSON
+image=$(echo $remote | jq .image 2> /dev/null)
+regex='"ghcr.io/cs50/codespace:([0-9a-z]*)"'
+if [[ "$image" =~ $regex ]]; then
+    tag="${BASH_REMATCH[1]}"
+else
+  echo "Could not determine latest version. Try again later."
+  exit 1
+fi
+
+# Get local version
+issue=$(cat /etc/issue 2> /dev/null)
+
 # Get local JSON
-LOCAL=$(cat "/workspaces/$RepositoryName/.devcontainer.json" 2> /dev/null)
+local=$(cat "/workspaces/$RepositoryName/.devcontainer.json" 2> /dev/null)
 
 # If versions differ (or forcibly updating)
-if [ "$REMOTE" != "$LOCAL" ] || [ "$1" == "-f" ] || [ "$1" == "--force" ]; then
+if [ "$remote" != "$local" ] || [ "$tag" != "$issue" ] || [ "$1" == "-f" ] || [ "$1" == "--force" ]; then
 
     # Update JSON
-    echo "$REMOTE" > "/workspaces/$RepositoryName/.devcontainer.json"
+    echo "$remote" > "/workspaces/$RepositoryName/.devcontainer.json"
 
     # Prompt to rebuild
     prompt50 "Updating..." "To update your codespace, click \"Rebuild\" when prompted." github.codespaces.rebuildEnvironment
+
 else
-    echo "Your codespace is up-to-date!"
+    echo "Your codespace is already up-to-date!"
 fi
