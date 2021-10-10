@@ -47,13 +47,22 @@ jobs:
         with:
           github-token: ${{ github.token }}
           script: |
-            github.rest.git.updateRef({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              ref: "tags/latest",
-              sha: context.sha,
-              force: true
-            })
+            try {
+              await github.rest.git.updateRef({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                ref: "tags/latest",
+                sha: context.sha,
+                force: true
+              })
+            } catch (e) {
+              await github.rest.git.createRef({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                ref: "refs/tags/latest",
+                sha: context.sha
+              })
+            }
 
       - name: Push (develop) to GitHub Packages
         if: ${{ github.ref == 'refs/heads/develop' }}
