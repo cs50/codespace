@@ -1,15 +1,15 @@
 #!/bin/bash
 
-# Temporarily remove ACLs
+# Temporarily remove ACLs so umask is respected
 # https://github.community/t/bug-umask-does-not-seem-to-be-respected/129638/10
-setfacl -bnR "/workspaces/$RepositoryName/"
+setfacl --no-mask --recursive --remove-all "/workspaces/$RepositoryName"
 
 # Relocate .ssh to workspace
 if [ ! -L "/home/ubuntu/.ssh" ]; then
-    mkdir -p "/workspaces/$RepositoryName/.ssh"
-    cp -f ~/.ssh/authorized_keys "/workspaces/$RepositoryName/.ssh/"
-    rm -rf /home/ubuntu/.ssh
-    ln -s "/workspaces/$RepositoryName/.ssh" /home/ubuntu/.ssh
+    mkdir --parents "/workspaces/$RepositoryName/.ssh"
+    cp --force ~/.ssh/authorized_keys "/workspaces/$RepositoryName/.ssh/"
+    rm --force --recursive /home/ubuntu/.ssh
+    ln --symbolic "/workspaces/$RepositoryName/.ssh" /home/ubuntu/.ssh
 fi
 
 # Install .gitignore

@@ -99,6 +99,7 @@
         },
         "workbench.editor.closeOnFileDelete": true,
         "workbench.editor.untitled.hint": "hidden",
+        "workbench.enableExperiments": false,
         "workbench.iconTheme": "vs-minimal", /* Simplify icons */
         "workbench.preferredDarkColorTheme": "Default Dark+",
         "workbench.preferredLightColorTheme": "Default Light+",
