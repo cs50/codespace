@@ -7,6 +7,8 @@ jobs:
       - name: Build
         uses: docker/build-push-action@v2
         with:
+          build-args: |
+            VCS_REF=${{ github.sha }}
           load: true
           tags: cs50/codespace:${{ github.sha }},cs50/codespace:latest
 
@@ -23,14 +25,14 @@ jobs:
           docker push cs50/codespace:latest
 
       - name: Log into GitHub Packages
-        if: ${{ github.ref == 'refs/heads/main' }}
-        uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
+        if: ${{ github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop' }}
+        uses: docker/login-action@v1
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Push to GitHub Packages
+      - name: Push (latest) to GitHub Packages
         if: ${{ github.ref == 'refs/heads/main' }}
         run: |
           docker tag cs50/codespace:${{ github.sha }} ghcr.io/cs50/codespace:${{ github.sha }}
@@ -39,7 +41,7 @@ jobs:
           docker push ghcr.io/cs50/codespace:${{ github.sha }}
           docker push ghcr.io/cs50/codespace:latest
 
-      - name: Create tag
+      - name: Tag main as latest
         if: ${{ github.ref == 'refs/heads/main' }}
         uses: actions/github-script@v5
         with:
@@ -51,3 +53,9 @@ jobs:
               ref: "refs/tags/latest",
               sha: context.sha
             })
+
+      - name: Push (develop) to GitHub Packages
+        if: ${{ github.ref == 'refs/heads/develop' }}
+        run: |
+          docker tag cs50/codespace:${{ github.sha }} ghcr.io/cs50/codespace:develop
+          docker push ghcr.io/cs50/codespace:develop

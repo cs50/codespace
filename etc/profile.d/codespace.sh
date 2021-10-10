@@ -5,7 +5,7 @@ if [ "$PS1" ]; then
     if [ "$(whoami)" != "root" ]; then
 
         # Configure cd to default to workspace
-        alias cd="HOME=/workspaces/$RepositoryName cd"
+        alias cd="HOME=\"$CODESPACE_VSCODE_FOLDER\" cd"
 
         # Configure prompt
         prompt() {
