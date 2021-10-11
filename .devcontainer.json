@@ -65,7 +65,7 @@
         "git.decorations.enabled": false,
         "gitdoc.autoPull": "off",
         "gitdoc.enabled": true,
-        "gitdoc.commitMessageFormat": "YYYY-MM-DDTHH:mmZ",
+        "gitdoc.commitMessageFormat": "ddd, MMM D, YYYY, h:mm A Z",
         "gitdoc.commitValidationLevel": "none",
         "gitdoc.pullOnOpen": false,
         "html.suggest.html5": false,
