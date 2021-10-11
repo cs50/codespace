@@ -25,7 +25,7 @@ if [ "$PS1" ]; then
         }
 
         # Configure prompt
-        prompt() {
+        _prompt() {
             local dir="$(dirs +0)" # CWD with ~ for home
             dir="${dir%/}/" # Remove trailing slash (in case in /) and then re-append
             dir=${dir#"/workspaces/$RepositoryName/"} # Left-trim workspace
@@ -33,6 +33,6 @@ if [ "$PS1" ]; then
             dir=${dir#" "} # Trim leading whitespace (in case in workspace)
             echo -n "${dir}"
         }
-        PS1='$(prompt)'
+        PS1='$(_prompt)'
     fi
 fi
