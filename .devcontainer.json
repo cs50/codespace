@@ -72,7 +72,6 @@
         "javascript.suggest.enabled": false,
         "javascript.validate.enable": false, /* Disable red squiggles */
         "problems.decorations.enabled": false,
-        "python.languageServer": "None",
         "scm.countBadge": "off",
         "terminal.integrated.commandsToSkipShell": [
             "workbench.action.toggleSidebarVisibility"
@@ -93,6 +92,8 @@
         "workbench.activityBar.visible": true, /* To be changed to false once menuBar is "classic" by default */
         "workbench.colorCustomizations": {
             "editor.lineHighlightBorder": "#0000", /* Disable gray border-{bottom,top} on active line */
+            "editorError.foreground": "#0000", /* Disable red squiggles */
+            "editorWarning.foreground": "#0000", /* Disable yellow squiggles */
             "editorGutter.addedBackground": "#0000",
             "editorGutter.deletedBackground": "#0000",
             "editorGutter.modifiedBackground": "#0000" /* Disable yellow bars to left of lines modified since last commit */
