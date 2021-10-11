@@ -95,9 +95,7 @@
             "editorError.foreground": "#0000", /* Disable red squiggles */
             "editorGutter.addedBackground": "#0000",
             "editorGutter.deletedBackground": "#0000",
-            "editorGutter.modifiedBackground": "#0000", /* Disable yellow bars to left of lines modified since last commit */
-            "terminal.ansiGreen": "#00ff00",
-            "terminal.ansiBlue": "#0000ff"
+            "editorGutter.modifiedBackground": "#0000" /* Disable yellow bars to left of lines modified since last commit */
         },
         "workbench.editor.closeOnFileDelete": true,
         "workbench.editor.untitled.hint": "hidden",
