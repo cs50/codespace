@@ -26,6 +26,15 @@ if [ "$PS1" ]; then
             command code "$@"
         }
 
+        # Discourage use of git in repository
+        git() {
+            if [[ "$PWD" =~ "^/workspaces/$RepositoryName" ]]; then
+                echo "You are in a repository managed by CS50. Git is disabled."
+            else
+                command git "$@"
+            fi
+        }
+
         # Configure prompt
         _prompt() {
             local dir="$(dirs +0)" # CWD with ~ for home
