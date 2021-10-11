@@ -7,6 +7,23 @@ if [ "$PS1" ]; then
         # Configure cd to default to workspace
         alias cd="HOME=\"$CODESPACE_VSCODE_FOLDER\" cd"
 
+        # Ensure files created with `code` are autosaved too
+        code() {
+            local options=false
+            for arg in "$@"; do
+                if [[ "$arg" =~ ^- ]]; then
+                    options=true
+                    break
+                fi
+            done
+            if [ "$options" = false ]; then
+                for arg in "$@"; do
+                    touch "$arg" 2> /dev/null
+                done
+            fi
+            command code "$@"
+        }
+
         # Configure prompt
         prompt() {
             local dir="$(dirs +0)" # CWD with ~ for home

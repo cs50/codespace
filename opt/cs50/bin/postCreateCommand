@@ -14,14 +14,23 @@ fi
 
 # Install .gitignore
 cat > "/workspaces/$RepositoryName/.gitignore" <<EOT
-.*
-!.devcontainer.json
+# Ignore everything
 *
+
+# But don't ignore folders
+!*/
+
+# But don't ignore these files
+!/.devcontainer.json
+
+# But don't ignore these types of files
 !*.c
 !*.css
+!*.db
 !*.h
 !*.html
 !*.js
-!.py
+!*.py
+!*.txt
 !Makefile
 EOT
