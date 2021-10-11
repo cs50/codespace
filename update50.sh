@@ -30,7 +30,7 @@ if [ "$remote" != "$local" ] || [ "$tag" != "$issue" ] || [ "$1" == "-f" ] || [ 
     echo "$remote" > "/workspaces/$RepositoryName/.devcontainer.json"
 
     # Prompt to rebuild
-    prompt50 "To update your codespace, click \"Rebuild\" when prompted." github.codespaces.rebuildEnvironment
+    prompt50 -a github.codespaces.rebuildEnvironment "To update your codespace, click \"Rebuild\" when prompted."
 
 else
     echo "Your codespace is already up-to-date!"
