@@ -72,7 +72,7 @@
         "javascript.suggest.enabled": false,
         "javascript.validate.enable": false, /* Disable red squiggles */
         "problems.decorations.enabled": false,
-        "python.autoComplete.showAdvancedMembers": false,
+        "python.languageServer": "None",
         "scm.countBadge": "off",
         "terminal.integrated.commandsToSkipShell": [
             "workbench.action.toggleSidebarVisibility"
