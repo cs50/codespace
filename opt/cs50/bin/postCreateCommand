@@ -20,6 +20,10 @@ cat > "/workspaces/$RepositoryName/.gitignore" <<EOT
 # But don't ignore folders
 !*/
 
+# But do ignore these folders
+node_modules/
+vendor/
+
 # But don't ignore these files
 !/.devcontainer.json
 !/.vscode/settings.json
@@ -31,6 +35,7 @@ cat > "/workspaces/$RepositoryName/.gitignore" <<EOT
 !*.h
 !*.html
 !*.js
+!*.md
 !*.py
 !*.txt
 !Makefile
