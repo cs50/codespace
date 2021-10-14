@@ -19,7 +19,7 @@ if [ "$PS1" ]; then
             if [ "$options" = false ]; then
                 for arg in "$@"; do
                     if [ ! -f "$arg" ]; then
-                        touch "$arg" 2> /dev/null
+                        touch -a "$arg" 2> /dev/null
                     fi
                 done
             fi
