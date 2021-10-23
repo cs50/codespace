@@ -19,6 +19,18 @@ if [ "$PS1" ]; then
             if [ "$options" = false ]; then
                 for arg in "$@"; do
                     if [ ! -f "$arg" ]; then
+                        if [[ "$arg" =~ ^[A-Z].*\.(c|css|html|js|py)$ ]]; then
+                            read -p "Are you sure you want to create $(tput bold)$arg$(tput sgr0)? Filenames aren't usually capitalized. [y/N] " -r
+                            if [[ ! "${REPLY,,}" =~ ^y|yes$ ]]; then
+                                return
+                            fi
+                        fi
+                        if [[ "$arg" =~ ^[a-z].*\.java$ ]]; then
+                            read -p "Are you sure you want to create $(tput bold)$arg$(tput sgr0)? Filenames are usually capitalized. [y/N] " -r
+                            if [[ ! "${REPLY,,}" =~ ^y|yes$ ]]; then
+                                return
+                            fi
+                        fi
                         touch -a "$arg" 2> /dev/null
                     fi
                 done
