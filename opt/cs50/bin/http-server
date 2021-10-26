@@ -12,20 +12,22 @@ EXECUTABLE = '/usr/local/bin/http-server'
 
 def main():
 
-    # Construct http-server command
+    # Parse arguments and construct http-server command
     args, extra_args = parse_args(sys.argv[1:])
     host = args.a or DEFAULT_HOST
     port = args.p or DEFAULT_PORT
     autoIndex = args.i or 'false' 
-    command = [EXECUTABLE]
     
-    if sys.argv[1] is not '--help' or sys.argv[1] is not '-h':
+    command = [EXECUTABLE]
+    if args.help:
+        command.extend(['--help'])
+    else:
         command.extend([f'-a={host}', f'-p={port}', '-c-1', '--cors', f'-i {autoIndex}', '--no-dotfiles'])
+        command.extend(extra_args)
         os.system(f'fuser -k {port}/tcp') # Kill any process listing on the specified port
         display_codespace_url(port)
-
+    
     # Start http-server
-    command.extend(extra_args)
     subprocess.run(command)
 
 
@@ -34,6 +36,12 @@ def parse_args(args):
     parser.add_argument(
         '-a',
         nargs='?'
+    )
+    parser.add_argument(
+        '-h',
+        '--help',
+        nargs='?',
+        const=True
     )
     parser.add_argument(
         '-p',
