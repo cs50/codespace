@@ -9,6 +9,8 @@ if [ "$PS1" ]; then
 
         # Ensure files created with `code` are autosaved too
         code() {
+
+            # Check whether run with any options
             local options=false
             for arg in "$@"; do
                 if [[ "$arg" =~ ^- ]]; then
@@ -16,21 +18,41 @@ if [ "$PS1" ]; then
                     break
                 fi
             done
+
+            # If not, assume less comfortable
             if [ "$options" = false ]; then
+
+                # For each file
                 for arg in "$@"; do
+
+                    # If file doesn't exist
                     if [ ! -f "$arg" ]; then
+
+                        # If first letter is capitalized but one of these languages
                         if [[ "$arg" =~ ^[A-Z].*\.(c|css|html|js|py)$ ]]; then
                             read -p "Are you sure you want to create $(tput bold)$arg$(tput sgr0)? Filenames aren't usually capitalized. [y/N] " -r
                             if [[ ! "${REPLY,,}" =~ ^y|yes$ ]]; then
                                 return
                             fi
                         fi
+
+                        # If first letter is lowercase but Java
                         if [[ "$arg" =~ ^[a-z].*\.java$ ]]; then
                             read -p "Are you sure you want to create $(tput bold)$arg$(tput sgr0)? Filenames are usually capitalized. [y/N] " -r
                             if [[ ! "${REPLY,,}" =~ ^y|yes$ ]]; then
                                 return
                             fi
                         fi
+
+                        # If file extension is capitalized
+                        if [[ "$arg" =~ \.[A-Z]+$ ]]; then
+                            read -p "Are you sure you want to create $(tput bold)$arg$(tput sgr0)? File extensions aren't usually capitalized. [y/N] " -r
+                            if [[ ! "${REPLY,,}" =~ ^y|yes$ ]]; then
+                                return
+                            fi
+                        fi
+
+                        # Touch access time instead of modification time, so that `make` doesn't think file has changed
                         touch -a "$arg" 2> /dev/null
                     fi
                 done
