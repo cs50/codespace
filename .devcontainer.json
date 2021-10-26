@@ -83,7 +83,8 @@
                     "-l"
                 ],
                 "path": "bash"
-            }
+            },
+            "JavaScript Debug Terminal": null
         },
         "terminal.integrated.sendKeybindingsToShell": true,
         "window.autoDetectColorScheme": true,
