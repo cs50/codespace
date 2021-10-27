@@ -37,6 +37,7 @@ vendor/
 !*.js
 !*.md
 !*.py
+!*.sql
 !*.txt
 !Makefile
 EOT
