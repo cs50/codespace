@@ -87,9 +87,10 @@ if [ "$PS1" ]; then
             command code "$@"
         }
 
-        # Rewrite URLs in stdout and stderr
+        # Rewrite URL in stderr
+        # https://stackoverflow.com/a/52575087/5156190
         flask() {
-            command flask "$@" |& _hostname
+            command flask "$@" 2> >(_hostname >&2)
         }
 
         # Discourage use of git in repository
