@@ -72,6 +72,9 @@
         "javascript.suggest.enabled": false,
         "javascript.validate.enable": false, /* Disable red squiggles */
         "problems.decorations.enabled": false,
+        "remote.otherPortsAttributes": {
+            "onAutoForward": "silent"
+        },
         "scm.countBadge": "off",
         "terminal.integrated.commandsToSkipShell": [
             "workbench.action.toggleSidebarVisibility"
