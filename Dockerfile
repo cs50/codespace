@@ -23,7 +23,8 @@ RUN apt update && \
 
 
 # Install Python packages
-RUN pip3 install git+https://github.com/cs50/submit50@classroom
+RUN pip3 install git+https://github.com/cs50/submit50@classroom \
+    pytz
 
 
 # Install VS Code extensions
