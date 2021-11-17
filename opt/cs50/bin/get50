@@ -22,10 +22,10 @@ def main():
     assignment = args.assignment
     if args.username is not None:
         assignment += f'-{args.username}'
-    
+
     tempDir = tempfile.mkdtemp()
     tempLocation = f'{tempDir}/{assignment}'
-    destination = f'/workspaces/{os.getenv("RepositoryName")}/'    
+    destination = f'/workspaces/{os.getenv("RepositoryName")}/'
     repo_url = f'git@github.com:{GH_CLASSROOM}/{assignment}.git'
 
     # Make sure user does not already downloaded the assignment
@@ -37,11 +37,11 @@ def main():
             os.system(f'GIT_SSH_COMMAND="ssh -v" git clone --progress --verbose {repo_url} {tempLocation}')
         else:
             subprocess.check_output(f'git clone {repo_url} {tempLocation}', stderr=subprocess.STDOUT, shell=True)
-        
+
         remove_dirs(tempLocation)
         subprocess.check_output(f'mv {tempLocation} {destination} && rm -rf {tempDir}', stderr=subprocess.STDOUT, shell=True)
         download_success(assignment)
-        
+
     except subprocess.CalledProcessError as exc:
         error_message = exc.output.decode('utf-8').strip()
         key_words_access_right = 'make sure you have the correct access rights'
@@ -51,7 +51,7 @@ def main():
             message = f'Unable to get distribution code \'{assignment}\'.\n'\
                 f'Please make sure you have followed the steps at https://cs50.ly/github to set up SSH and the repository name is correct.'
             print(yellow(message))
-        
+
     except Exception as e:
         logging.info(e)
         contact_sysadmin()
@@ -92,8 +92,9 @@ def configure_logging(verbose):
 
 
 def check_cwd(destination, assignment):
-    if os.path.isdir(f'{destination}/{assignment}'):
-        message = f'Looks like the directory \'{assignment}\' already exists in your file explorer and is not empty!'
+    path = f'{destination}/{assignment}'
+    if os.path.isdir(path) or os.path.isfile(path):
+        message = f'A file or folder \'{assignment}\' already exists in your file explorer!'
         print(yellow(message))
         sys.exit(1)
 
