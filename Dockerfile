@@ -11,6 +11,7 @@ USER root
 RUN apt update && \
     apt install --no-install-recommends --yes \
         jq \
+        pgloader \
         php-cli \
         php-mbstring \
         php-sqlite3
