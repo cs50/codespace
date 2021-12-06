@@ -96,7 +96,7 @@ if [ "$PS1" ]; then
         # Discourage use of git in repository
         git() {
             if [[ "$PWD/" =~ ^/workspaces/"$RepositoryName"/ ]]; then
-                echo "You are in a repository managed by CS50. Git is disabled."
+                echo "You are in a repository managed by CS50. Git is disabled. See https://cs50.ly/git."
             else
                 command git "$@"
             fi
