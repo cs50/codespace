@@ -1,6 +1,5 @@
 FROM cs50/cli
 ARG DEBIAN_FRONTEND=noninteractive
-ARG VCS_REF
 
 
 # Unset user
@@ -80,10 +79,6 @@ RUN echo "deb-src http://archive.ubuntu.com/ubuntu/ focal main restricted" > /et
     cd /opt/cs50/src/glibc-eX1tMB \
     rm --force --recursive *.tar.xz \
     rm --force --recursive *.dsc
-
-
-# Latest version
-RUN echo "$VCS_REF" > /etc/issue
 
 
 # Set user
