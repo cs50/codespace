@@ -18,7 +18,7 @@ else
 fi
 
 # Get local version
-issue=$(cat /etc/issue 2> /dev/null)
+issue=$(tail -1 /etc/issue 2> /dev/null)
 
 # Get local JSON
 local=$(cat "/workspaces/$RepositoryName/.devcontainer.json" 2> /dev/null)
