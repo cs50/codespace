@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Check whether run with any options
-local options=false
+options=false
 for arg in "$@"; do
     if [[ "$arg" =~ ^- ]]; then
         options=true
@@ -49,4 +49,4 @@ if [ "$options" = false ]; then
     done
 fi
 
-command code "$@"
+$(dirname "$VSCODE_GIT_ASKPASS_NODE")/bin/code "$@"
