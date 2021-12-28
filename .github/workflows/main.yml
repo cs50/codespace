@@ -12,7 +12,7 @@ jobs:
           build-args: |
             VCS_REF=${{ github.sha }}
           load: true
-          tags: cs50/codespace:${{ github.sha }},cs50/codespace:latest
+          tags: cs50/codespace:latest
 
       - name: Log into Docker Hub
         uses: docker/login-action@v1
@@ -22,9 +22,7 @@ jobs:
 
       - name: Push to Docker Hub
         if: ${{ github.ref == 'refs/heads/main' }}
-        run: |
-          docker push cs50/codespace:${{ github.sha }}
-          docker push cs50/codespace:latest
+        run: docker push cs50/codespace:latest
 
       - name: Log into GitHub Packages
         if: ${{ github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop' }}
@@ -37,10 +35,7 @@ jobs:
       - name: Push (latest) to GitHub Packages
         if: ${{ github.ref == 'refs/heads/main' }}
         run: |
-          docker tag cs50/codespace:${{ github.sha }} ghcr.io/cs50/codespace:${{ github.sha }}
           docker tag cs50/codespace:latest ghcr.io/cs50/codespace:latest
-
-          docker push ghcr.io/cs50/codespace:${{ github.sha }}
           docker push ghcr.io/cs50/codespace:latest
 
       - name: Tag main as latest
@@ -69,5 +64,5 @@ jobs:
       - name: Push (develop) to GitHub Packages
         if: ${{ github.ref == 'refs/heads/develop' }}
         run: |
-          docker tag cs50/codespace:${{ github.sha }} ghcr.io/cs50/codespace:develop
+          docker tag ghcr.io/cs50/codespace:develop
           docker push ghcr.io/cs50/codespace:develop
