@@ -57,14 +57,14 @@ RUN chmod a+rx /opt/cs50/phpliteadmin/bin/phpliteadmin
 RUN ln --symbolic /opt/cs50/phpliteadmin/bin/phpliteadmin /opt/cs50/bin/phpliteadmin
 
 
-# Install X server, x11vnc virtual network computing server, noVNC
-RUN apt install xvfb x11vnc -y
+# Install window manager, X server, x11vnc (VNC server), noVNC (VNC client)
+RUN apt install openbox xvfb x11vnc -y
 RUN wget https://github.com/novnc/noVNC/archive/refs/tags/v1.3.0.zip -P/tmp && \
     unzip /tmp/v1.3.0.zip -d /tmp && \
     mv /tmp/noVNC-1.3.0 /opt/noVNC && \
     rm -rf /tmp/noVNC-1.3.0 && \
     chown -R ubuntu:ubuntu /opt/noVNC
-
+ENV DISPLAY=":0"
 
 # Temporary workaround for https://github.com/cs50/code.cs50.io/issues/19
 RUN echo "if [ -z \"\$_PROFILE_D\" ] ; then for i in /etc/profile.d/*.sh; do . \"\$i\"; done; export _PROFILE_D=1; fi" >> /etc/bash.bashrc
