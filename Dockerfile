@@ -28,7 +28,7 @@ RUN mkdir --parents /opt/cs50/extensions && \
     git clone https://github.com/cs50/cs50.vsix.git && \
     cd cs50.vsix && \
     npm install && \
-    ./node_modules/vsce/out/vsce package && \
+    ./node_modules/vsce/vsce package && \
     mv cs50-0.0.1.vsix /opt/cs50/extensions && \
     pip install python-clients/cs50vsix-client/ && \
     cd /tmp && \
