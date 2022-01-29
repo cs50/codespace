@@ -23,12 +23,13 @@ RUN apt update && \
 
 
 # Install VS Code extensions
-RUN mkdir --parents /opt/cs50/extensions && \
+RUN npm install -g vsce && \
+    mkdir --parents /opt/cs50/extensions && \
     cd /tmp && \
     git clone https://github.com/cs50/cs50.vsix.git && \
     cd cs50.vsix && \
     npm install && \
-    ./node_modules/vsce/vsce package && \
+    vsce package && \
     mv cs50-0.0.1.vsix /opt/cs50/extensions && \
     pip install python-clients/cs50vsix-client/ && \
     cd /tmp && \
@@ -36,17 +37,18 @@ RUN mkdir --parents /opt/cs50/extensions && \
     git clone https://github.com/cs50/ddb50.vsix.git && \
     cd ddb50.vsix && \
     npm install && \
-    ./node_modules/vsce/out/vsce package && \
+    vsce package && \
     mv ddb50-0.0.1.vsix /opt/cs50/extensions && \
     cd /tmp && \
     rm --force --recursive ddb50.vsix && \
     git clone https://github.com/cs50/phpliteadmin.vsix.git && \
     cd phpliteadmin.vsix && \
     npm install && \
-    ./node_modules/vsce/out/vsce package && \
+    vsce package && \
     mv phpliteadmin-0.0.1.vsix /opt/cs50/extensions && \
     cd /tmp && \
-    rm --force --recursive phpliteadmin.vsix
+    rm --force --recursive phpliteadmin.vsix && \
+    npm uninstall -g vsce
 
 
 # Copy files to image
