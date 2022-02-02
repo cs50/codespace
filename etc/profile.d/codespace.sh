@@ -57,4 +57,11 @@ if [ "$(whoami)" != "root" ]; then
         rm -rf /tmp/http-server
         (command http-server "$@" &> /tmp/http-server & sleep 3) && tail -f /tmp/http-server | _hostname | uniq
     }
+
+    function teardown() {
+        killall -9 flask
+        killall -9 http-server
+    }
+
+    trap "teardown &> /dev/null" EXIT SIGINT SIGHUP ERR
 fi
