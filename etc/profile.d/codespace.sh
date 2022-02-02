@@ -37,7 +37,9 @@ if [ "$(whoami)" != "root" ]; then
     # Rewrite URL in stderr
     # https://stackoverflow.com/a/52575087/5156190
     flask() {
-        command flask "$@" 2> >(_hostname >&2)
+        echo "Launching flask server..."
+        rm -rf /tmp/flask
+        (command flask "$@" &> /tmp/flask & sleep 3) && tail -f /tmp/flask | _hostname
     }
 
     # Discourage use of git in repository
@@ -51,6 +53,8 @@ if [ "$(whoami)" != "root" ]; then
 
     # Rewrite URLs in stdout
     http-server() {
-        command http-server "$@" | _hostname | uniq
+        echo "Launching http-server..."
+        rm -rf /tmp/http-server
+        (command http-server "$@" &> /tmp/http-server & sleep 3) && tail -f /tmp/http-server | _hostname | uniq
     }
 fi
