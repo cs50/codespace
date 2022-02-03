@@ -49,4 +49,4 @@ if [ "$options" = false ]; then
     done
 fi
 
-$(dirname "$VSCODE_GIT_ASKPASS_NODE")/bin/code "$@"
+$(dirname "$VSCODE_GIT_ASKPASS_NODE")/bin/remote-cli/code "$@"
