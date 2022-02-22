@@ -1,4 +1,4 @@
-on: 
+on:
   - push
   - workflow_dispatch
 jobs:
@@ -68,5 +68,5 @@ jobs:
       - name: Push (develop) to GitHub Packages
         if: ${{ github.ref == 'refs/heads/develop' }}
         run: |
-          docker tag ghcr.io/cs50/codespace:develop
+          docker tag cs50/codespace:${{ github.sha }} ghcr.io/cs50/codespace:develop
           docker push ghcr.io/cs50/codespace:develop
