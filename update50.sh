@@ -26,11 +26,11 @@ local=$(cat "/workspaces/$RepositoryName/.devcontainer.json" 2> /dev/null)
 # If versions differ (or forcibly updating)
 if [ "$remote" != "$local" ] || [ "$tag" != "$issue" ] || [ "$1" == "-f" ] || [ "$1" == "--force" ]; then
 
+    # Prompt to rebuild
+    prompt50 "To update your codespace, click \"Rebuild Now\" when prompted."
+
     # Update JSON
     echo "$remote" > "/workspaces/$RepositoryName/.devcontainer.json"
-
-    # Prompt to rebuild
-    prompt50 -a github.codespaces.rebuildEnvironment "To update your codespace, click \"Rebuild\" when prompted."
 
 else
     echo "Your codespace is already up-to-date!"
