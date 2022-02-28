@@ -9,6 +9,7 @@ USER root
 # Install Ubuntu packages
 RUN apt update && \
     apt install --no-install-recommends --yes \
+        dwarfdump \
         jq \
         pgloader \
         php-cli \
