@@ -54,6 +54,7 @@
         "experiments.override.gettingStarted.overrideCategory.ms-python.python.pythonWelcome.when": "false",
         "experiments.override.gettingStarted.overrideCategory.ms-vscode.cpptools.cppWelcome.when": "false",
         "extensions.ignoreRecommendations": true,
+        "files.autoSave": "afterDelay",
         "files.associations": {
             "*.html": "jinja-html"
         },
