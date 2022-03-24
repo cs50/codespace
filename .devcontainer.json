@@ -8,7 +8,6 @@
         "ms-vscode.hexeditor",
         "ms-vsliveshare.vsliveshare-audio",
         "MS-vsliveshare.vsliveshare-pack",
-        "samuelcolvin.jinjahtml",
         "vsls-contrib.gitdoc"
     ],
     "image": "ghcr.io/cs50/codespace",
@@ -55,9 +54,6 @@
         "experiments.override.gettingStarted.overrideCategory.ms-vscode.cpptools.cppWelcome.when": "false",
         "extensions.ignoreRecommendations": true,
         "files.autoSave": "afterDelay",
-        "files.associations": {
-            "*.html": "jinja-html"
-        },
         "files.exclude": {
             "**/.*": true
         },
