@@ -32,7 +32,7 @@ RUN npm install -g vsce && \
     npm install && \
     vsce package && \
     mv cs50-0.0.1.vsix /opt/cs50/extensions && \
-    pip install python-clients/cs50vsix-client/ && \
+    pip3 install python-clients/cs50vsix-client/ && \
     cd /tmp && \
     rm --force --recursive cs50.vsix && \
     git clone https://github.com/cs50/ddb50.vsix.git && \
