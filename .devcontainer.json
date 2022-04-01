@@ -93,6 +93,7 @@
         },
         "terminal.integrated.sendKeybindingsToShell": true,
         "terminal.integrated.tabs.description": "${task}${separator}${local}", /* Remove cwdFolder from description */
+        "terminal.integrated.tabs.showActiveTerminal": "never",
         "window.autoDetectColorScheme": true,
         "workbench.colorCustomizations": {
             "editor.lineHighlightBorder": "#0000", /* Disable gray border-{bottom,top} on active line */
