@@ -11,6 +11,7 @@ RUN apt update && \
     apt install --no-install-recommends --yes \
         dwarfdump \
         jq \
+        manpages-dev \
         pgloader \
         php-cli \
         php-mbstring \
