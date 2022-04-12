@@ -53,4 +53,7 @@ if [ "$(whoami)" != "root" ]; then
     http-server() {
         command http-server "$@" | _hostname | uniq
     }
+
+    # Manual sections to search
+    export MANSECT=3,2,1
 fi
