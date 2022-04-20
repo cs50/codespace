@@ -11,6 +11,7 @@ RUN apt update && \
     apt install --no-install-recommends --yes \
         dwarfdump \
         jq \
+        manpages-dev \
         pgloader \
         php-cli \
         php-mbstring \
@@ -50,6 +51,10 @@ RUN npm install -g vsce && \
     cd /tmp && \
     rm --force --recursive phpliteadmin.vsix && \
     npm uninstall -g vsce
+
+
+# Install Python packages
+RUN pip3 install pytest
 
 
 # Copy files to image
