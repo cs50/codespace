@@ -53,10 +53,6 @@ RUN npm install -g vsce && \
     npm uninstall -g vsce
 
 
-# Install Python packages
-RUN pip3 install pytest
-
-
 # Copy files to image
 COPY ./etc /etc
 COPY ./opt /opt
