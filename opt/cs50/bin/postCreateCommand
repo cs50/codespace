@@ -1,5 +1,10 @@
 #!/bin/bash
 
+# If not using Codespaces
+if [ "$CODESPACES" != "true" ]; then
+    exit
+fi
+
 # Temporarily remove ACLs so umask is respected
 # https://github.community/t/bug-umask-does-not-seem-to-be-respected/129638/10
 setfacl --no-mask --recursive --remove-all "/workspaces/$RepositoryName"
