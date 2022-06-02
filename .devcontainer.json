@@ -7,6 +7,7 @@
         "ms-vscode.cpptools",
         "ms-vscode.hexeditor",
         "ms-vsliveshare.vsliveshare-pack",
+        "tomoki1207.pdf",
         "vsls-contrib.gitdoc"
     ],
     "image": "ghcr.io/cs50/codespace",
