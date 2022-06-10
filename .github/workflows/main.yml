@@ -7,7 +7,7 @@ jobs:
     steps:
 
       - name: Build
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@v3
         with:
           build-args: |
             VCS_REF=${{ github.sha }}
@@ -15,7 +15,7 @@ jobs:
           tags: cs50/codespace:${{ github.sha }},cs50/codespace:latest
 
       - name: Log into Docker Hub
-        uses: docker/login-action@v1
+        uses: docker/login-action@v2
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
@@ -28,7 +28,7 @@ jobs:
 
       - name: Log into GitHub Packages
         if: ${{ github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop' }}
-        uses: docker/login-action@v1
+        uses: docker/login-action@v2
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
