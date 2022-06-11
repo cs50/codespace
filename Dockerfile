@@ -7,8 +7,8 @@ USER root
 
 
 # Install Ubuntu packages
-RUN apt update && \
-    apt install --no-install-recommends --yes \
+RUN apt update -y && \
+    apt install --no-install-recommends -y \
         dwarfdump \
         jq \
         manpages-dev \
@@ -20,8 +20,8 @@ RUN apt update && \
 
 # For temporarily removing ACLs via opt/cs50/bin/postCreateCommand
 # https://github.community/t/bug-umask-does-not-seem-to-be-respected/129638/9
-RUN apt update && \
-    apt install acl
+RUN apt update -y && \
+    apt install -y acl
 
 
 # Install VS Code extensions
@@ -62,7 +62,7 @@ RUN ln --symbolic /opt/cs50/phpliteadmin/bin/phpliteadmin /opt/cs50/bin/phplitea
 
 
 # Install window manager, X server, x11vnc (VNC server), noVNC (VNC client)
-RUN apt install openbox xvfb x11vnc -y
+RUN apt install -y openbox xvfb x11vnc
 RUN wget https://github.com/novnc/noVNC/archive/refs/tags/v1.3.0.zip -P/tmp && \
     unzip /tmp/v1.3.0.zip -d /tmp && \
     mv /tmp/noVNC-1.3.0 /opt/noVNC && \
@@ -77,11 +77,11 @@ RUN echo "if [ -z \"\$_PROFILE_D\" ] ; then for i in /etc/profile.d/*.sh; do . \
 # Install glibc sources for debugger
 # https://github.com/Microsoft/vscode-cpptools/issues/1123#issuecomment-335867997
 RUN echo "deb-src http://archive.ubuntu.com/ubuntu/ focal main restricted" > /etc/apt/sources.list.d/_.list && \
-    apt update && \
+    apt update -y && \
     cd /tmp && \
     apt source glibc && \
     rm --force /etc/apt/sources.list.d/_.list && \
-    apt update && \
+    apt update -y && \
     mkdir --parents /build/glibc-sMfBJT && \
     mv glibc* /build/glibc-sMfBJT && \
     cd /build/glibc-sMfBJT \
