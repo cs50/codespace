@@ -6,6 +6,31 @@ ARG DEBIAN_FRONTEND=noninteractive
 USER root
 
 
+# Install glibc sources for debugger
+# https://github.com/Microsoft/vscode-cpptools/issues/1123#issuecomment-335867997
+RUN echo "deb-src http://archive.ubuntu.com/ubuntu/ focal main restricted" > /etc/apt/sources.list.d/_.list && \
+    apt update && \
+    cd /tmp && \
+    apt source glibc && \
+    rm --force /etc/apt/sources.list.d/_.list && \
+    apt update && \
+    mkdir --parents /build/glibc-sMfBJT && \
+    mv glibc* /build/glibc-sMfBJT && \
+    cd /build/glibc-sMfBJT \
+    rm --force --recursive *.tar.xz \
+    rm --force --recursive *.dsc
+
+
+# Install window manager, X server, x11vnc (VNC server), noVNC (VNC client)
+ENV DISPLAY=":0"
+RUN apt install openbox xvfb x11vnc -y
+RUN wget https://github.com/novnc/noVNC/archive/refs/tags/v1.3.0.zip -P/tmp && \
+    unzip /tmp/v1.3.0.zip -d /tmp && \
+    mv /tmp/noVNC-1.3.0 /opt/noVNC && \
+    rm -rf /tmp/noVNC-1.3.0 && \
+    chown -R ubuntu:ubuntu /opt/noVNC
+
+
 # Install Ubuntu packages
 RUN apt update && \
     apt install --no-install-recommends --yes \
@@ -22,6 +47,17 @@ RUN apt update && \
 # https://github.community/t/bug-umask-does-not-seem-to-be-respected/129638/9
 RUN apt update && \
     apt install acl
+
+
+# Temporary workaround for https://github.com/MicrosoftDocs/live-share/issues/4646
+RUN echo "deb http://security.ubuntu.com/ubuntu impish-security main" | sudo tee /etc/apt/sources.list.d/impish-security.list
+RUN sudo apt update
+RUN sudo apt install --no-install-recommends --yes \
+    libssl1.1
+
+
+# Invalidate caching for the remaining instructions
+ARG VCS_REF
 
 
 # Install VS Code extensions
@@ -61,32 +97,8 @@ RUN chmod a+rx /opt/cs50/phpliteadmin/bin/phpliteadmin
 RUN ln --symbolic /opt/cs50/phpliteadmin/bin/phpliteadmin /opt/cs50/bin/phpliteadmin
 
 
-# Install window manager, X server, x11vnc (VNC server), noVNC (VNC client)
-RUN apt install openbox xvfb x11vnc -y
-RUN wget https://github.com/novnc/noVNC/archive/refs/tags/v1.3.0.zip -P/tmp && \
-    unzip /tmp/v1.3.0.zip -d /tmp && \
-    mv /tmp/noVNC-1.3.0 /opt/noVNC && \
-    rm -rf /tmp/noVNC-1.3.0 && \
-    chown -R ubuntu:ubuntu /opt/noVNC
-ENV DISPLAY=":0"
-
 # Temporary workaround for https://github.com/cs50/code.cs50.io/issues/19
 RUN echo "if [ -z \"\$_PROFILE_D\" ] ; then for i in /etc/profile.d/*.sh; do if ["$i" == "/etc/profile.d/debuginfod*"] ; then continue; fi; . \"\$i\"; done; export _PROFILE_D=1; fi"
-
-
-# Install glibc sources for debugger
-# https://github.com/Microsoft/vscode-cpptools/issues/1123#issuecomment-335867997
-RUN echo "deb-src http://archive.ubuntu.com/ubuntu/ focal main restricted" > /etc/apt/sources.list.d/_.list && \
-    apt update && \
-    cd /tmp && \
-    apt source glibc && \
-    rm --force /etc/apt/sources.list.d/_.list && \
-    apt update && \
-    mkdir --parents /build/glibc-sMfBJT && \
-    mv glibc* /build/glibc-sMfBJT && \
-    cd /build/glibc-sMfBJT \
-    rm --force --recursive *.tar.xz \
-    rm --force --recursive *.dsc
 
 
 # Set user
