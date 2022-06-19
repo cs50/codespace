@@ -88,6 +88,7 @@
             },
             "JavaScript Debug Terminal": null
         },
+        "terminal.integrated.persistentSessionReviveProcess": "never",
         "terminal.integrated.sendKeybindingsToShell": true,
         "terminal.integrated.tabs.description": "${task}${separator}${local}", /* Remove cwdFolder from description */
         "terminal.integrated.tabs.showActiveTerminal": "never",
