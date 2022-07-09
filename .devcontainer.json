@@ -2,6 +2,7 @@
     "extensions": [
         "/opt/cs50/extensions/cs50-0.0.1.vsix",
         "/opt/cs50/extensions/ddb50-0.0.1.vsix",
+        "/opt/cs50/extensions/extension-uninstaller-0.0.1.vsix",
         "/opt/cs50/extensions/phpliteadmin-0.0.1.vsix",
         "ms-python.python",
         "ms-vscode.cpptools",
@@ -50,6 +51,11 @@
         },
         "editor.suggestOnTriggerCharacters": false,
         "extensions.ignoreRecommendations": true,
+        "extension-uninstaller.uninstall": [
+            "github.copilot",
+            "github.copilot-nightly",
+            "tabnine.tabnine-vscode"
+        ],
         "files.autoSave": "afterDelay",
         "files.exclude": {
             "**/.*": true
