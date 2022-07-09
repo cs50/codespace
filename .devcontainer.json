@@ -99,7 +99,10 @@
             "editorWarning.foreground": "#0000", /* Disable yellow squiggles */
             "editorGutter.addedBackground": "#0000",
             "editorGutter.deletedBackground": "#0000",
-            "editorGutter.modifiedBackground": "#0000" /* Disable yellow bars to left of lines modified since last commit */
+            "editorGutter.modifiedBackground": "#0000", /* Disable yellow bars to left of lines modified since last commit */
+            "[GitHub Light Default]": {
+                "terminal.foreground": "#000000" /* Change terminal font color to #000 for GitHub Light Default theme */
+            }
         },
         "workbench.editor.closeOnFileDelete": true,
         "workbench.editor.untitled.hint": "hidden",
