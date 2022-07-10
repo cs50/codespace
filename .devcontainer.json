@@ -33,7 +33,7 @@
         "editor.parameterHints.enabled": false,
         "editor.quickSuggestions": false,
         "editor.renderIndentGuides": false,
-        "editor.renderWhitespace": "boundary",
+        "editor.renderWhitespace": "selection",
         "editor.selectionHighlight": false,
         "editor.semanticTokenColorCustomizations": {
             "[Default Dark+]": {
