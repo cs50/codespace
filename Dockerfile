@@ -108,5 +108,11 @@ RUN ln --symbolic /opt/cs50/phpliteadmin/bin/phpliteadmin /opt/cs50/bin/phplitea
 RUN echo "if [ -z \"\$_PROFILE_D\" ] ; then for i in /etc/profile.d/*.sh; do if ["$i" == "/etc/profile.d/debuginfod*"] ; then continue; fi; . \"\$i\"; done; export _PROFILE_D=1; fi"
 
 
+# Temporary fix for https://github.com/microsoft/vscode-cpptools/issues/103#issuecomment-1151217772
+RUN wget https://launchpad.net/ubuntu/+source/gdb/12.1-0ubuntu1/+build/23606376/+files/gdb_12.1-0ubuntu1_amd64.deb -P/tmp && \
+    apt install /tmp/gdb_12.1-0ubuntu1_amd64.deb && \
+    rm -rf /tmp/gdb_12.1-0ubuntu1_amd64.deb
+
+
 # Set user
 USER ubuntu
