@@ -68,4 +68,4 @@ if [ "$options" = false ]; then
     done
 fi
 
-$(find $(dirname "$VSCODE_GIT_ASKPASS_NODE")/bin/remote-cli/ -name "code*") "$@"
+$(find $(dirname "$VSCODE_GIT_ASKPASS_NODE")/bin/remote-cli/ -name "code" -o -name "code-insiders") "$@"
