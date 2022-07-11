@@ -18,7 +18,7 @@ if [ "$options" = false ]; then
         if [[ ! "${REPLY,,}" =~ ^y|yes$ ]]; then
             exit 1
         fi
-        
+
         # Open same workspace in new tab, to avoid ?ew=true
         set -- "$CODESPACE_VSCODE_FOLDER"
     fi
@@ -68,4 +68,4 @@ if [ "$options" = false ]; then
     done
 fi
 
-$(find $(dirname "$VSCODE_GIT_ASKPASS_NODE")/bin/ -name "code") "$@"
+$(find $(dirname "$VSCODE_GIT_ASKPASS_NODE")/bin/remote-cli/ -name "code*") "$@"
