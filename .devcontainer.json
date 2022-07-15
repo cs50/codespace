@@ -1,9 +1,9 @@
 {
     "extensions": [
         "/opt/cs50/extensions/cs50-0.0.1.vsix",
-        "/opt/cs50/extensions/ddb50-0.0.1.vsix",
-        "/opt/cs50/extensions/extension-uninstaller-0.0.1.vsix",
         "/opt/cs50/extensions/phpliteadmin-0.0.1.vsix",
+        "cs50.ddb50",
+        "cs50.extension-uninstaller",
         "ms-python.python",
         "ms-vscode.cpptools",
         "ms-vscode.hexeditor",
