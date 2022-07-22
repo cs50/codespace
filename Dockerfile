@@ -61,7 +61,7 @@ ARG VCS_REF
 
 
 # Install VS Code extensions
-RUN npm install -g vsce && \
+RUN npm install -g vsce yarn && \
     mkdir --parents /opt/cs50/extensions && \
     cd /tmp && \
     git clone https://github.com/cs50/cs50.vsix.git && \
@@ -79,7 +79,14 @@ RUN npm install -g vsce && \
     mv phpliteadmin-0.0.1.vsix /opt/cs50/extensions && \
     cd /tmp && \
     rm --force --recursive phpliteadmin.vsix && \
-    npm uninstall -g vsce
+    git clone https://github.com/cs50/workspace-layout && \
+    cd workspace-layout && \
+    npm install && \
+    vsce package && \
+    mv workspace-layout-0.0.7.vsix /opt/cs50/extensions && \
+    cd /tmp && \
+    rm --force --recursive workspace-layout && \
+    npm uninstall -g vsce yarn
 
 
 # Copy files to image
