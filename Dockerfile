@@ -49,13 +49,6 @@ RUN apt update && \
     apt install acl
 
 
-# Temporary workaround for https://github.com/MicrosoftDocs/live-share/issues/4646
-RUN echo "deb http://security.ubuntu.com/ubuntu impish-security main" | sudo tee /etc/apt/sources.list.d/impish-security.list
-RUN sudo apt update
-RUN sudo apt install --no-install-recommends --yes \
-    libssl1.1
-
-
 # Invalidate caching for the remaining instructions
 ARG VCS_REF
 
