@@ -50,10 +50,8 @@ RUN apt update && \
 
 
 # Temporary workaround for https://github.com/MicrosoftDocs/live-share/issues/4646
-RUN echo "deb http://security.ubuntu.com/ubuntu impish-security main" | sudo tee /etc/apt/sources.list.d/impish-security.list
-RUN sudo apt update
-RUN sudo apt install --no-install-recommends --yes \
-    libssl1.1
+RUN wget http://archive.ubuntu.com/ubuntu/pool/main/o/openssl/libssl1.1_1.1.1f-1ubuntu2.16_amd64.deb && \
+    dpkg -i libssl1.1_1.1.1f-1ubuntu2.16_amd64.deb
 
 
 # Invalidate caching for the remaining instructions
