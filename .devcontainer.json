@@ -5,6 +5,7 @@
         "/opt/cs50/extensions/workspace-layout-0.0.7.vsix",
         "cs50.ddb50",
         "cs50.extension-uninstaller",
+        "cs50.vscode-presentation-mode",
         "ms-python.python",
         "ms-vscode.cpptools",
         "ms-vscode.hexeditor",
