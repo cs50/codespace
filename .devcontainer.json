@@ -55,6 +55,7 @@
         "extension-uninstaller.uninstall": [
             "github.copilot",
             "github.copilot-nightly",
+            "ms-toolsai.jupyter",
             "tabnine.tabnine-vscode"
         ],
         "files.autoSave": "afterDelay",
