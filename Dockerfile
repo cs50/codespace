@@ -77,6 +77,13 @@ RUN npm install -g vsce yarn && \
     mv phpliteadmin-0.0.1.vsix /opt/cs50/extensions && \
     cd /tmp && \
     rm --force --recursive phpliteadmin.vsix && \
+    git clone https://github.com/cs50/gitdoc && \
+    cd gitdoc && \
+    npm install --ignore-scripts && \
+    vsce package && \
+    mv gitdoc-0.0.9.vsix /opt/cs50/extensions && \
+    cd /tmp && \
+    rm --force --recursive gitdoc && \
     git clone https://github.com/cs50/workspace-layout && \
     cd workspace-layout && \
     npm install && \
