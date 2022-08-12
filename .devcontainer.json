@@ -2,7 +2,6 @@
     "extensions": [
         "/opt/cs50/extensions/cs50-0.0.1.vsix",
         "/opt/cs50/extensions/phpliteadmin-0.0.1.vsix",
-        "/opt/cs50/extensions/gitdoc-0.0.9.vsix",
         "/opt/cs50/extensions/workspace-layout-0.0.7.vsix",
         "cs50.ddb50",
         "cs50.extension-uninstaller",
@@ -11,7 +10,8 @@
         "ms-vscode.cpptools",
         "ms-vscode.hexeditor",
         "ms-vsliveshare.vsliveshare-pack",
-        "tomoki1207.pdf"
+        "tomoki1207.pdf",
+        "vsls-contrib.gitdoc"
     ],
     "image": "ghcr.io/cs50/codespace",
     "postCreateCommand": "/opt/cs50/bin/postCreateCommand",
@@ -73,7 +73,7 @@
         "git.decorations.enabled": false,
         "gitdoc.autoPull": "off",
         "gitdoc.enabled": true,
-        "gitdoc.commitMessageFormat": "ddd, MMM D, YYYY, h:mm A Z",
+        "gitdoc.commitMessageFormat": "ccc, LLL d, kkkk, h:mm a ZZ",
         "gitdoc.commitValidationLevel": "none",
         "gitdoc.pullOnOpen": false,
         "html.suggest.html5": false,
