@@ -27,14 +27,18 @@
         "editor.emptySelectionClipboard": false,
         "editor.folding": false,
         "editor.foldingHighlight": false,
+        "editor.guides.indentation": false,
         "editor.hover.enabled": false,
         "editor.lightbulb.enabled": false,
         "editor.matchBrackets": "near",
         "editor.minimap.enabled": false,
         "editor.occurrencesHighlight": false,
         "editor.parameterHints.enabled": false,
-        "editor.quickSuggestions": false,
-        "editor.renderIndentGuides": false,
+        "editor.quickSuggestions":{
+            "other": "off",
+            "comments": "off",
+            "strings": "off"
+        },
         "editor.renderWhitespace": "selection",
         "editor.selectionHighlight": false,
         "editor.semanticTokenColorCustomizations": {
@@ -91,8 +95,9 @@
         "terminal.integrated.profiles.linux": {
             "bash": {
                 "args": [
-                    "-l"
+                    "--login"
                 ],
+                "icon": "terminal",
                 "path": "bash"
             },
             "JavaScript Debug Terminal": null
@@ -116,7 +121,6 @@
         },
         "workbench.editor.closeOnFileDelete": true,
         "workbench.editor.untitled.hint": "hidden",
-        "workbench.enableExperiments": false,
         "workbench.iconTheme": "vs-minimal", /* Simplify icons */
         "workbench.preferredDarkColorTheme": "Default Dark+",
         "workbench.preferredLightColorTheme": "Default Light+",
