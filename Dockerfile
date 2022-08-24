@@ -49,12 +49,6 @@ RUN apt update && \
     apt install acl
 
 
-# Temporary workaround for https://github.com/MicrosoftDocs/live-share/issues/4646
-RUN wget http://archive.ubuntu.com/ubuntu/pool/main/o/openssl/libssl1.1_1.1.1f-1ubuntu2.16_amd64.deb -P/tmp && \
-    dpkg -i /tmp/libssl1.1_1.1.1f-1ubuntu2.16_amd64.deb && \
-    rm -rf /tmp/libssl1.1_1.1.1f-1ubuntu2.16_amd64.deb
-
-
 # Invalidate caching for the remaining instructions
 ARG VCS_REF
 
