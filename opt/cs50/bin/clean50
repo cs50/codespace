@@ -10,14 +10,14 @@ fi
 git gc
 
 # Run BFG repo cleaner to remove large files from the commit history
-java -jar /home/ubuntu/$BFG --no-blob-protection --strip-blobs-bigger-than 99M
+java -jar /home/ubuntu/$BFG --no-blob-protection --strip-blobs-bigger-than 100M
 git reflog expire --expire=now --all
 git gc --prune=now --aggressive
 
 # Unstage all changes
 git reset .
 
-# Add large files to .gitignore
-find . -size +99M | cut -c 2- | cat >> .gitignore
+# Automatically ignore all large files
+find . -size +100M | cut -c 2- | cat >> .gitignore
 awk '!NF||$1~/^#/ {print; next} {$1=$1} !seen[$0]++' .gitignore > /tmp/.gitignore
 mv -f /tmp/.gitignore .gitignore

@@ -48,3 +48,8 @@ vendor/
 !*.txt
 !Makefile
 EOT
+
+# Automatically ignore all large files
+find . -size +100M | cut -c 2- | cat >> .gitignore
+awk '!NF||$1~/^#/ {print; next} {$1=$1} !seen[$0]++' .gitignore > /tmp/.gitignore
+mv -f /tmp/.gitignore .gitignore
