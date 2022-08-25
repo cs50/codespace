@@ -84,6 +84,41 @@
         "javascript.suggest.enabled": false,
         "javascript.validate.enable": false, /* Disable red squiggles */
         "problems.decorations.enabled": false,
+        "presentation-mode.active": {
+            "commands": [
+                "workbench.action.closeSidebar"
+            ],
+            "editor.matchBrackets": "never",
+            "editor.minimap.enabled": false,
+            "editor.scrollbar.verticalScrollbarSize": 0,
+            "workbench.activityBar.visible": false,
+            "workbench.statusBar.visible": false,
+            "workbench.colorCustomizations": {
+                "[GitHub Dark Default]": {
+                    "activityBar.background": "#000",
+                    "editor.background": "#000",
+                    "editor.lineHighlightBackground": "#0000",
+                    "editor.lineHighlightBorder": "#0000",
+                    "panel.background": "#000",
+                    "sideBar.background": "#000",
+                    "terminal.background": "#000"
+                },
+                "[GitHub Light Default]": {
+                    "activityBar.background": "#fff",
+                    "editor.background": "#fff",
+                    "editor.lineHighlightBackground": "#fff0",
+                    "editor.lineHighlightBorder": "#fff0",
+                    "panel.background": "#fff",
+                    "sideBar.background": "#fff",
+                    "terminal.background": "#fff"
+                }
+            }
+        },
+        "presentation-mode.inactive": {
+            "commands": [
+                "workbench.action.focusSideBar"
+            ]
+        },
         "remote.otherPortsAttributes": {
             "onAutoForward": "silent"
         },
