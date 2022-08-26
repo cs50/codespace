@@ -49,6 +49,11 @@ RUN apt update && \
     apt install acl
 
 
+# Install BFG
+RUN wget https://repo1.maven.org/maven2/com/madgag/bfg/1.14.0/bfg-1.14.0.jar -P /opt/share && \
+    chown -R ubuntu:ubuntu /opt/share
+
+
 # Invalidate caching for the remaining instructions
 ARG VCS_REF
 
