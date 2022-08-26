@@ -54,6 +54,11 @@ RUN wget https://repo1.maven.org/maven2/com/madgag/bfg/1.14.0/bfg-1.14.0.jar -P 
     chown -R ubuntu:ubuntu /opt/share
 
 
+# Enforce login shell
+RUN echo "shopt -q login_shell || bash --login" >> /home/ubuntu/.bashrc && \
+    chown -R ubuntu:ubuntu /home/ubuntu/.bashrc
+
+
 # Invalidate caching for the remaining instructions
 ARG VCS_REF
 
