@@ -76,6 +76,8 @@
         },
         "git.autofetch": true, /* Disable "Would you like Code to periodically run 'git fetch'?" toast */
         "git.decorations.enabled": false,
+        "git.terminalAuthentication": true,
+        "github.gitAuthentication": true,
         "gitdoc.autoPull": "off",
         "gitdoc.enabled": true,
         "gitdoc.commitMessageFormat": "ccc, LLL d, kkkk, h:mm a ZZ",
