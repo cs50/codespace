@@ -31,7 +31,7 @@
         "editor.guides.indentation": false,
         "editor.hover.enabled": false,
         "editor.lightbulb.enabled": false,
-        "editor.matchBrackets": "near",
+        "editor.matchBrackets": "never",
         "editor.minimap.enabled": false,
         "editor.occurrencesHighlight": false,
         "editor.parameterHints.enabled": false,
@@ -41,18 +41,17 @@
             "strings": "off"
         },
         "editor.renderWhitespace": "selection",
+        "editor.scrollbar.verticalScrollbarSize": 0,
         "editor.selectionHighlight": false,
         "editor.semanticTokenColorCustomizations": {
-            "[Default Dark+]": {
-                "enabled": true,
+            "[GitHub Dark Default]": {
                 "rules": {
-                    "type": "#569CD6"
+                    "type": "#FF7E76"
                 }
             },
-            "[Default Light+]": {
-                "enabled": true,
+            "[GitHub Light Default]": {
                 "rules": {
-                    "type": "#0000FF"
+                    "type": "#D2343F"
                 }
             }
         },
@@ -90,34 +89,7 @@
         "presentation-mode.active": {
             "commands": [
                 "workbench.action.closeSidebar"
-            ],
-            "editor.matchBrackets": "never",
-            "editor.minimap.enabled": false,
-            "editor.scrollbar.verticalScrollbarSize": 0,
-            "workbench.activityBar.visible": false,
-            "workbench.statusBar.visible": false,
-            "workbench.colorCustomizations": {
-                "[GitHub Dark Default]": {
-                    "activityBar.background": "#000",
-                    "editor.background": "#000",
-                    "editor.lineHighlightBackground": "#0000",
-                    "editor.lineHighlightBorder": "#0000",
-                    "editorWhitespace.foreground": "#59A5FC",
-                    "panel.background": "#000",
-                    "sideBar.background": "#000",
-                    "terminal.background": "#000"
-                },
-                "[GitHub Light Default]": {
-                    "activityBar.background": "#fff",
-                    "editor.background": "#fff",
-                    "editor.lineHighlightBackground": "#fff0",
-                    "editor.lineHighlightBorder": "#fff0",
-                    "editorWhitespace.foreground": "#1167D7",
-                    "panel.background": "#fff",
-                    "sideBar.background": "#fff",
-                    "terminal.background": "#fff"
-                }
-            }
+            ]
         },
         "presentation-mode.inactive": {
             "commands": [
@@ -156,8 +128,27 @@
             "editorGutter.addedBackground": "#0000",
             "editorGutter.deletedBackground": "#0000",
             "editorGutter.modifiedBackground": "#0000", /* Disable yellow bars to left of lines modified since last commit */
+            "[GitHub Dark Default]": {
+                "activityBar.background": "#000",
+                "editor.background": "#000",
+                "editor.lineHighlightBackground": "#0000",
+                "editor.lineHighlightBorder": "#0000",
+                "editorWhitespace.foreground": "#59A5FC",
+                "panel.background": "#000",
+                "sideBar.background": "#000",
+                "terminal.foreground": "#fff",
+                "terminal.background": "#000"
+            },
             "[GitHub Light Default]": {
-                "terminal.foreground": "#000000" /* Change terminal font color to #000 for GitHub Light Default theme */
+                "activityBar.background": "#fff",
+                "editor.background": "#fff",
+                "editor.lineHighlightBackground": "#fff0",
+                "editor.lineHighlightBorder": "#fff0",
+                "editorWhitespace.foreground": "#1167D7",
+                "panel.background": "#fff",
+                "sideBar.background": "#fff",
+                "terminal.foreground": "#000",
+                "terminal.background": "#fff"
             }
         },
         "workbench.editor.closeOnFileDelete": true,
