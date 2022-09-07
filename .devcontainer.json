@@ -57,6 +57,7 @@
         },
         "editor.suggestOnTriggerCharacters": false,
         "extensions.ignoreRecommendations": true,
+        "explorer.compactFolders": false,
         "extension-uninstaller.uninstall": [
             "github.copilot",
             "github.copilot-nightly",
