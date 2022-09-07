@@ -41,7 +41,6 @@
             "strings": "off"
         },
         "editor.renderWhitespace": "selection",
-        "editor.scrollbar.verticalScrollbarSize": 0,
         "editor.selectionHighlight": false,
         "editor.semanticTokenColorCustomizations": {
             "[GitHub Dark Default]": {
