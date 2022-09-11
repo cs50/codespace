@@ -79,7 +79,7 @@ RUN npm install -g vsce yarn && \
     cd lab50.vsix && \
     npm install && \
     vsce package && \
-    mv cs50-lab-0.0.1.vsix /opt/cs50/extensions && \
+    mv lab50-1.0.0.vsix /opt/cs50/extensions && \
     cd /tmp && \
     rm --force --recursive lab50.vsix && \
     git clone https://github.com/cs50/phpliteadmin.vsix.git && \
