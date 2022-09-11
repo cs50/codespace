@@ -1,10 +1,10 @@
 {
     "extensions": [
         "/opt/cs50/extensions/cs50-0.0.1.vsix",
-        "/opt/cs50/extensions/lab50-1.0.0.vsix",
         "/opt/cs50/extensions/phpliteadmin-0.0.1.vsix",
         "cs50.ddb50",
         "cs50.extension-uninstaller",
+        "cs50.lab50",
         "cs50.vscode-presentation-mode",
         "ms-python.python",
         "ms-vscode.cpptools",

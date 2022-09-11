@@ -75,13 +75,6 @@ RUN npm install -g vsce yarn && \
     pip3 install python-clients/cs50vsix-client/ && \
     cd /tmp && \
     rm --force --recursive cs50.vsix && \
-    git clone https://github.com/cs50/lab50.vsix.git && \
-    cd lab50.vsix && \
-    npm install && \
-    vsce package && \
-    mv lab50-1.0.0.vsix /opt/cs50/extensions && \
-    cd /tmp && \
-    rm --force --recursive lab50.vsix && \
     git clone https://github.com/cs50/phpliteadmin.vsix.git && \
     cd phpliteadmin.vsix && \
     npm install && \
