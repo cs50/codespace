@@ -89,13 +89,6 @@ RUN npm install -g vsce yarn && \
     mv phpliteadmin-0.0.1.vsix /opt/cs50/extensions && \
     cd /tmp && \
     rm --force --recursive phpliteadmin.vsix && \
-    git clone https://github.com/cs50/workspace-layout && \
-    cd workspace-layout && \
-    npm install && \
-    vsce package && \
-    mv workspace-layout-0.0.7.vsix /opt/cs50/extensions && \
-    cd /tmp && \
-    rm --force --recursive workspace-layout && \
     npm uninstall -g vsce yarn
 
 

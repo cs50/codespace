@@ -3,7 +3,6 @@
         "/opt/cs50/extensions/cs50-0.0.1.vsix",
         "/opt/cs50/extensions/lab50-1.0.0.vsix",
         "/opt/cs50/extensions/phpliteadmin-0.0.1.vsix",
-        "/opt/cs50/extensions/workspace-layout-0.0.7.vsix",
         "cs50.ddb50",
         "cs50.extension-uninstaller",
         "cs50.vscode-presentation-mode",
