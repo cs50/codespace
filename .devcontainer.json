@@ -86,16 +86,6 @@
         "javascript.suggest.enabled": false,
         "javascript.validate.enable": false, /* Disable red squiggles */
         "problems.decorations.enabled": false,
-        "presentation-mode.active": {
-            "commands": [
-                "workbench.action.closeSidebar"
-            ]
-        },
-        "presentation-mode.inactive": {
-            "commands": [
-                "workbench.action.focusSideBar"
-            ]
-        },
         "remote.otherPortsAttributes": {
             "onAutoForward": "silent"
         },
