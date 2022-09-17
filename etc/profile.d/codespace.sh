@@ -34,9 +34,6 @@ if [ "$(whoami)" != "root" ]; then
     # Configure cd to default to workspace
     alias cd="HOME=\"$CODESPACE_VSCODE_FOLDER\" cd"
 
-    # Alias `code` to CS50's (which otherwise has lower priority in $PATH)
-    alias code="/opt/cs50/bin/code"
-
     # Rewrite URL in stderr
     # https://stackoverflow.com/a/52575087/5156190
     flask() {

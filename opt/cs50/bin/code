@@ -68,4 +68,5 @@ if [ "$options" = false ]; then
     done
 fi
 
-$(find $(dirname "$VSCODE_GIT_ASKPASS_NODE")/bin/remote-cli/ -name "code" -o -name "code-insiders") "$@"
+# since /opt/cs50/bin already have higher precedence in PATH
+$(which -a code | grep remote-cli) "$@"
