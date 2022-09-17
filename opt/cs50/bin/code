@@ -69,4 +69,4 @@ if [ "$options" = false ]; then
 fi
 
 # since /opt/cs50/bin already have higher precedence in PATH
-$(which -a code | grep remote-cli) "$@"
+$(which -a code | grep remote-cli) "$@" || $(which -a code-insiders | grep remote-cli) "$@"
