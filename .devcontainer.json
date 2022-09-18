@@ -10,7 +10,9 @@
         "ms-vscode.cpptools",
         "ms-vscode.hexeditor",
         "ms-vsliveshare.vsliveshare-pack",
+        "redhat.java",
         "tomoki1207.pdf",
+        "vscjava.vscode-java-debug",
         "vsls-contrib.gitdoc"
     ],
     "image": "ghcr.io/cs50/codespace",
@@ -83,6 +85,13 @@
         "gitdoc.commitValidationLevel": "none",
         "gitdoc.pullOnOpen": false,
         "html.suggest.html5": false,
+        "java.configuration.runtimes": [
+            {
+                "name": "JavaSE-18",
+                "path": "/opt/jdk-18.0.2.1", /* env | grep JAVA_HOME (set in cs50/cli) */
+                "default": true
+            }
+        ],
         "javascript.suggest.enabled": false,
         "javascript.validate.enable": false, /* Disable red squiggles */
         "problems.decorations.enabled": false,
