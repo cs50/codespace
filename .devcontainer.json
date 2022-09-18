@@ -85,6 +85,7 @@
         "gitdoc.commitValidationLevel": "none",
         "gitdoc.pullOnOpen": false,
         "html.suggest.html5": false,
+        "java.server.launchMode": "Standard",
         "java.configuration.runtimes": [
             {
                 "name": "JavaSE-18",
