@@ -93,6 +93,7 @@
                 "default": true
             }
         ],
+        "java.inlayHints.parameterNames.enabled": "none",
         "java.debug.settings.enableRunDebugCodeLens": false,
         "javascript.suggest.enabled": false,
         "javascript.validate.enable": false, /* Disable red squiggles */
