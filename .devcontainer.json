@@ -155,6 +155,7 @@
         },
         "window.commandCenter": false,
         "workbench.editor.closeOnFileDelete": true,
+        "workbench.editor.enablePreview": false,
         "workbench.editor.untitled.hint": "hidden",
         "workbench.iconTheme": "vs-minimal", /* Simplify icons */
         "workbench.preferredDarkColorTheme": "GitHub Dark Default",
