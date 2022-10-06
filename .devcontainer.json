@@ -154,6 +154,9 @@
             }
         },
         "window.commandCenter": false,
+        "workbench.editorAssociations": {
+            "*.wav": "vscode.audioPreview"
+        },
         "workbench.editor.closeOnFileDelete": true,
         "workbench.editor.enablePreview": false,
         "workbench.editor.untitled.hint": "hidden",
