@@ -155,7 +155,8 @@
         },
         "window.commandCenter": false,
         "workbench.editorAssociations": {
-            "*.wav": "vscode.audioPreview"
+            "*.wav": "vscode.audioPreview",
+            "README.md": "lab50.editor"
         },
         "workbench.editor.closeOnFileDelete": true,
         "workbench.editor.enablePreview": false,
