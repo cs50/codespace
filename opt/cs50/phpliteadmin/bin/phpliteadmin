@@ -37,7 +37,7 @@ def main():
         file.seek(0)
         file.write(content)
         file.truncate()
-        
+
     # Construct php command
     command = [EXECUTABLE]
     command.extend(['-S', f'{DEFAULT_HOST}:{DEFAULT_PORT}', '-t', tempDir])
@@ -59,7 +59,7 @@ def parse_args(args):
 def display_codespace_url(port):
     codespace_name = os.getenv('CODESPACE_NAME')
     if (codespace_name is not None):
-        local_address = f'https://{codespace_name}-{port}.githubpreview.dev/'
+        local_address = f'https://{codespace_name}-{port}.preview.app.github.dev/'
         msg = f"\nphpLiteAdmin running on {local_address}\n"
         print(termcolor.colored(msg, 'green'))
 
