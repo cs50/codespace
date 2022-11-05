@@ -24,6 +24,7 @@
         "C_Cpp.codeFolding": "Disabled",
         "C_Cpp.debugShortcut": false,
         "C_Cpp.dimInactiveRegions": false,
+        "C_Cpp.doxygen.generateOnType": false,
         "C_Cpp.enhancedColorization": "Enabled",
         "C_Cpp.errorSquiggles": "Disabled",
         "editor.autoClosingQuotes": "never",
