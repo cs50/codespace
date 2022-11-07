@@ -40,6 +40,14 @@ if [ "$(whoami)" != "root" ]; then
         command flask "$@" --host=127.0.0.1 2> >(_hostname >&2)
     }
 
+    # Generate a diagnostic report for troubleshooting
+    diagnose() {
+        code /workspaces/$RepositoryName/diagnose.log && \
+        cat /etc/issue > diagnose.log && \
+        code --list-extensions >> diagnose.log && \
+        pip3 show CS50-VSIX-Client >> diagnose.log 2>> diagnose.log
+    }
+
     # Discourage use of git in repository
     git() {
         if [[ "$PWD/" =~ ^/workspaces/"$RepositoryName"/ ]]; then
