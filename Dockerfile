@@ -103,9 +103,5 @@ RUN wget https://launchpad.net/ubuntu/+source/gdb/12.1-0ubuntu1/+build/23606376/
     rm -rf /tmp/gdb_12.1-0ubuntu1_amd64.deb
 
 
-# Monkey-patch flask app config to enable templates auto reload by default
-RUN sed -i 's/"TEMPLATES_AUTO_RELOAD": None/"TEMPLATES_AUTO_RELOAD": True/' /usr/local/lib/python3.10/site-packages/flask/app.py
-
-
 # Set user
 USER ubuntu
