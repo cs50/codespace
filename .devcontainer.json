@@ -16,6 +16,7 @@
         "vscjava.vscode-java-debug",
         "vsls-contrib.gitdoc"
     ],
+    "forwardPorts": [5000, 5900, 6081, 8080],
     "image": "ghcr.io/cs50/codespace",
     "postCreateCommand": "/opt/cs50/bin/postCreateCommand",
     "settings": {
