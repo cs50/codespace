@@ -16,7 +16,13 @@
         "vscjava.vscode-java-debug",
         "vsls-contrib.gitdoc"
     ],
-    "forwardPorts": [5000, 5900, 6081, 8080],
+    "forwardPorts": [
+        5000, // Flask
+        5900, // VNC server
+        6081, // VNC client
+        8080, // http-server
+        8082  // phpLiteAdmin
+    ],
     "image": "ghcr.io/cs50/codespace",
     "postCreateCommand": "/opt/cs50/bin/postCreateCommand",
     "settings": {
@@ -40,7 +46,7 @@
         "editor.minimap.enabled": false,
         "editor.occurrencesHighlight": false,
         "editor.parameterHints.enabled": false,
-        "editor.quickSuggestions":{
+        "editor.quickSuggestions": {
             "other": "off",
             "comments": "off",
             "strings": "off"
