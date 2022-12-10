@@ -85,6 +85,7 @@
             "**/node_modules/*/**": true
         },
         "git.autofetch": true, /* Disable "Would you like Code to periodically run 'git fetch'?" toast */
+        "github.codespaces.devcontainerChangedNotificationStyle": "none",
         "git.decorations.enabled": false,
         "git.terminalAuthentication": true,
         "github.gitAuthentication": true,
