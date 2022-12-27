@@ -1,0 +1,3 @@
+#!/usr/bin/bash
+
+echo -e "\n🐮 You seem to have typed (or copied/pasted) a dollar sign at the start of your command. Remember that a dollar sign simply represents your terminal window's prompt, not something you should actually type. Try again without the dollar sign!\n"
