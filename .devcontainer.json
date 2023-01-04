@@ -116,6 +116,7 @@
             "workbench.action.toggleSidebarVisibility"
         ],
         "terminal.integrated.defaultProfile.linux": "bash",
+        "terminal.integrated.gpuAcceleration": "off",
         "terminal.integrated.profiles.linux": {
             "bash": {
                 "args": [
