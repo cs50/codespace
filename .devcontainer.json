@@ -71,6 +71,7 @@
         "extension-uninstaller.uninstall": [
             "github.copilot",
             "github.copilot-nightly",
+            "ms-toolsai.vscode-jupyter-cell-tags",
             "tabnine.tabnine-vscode"
         ],
         "files.autoSave": "afterDelay",
