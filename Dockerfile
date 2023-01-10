@@ -49,6 +49,15 @@ RUN apt update && \
     apt install acl
 
 
+# Install Python packages
+RUN pip3 install \
+    matplotlib \
+    pandas \
+    Pillow \
+    scipy \
+    scikit-learn
+
+
 # Install BFG
 RUN wget https://repo1.maven.org/maven2/com/madgag/bfg/1.14.0/bfg-1.14.0.jar -P /opt/share && \
     chown -R ubuntu:ubuntu /opt/share
