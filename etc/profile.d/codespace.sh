@@ -48,6 +48,11 @@ if [ "$(whoami)" != "root" ]; then
         pip3 show CS50-VSIX-Client >> diagnose.log 2>> diagnose.log
     }
 
+    # Override --system credential.helper to use $CS50_TOKEN instead of $GITHUB_TOKEN
+    # https://stackoverflow.com/a/64868901
+    git config --global --replace-all credential.helper ""
+    git config --global --add credential.helper /opt/cs50/bin/gitcredential_github.sh
+
     # Discourage use of git in repository
     git() {
         if [[ "$PWD/" =~ ^/workspaces/"$RepositoryName"/ ]]; then
@@ -56,11 +61,6 @@ if [ "$(whoami)" != "root" ]; then
             command git "$@"
         fi
     }
-
-    # Override --system credential.helper to use $CS50_TOKEN instead of $GITHUB_TOKEN
-    # https://stackoverflow.com/a/64868901
-    git config --global --replace-all credential.helper ""
-    git config --global --add credential.helper /opt/cs50/bin/gitcredential_github.sh
 
     # Rewrite URLs in stdout
     http-server() {
