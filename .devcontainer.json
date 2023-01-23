@@ -25,6 +25,9 @@
     ],
     "image": "ghcr.io/cs50/codespace",
     "postCreateCommand": "/opt/cs50/bin/postCreateCommand",
+    "remoteEnv": { 
+        "GH_TOKEN": "${localEnv:CS50_TOKEN}"
+    },
     "settings": {
         "breadcrumbs.enabled": false,
         "C_Cpp.autocomplete": "Disabled",
