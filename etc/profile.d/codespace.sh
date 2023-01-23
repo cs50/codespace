@@ -56,8 +56,9 @@ if [ "$(whoami)" != "root" ]; then
             command git "$@"
         fi
     }
-    
+
     # Override --system credential.helper to use $CS50_TOKEN instead of $GITHUB_TOKEN
+    # https://stackoverflow.com/a/64868901
     git config --global --replace-all credential.helper ""
     git config --global --add credential.helper /opt/cs50/bin/gitcredential_github.sh
 
