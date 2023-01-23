@@ -70,10 +70,4 @@ if [ "$(whoami)" != "root" ]; then
     #
     # This resolves invisible GUI elements issues in noVNC
     export JAVA_TOOL_OPTIONS="-Dsun.java2d.opengl=true"
-
-    # Set time zone using Codespaces user secret
-    # https://docs.github.com/en/rest/codespaces/secrets
-    if [[ ! -z "$CS50_TZ" ]]; then
-        export TZ="$CS50_TZ"
-    fi
 fi
