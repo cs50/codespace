@@ -26,6 +26,7 @@
     "image": "ghcr.io/cs50/codespace",
     "postCreateCommand": "/opt/cs50/bin/postCreateCommand",
     "remoteEnv": { 
+        "GH_TOKEN": "${localEnv:CS50_TOKEN}",
         "TZ": "${localEnv:CS50_TZ}"
     },
     "settings": {
