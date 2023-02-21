@@ -12,13 +12,12 @@ RUN echo "deb-src http://archive.ubuntu.com/ubuntu/ focal main restricted" > /et
     apt update && \
     cd /tmp && \
     apt source glibc && \
-    rm --force /etc/apt/sources.list.d/_.list && \
+    rm -f /etc/apt/sources.list.d/_.list && \
     apt update && \
     mkdir --parents /build/glibc-sMfBJT && \
     mv glibc* /build/glibc-sMfBJT && \
     cd /build/glibc-sMfBJT \
-    rm --force --recursive *.tar.xz \
-    rm --force --recursive *.dsc
+    rm -rf *.tar.xz *.dsc
 
 
 # Install window manager, X server, x11vnc (VNC server), noVNC (VNC client)
@@ -27,7 +26,7 @@ RUN apt install openbox xvfb x11vnc -y
 RUN wget https://github.com/novnc/noVNC/archive/refs/tags/v1.3.0.zip -P/tmp && \
     unzip /tmp/v1.3.0.zip -d /tmp && \
     mv /tmp/noVNC-1.3.0 /opt/noVNC && \
-    rm -rf /tmp/noVNC-1.3.0 && \
+    rm -rf /tmp/noVNC-1.3.0 /tmp/v1.3.0.zip && \
     chown -R ubuntu:ubuntu /opt/noVNC
 
 
@@ -63,6 +62,16 @@ RUN wget https://repo1.maven.org/maven2/com/madgag/bfg/1.14.0/bfg-1.14.0.jar -P 
     chown -R ubuntu:ubuntu /opt/share
 
 
+# Install Lua 5.x
+RUN wget http://www.lua.org/ftp/lua-5.4.4.tar.gz -P/tmp && \
+    cd /tmp && \
+    tar zxf lua-5.4.4.tar.gz && \
+    cd lua-5.4.4 && \
+    make all install && \
+    cd /tmp && \
+    rm -rf /tmp/lua-5.4.4*
+
+
 # Enforce login shell
 RUN echo "shopt -q login_shell || bash --login" >> /home/ubuntu/.bashrc && \
     chown -R ubuntu:ubuntu /home/ubuntu/.bashrc
@@ -83,14 +92,14 @@ RUN npm install -g vsce yarn && \
     mv cs50-0.0.1.vsix /opt/cs50/extensions && \
     pip3 install python-clients/cs50vsix-client/ && \
     cd /tmp && \
-    rm --force --recursive cs50.vsix && \
+    rm -rf cs50.vsix && \
     git clone https://github.com/cs50/phpliteadmin.vsix.git && \
     cd phpliteadmin.vsix && \
     npm install && \
     vsce package && \
     mv phpliteadmin-0.0.1.vsix /opt/cs50/extensions && \
     cd /tmp && \
-    rm --force --recursive phpliteadmin.vsix && \
+    rm -rf phpliteadmin.vsix && \
     npm uninstall -g vsce yarn
 
 
