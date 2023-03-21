@@ -108,6 +108,7 @@
                 "terminal.integrated.commandsToSkipShell": [
                     "workbench.action.toggleSidebarVisibility"
                 ],
+                "terminal.integrated.enableBell": true,
                 "terminal.integrated.defaultProfile.linux": "bash",
                 "terminal.integrated.gpuAcceleration": "off",
                 "terminal.integrated.profiles.linux": {
