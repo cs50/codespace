@@ -176,6 +176,9 @@
             }
         }
     },
+    "features": {
+        "ghcr.io/devcontainers/features/docker-in-docker:2": {}
+    },
     "forwardPorts": [
         5000, // Flask
         5900, // VNC server
