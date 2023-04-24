@@ -36,6 +36,7 @@ RUN apt update && \
         dwarfdump \
         jq \
         manpages-dev \
+        mysql-client \
         pgloader \
         php-cli \
         php-mbstring \
