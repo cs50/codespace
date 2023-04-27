@@ -3,6 +3,6 @@
 set -o pipefail
 
 # GET and execute latest update50.sh, passing in any command-line arguments
-if ! bash <(curl --fail --header "Cache-Control: no-cache" --silent --location https://code.cs50.io/update50.sh) "$@"; then
+if ! bash <(curl --fail --header "Cache-Control: no-cache" --silent --location https://cs50.dev/update50.sh) "$@"; then
     echo "Unable to update codespace. Try again in a few minutes!"
 fi
