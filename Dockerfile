@@ -40,7 +40,8 @@ RUN apt update && \
         pgloader \
         php-cli \
         php-mbstring \
-        php-sqlite3
+        php-sqlite3 \
+        postgresql
 
 
 # For temporarily removing ACLs via opt/cs50/bin/postCreateCommand
@@ -112,7 +113,7 @@ RUN chmod a+rx /opt/cs50/phpliteadmin/bin/phpliteadmin
 RUN ln --symbolic /opt/cs50/phpliteadmin/bin/phpliteadmin /opt/cs50/bin/phpliteadmin
 
 
-# Temporary workaround for https://github.com/cs50/code.cs50.io/issues/19
+# Temporary workaround for https://github.com/cs50/cs50.dev/issues/19
 RUN echo "if [ -z \"\$_PROFILE_D\" ] ; then for i in /etc/profile.d/*.sh; do if ["$i" == "/etc/profile.d/debuginfod*"] ; then continue; fi; . \"\$i\"; done; export _PROFILE_D=1; fi"
 
 
