@@ -1,4 +1,31 @@
-.*
-!.devcontainer.json
-!.github/
-!.gitignore
+# Ignore everything
+*
+
+# But don't ignore folders
+!*/
+
+# But do ignore these folders
+node_modules/
+vendor/
+
+# But don't ignore these files
+!/.devcontainer.json
+!/.vscode/settings.json
+
+# But don't ignore these types of files
+!*.c
+!*.cpp
+!*.css
+!*.db
+!*.h
+!*.html
+!*.java
+!*.js
+!*.md
+!*.py
+!*.sql
+!*.ts
+!*.txt
+!Makefile
+
+# Ignore files larger than 100M
