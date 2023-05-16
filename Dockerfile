@@ -95,6 +95,13 @@ RUN npm install -g vsce yarn && \
     pip3 install python-clients/cs50vsix-client/ && \
     cd /tmp && \
     rm -rf cs50.vsix && \
+    git clone https://github.com/cs50/explain50.vsix.git && \
+    cd explain50.vsix && \
+    npm install && \
+    vsce package && \
+    mv explain50-1.0.0.vsix /opt/cs50/extensions && \
+    cd /tmp && \
+    rm -rf explain50.vsix && \
     git clone https://github.com/cs50/phpliteadmin.vsix.git && \
     cd phpliteadmin.vsix && \
     npm install && \
