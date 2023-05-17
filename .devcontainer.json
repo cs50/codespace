@@ -186,13 +186,6 @@
     "features": {
         "ghcr.io/devcontainers/features/docker-in-docker:2": {}
     },
-    "forwardPorts": [
-        5000, // Flask
-        5900, // VNC server
-        6081, // VNC client
-        8080, // http-server
-        8082  // phpLiteAdmin
-    ],
     "postCreateCommand": "/opt/cs50/bin/postCreateCommand",
     "remoteEnv": {
         "CS50_GH_USER": "${localEnv:GITHUB_USER}",
