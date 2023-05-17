@@ -27,15 +27,11 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build (latest)
-        uses: docker/build-push-action@v3
         if: ${{ github.ref == 'refs/heads/main' }}
-        with:
-          build-args: |
-            VCS_REF=${{ github.sha }}
-          load: true
-          tags: cs50/codespace:${{ github.sha }},cs50/codespace:latest
-          cache-from: type=registry,ref=cs50/codespace:buildcache
-          cache-to: type=registry,ref=cs50/codespace:buildcache,mode=max
+        run: |
+          export VCS_REF=$(git rev-parse HEAD)
+          npm install -g @devcontainers/cli
+          devcontainer build --workspace-folder . --image-name cs50/codespace:${{ github.sha }} --image-name cs50/codespace:latest
 
       - name: Push (latest) to GitHub Packages
         if: ${{ github.ref == 'refs/heads/main' }}
