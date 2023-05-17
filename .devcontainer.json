@@ -186,7 +186,13 @@
         8080, // http-server
         8082  // phpLiteAdmin
     ],
-    "image": "ghcr.io/cs50/codespace",
+    "build": {
+        "args": {
+            "VCS_REF": "${localEnv:VCS_REF}"
+        },
+        "context": ".",
+        "dockerfile": "Dockerfile"
+    },
     "postCreateCommand": "/opt/cs50/bin/postCreateCommand",
     "remoteEnv": {
         "CS50_GH_USER": "${localEnv:GITHUB_USER}",
