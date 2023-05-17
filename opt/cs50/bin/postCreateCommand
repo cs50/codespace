@@ -57,4 +57,4 @@ awk '!NF||$1~/^#/ {print; next} {$1=$1} !seen[$0]++' .gitignore > /tmp/.gitignor
 mv -f /tmp/.gitignore .gitignore
 
 # run docker pull
-docker pull cs50/cli:latest
+nohup bash -c 'docker pull cs50/cli:latest &'
