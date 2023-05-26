@@ -1,0 +1,10 @@
+{
+    "forwardPorts": [
+        5000, // Flask
+        5900, // VNC server
+        6081, // VNC client
+        8080, // http-server
+        8082  // phpLiteAdmin
+    ],
+    "image": "ghcr.io/cs50/codespace"
+}
