@@ -109,6 +109,7 @@
                 "javascript.suggest.enabled": false,
                 "javascript.validate.enable": false, /* Disable red squiggles */
                 "problems.decorations.enabled": false,
+                "python.formatting.provider": "black",
                 "remote.otherPortsAttributes": {
                     "onAutoForward": "silent"
                 },
