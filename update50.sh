@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Get remote JSON
-remote=$(curl --fail --header "Cache-Control: no-cache" --silent --location https://cs50.dev/.devcontainer.json)
+remote=$(curl --fail --header "Cache-Control: no-cache" --silent --location https://cs50.dev/dist/.devcontainer.json)
 if [ $? -ne 0 ]; then
     echo "Could not update codespace. Try again later."
     exit 1
