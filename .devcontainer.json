@@ -35,6 +35,7 @@
                 "C_Cpp.doxygen.generateOnType": false,
                 "C_Cpp.enhancedColorization": "enabled",
                 "C_Cpp.errorSquiggles": "disabled",
+                "diffEditor.diffAlgorithm": "advanced",
                 "editor.autoClosingQuotes": "never",
                 "editor.colorDecorators": false,
                 "editor.emptySelectionClipboard": false,
