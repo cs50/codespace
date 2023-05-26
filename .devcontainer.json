@@ -29,18 +29,21 @@
             "settings": {
                 "breadcrumbs.enabled": false,
                 "C_Cpp.autocomplete": "disabled",
+                "C_Cpp.clang_format_fallbackStyle": "{ BraceWrapping: { AfterCaseLabel: true, AfterControlStatement: true, AfterFunction: true, AfterStruct: true, BeforeElse: true, BeforeWhile: true }, BreakBeforeBraces: Custom, ColumnLimit: 132, IndentWidth: 4, AllowShortFunctionsOnASingleLine: Empty, SpaceAfterCStyleCast: true, TabWidth: 4 }",
                 "C_Cpp.codeFolding": "disabled",
                 "C_Cpp.debugShortcut": false,
                 "C_Cpp.dimInactiveRegions": false,
                 "C_Cpp.doxygen.generateOnType": false,
                 "C_Cpp.enhancedColorization": "enabled",
                 "C_Cpp.errorSquiggles": "disabled",
+                "C_Cpp.formatting": "clangFormat",
                 "diffEditor.diffAlgorithm": "advanced",
                 "editor.autoClosingQuotes": "never",
                 "editor.colorDecorators": false,
                 "editor.emptySelectionClipboard": false,
                 "editor.folding": false,
                 "editor.foldingHighlight": false,
+                "editor.formatOnSave": false,
                 "editor.guides.indentation": false,
                 "editor.hover.enabled": false,
                 "editor.lightbulb.enabled": false,
@@ -96,17 +99,19 @@
                 "gitdoc.commitMessageFormat": "ccc, LLL d, kkkk, h:mm a ZZ",
                 "gitdoc.commitValidationLevel": "none",
                 "gitdoc.pullOnOpen": false,
+                "html.format.indentInnerHtml": true,
                 "html.suggest.html5": false,
                 "java.server.launchMode": "Standard",
                 "java.configuration.runtimes": [
                     {
-                        "name": "JavaSE-18",
+                        "name": "JavaSE-19",
                         "path": "/opt/jdk-19.0.2", /* env | grep JAVA_HOME (set in cs50/cli) */
                         "default": true
                     }
                 ],
                 "java.inlayHints.parameterNames.enabled": "none",
                 "java.debug.settings.enableRunDebugCodeLens": false,
+                "javascript.format.insertSpaceAfterFunctionKeywordForAnonymousFunctions": false,
                 "javascript.suggest.enabled": false,
                 "javascript.validate.enable": false, /* Disable red squiggles */
                 "problems.decorations.enabled": false,
