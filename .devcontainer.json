@@ -39,6 +39,7 @@
                 "C_Cpp.errorSquiggles": "disabled",
                 "C_Cpp.formatting": "clangFormat",
                 "diffEditor.diffAlgorithm": "advanced",
+                "diffEditor.ignoreTrimWhitespace": false,
                 "editor.autoClosingQuotes": "never",
                 "editor.colorDecorators": false,
                 "editor.emptySelectionClipboard": false,
