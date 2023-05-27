@@ -111,6 +111,13 @@ RUN npm install -g vsce yarn && \
     mv phpliteadmin-0.0.1.vsix /opt/cs50/extensions && \
     cd /tmp && \
     rm -rf phpliteadmin.vsix && \
+    git clone https://github.com/cs50/style50.vsix.git && \
+    cd style50.vsix && \
+    npm install && \
+    vsce package && \
+    mv style50-0.0.1.vsix /opt/cs50/extensions && \
+    cd /tmp && \
+    rm -rf style50.vsix && \
     npm uninstall -g vsce yarn
 
 
