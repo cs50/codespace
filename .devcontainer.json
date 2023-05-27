@@ -213,6 +213,7 @@
     "remoteEnv": {
         "CS50_GH_USER": "${localEnv:GITHUB_USER}",
         "GH_TOKEN": "${localEnv:CS50_TOKEN}",
+        "LANG": "${localEnv:CS50_LANG}",
         "TZ": "${localEnv:CS50_TZ}"
     }
 }
