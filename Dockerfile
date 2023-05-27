@@ -33,6 +33,7 @@ RUN wget https://github.com/novnc/noVNC/archive/refs/tags/v1.4.0.zip -P/tmp && \
 # Install Ubuntu packages
 RUN apt update && \
     apt install --no-install-recommends --yes \
+        clang-format \
         dwarfdump \
         jq \
         manpages-dev \
