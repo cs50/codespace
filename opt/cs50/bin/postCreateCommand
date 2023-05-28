@@ -56,5 +56,6 @@ find . -size +100M | cut -c 2- | cat >> .gitignore
 awk '!NF||$1~/^#/ {print; next} {$1=$1} !seen[$0]++' .gitignore > /tmp/.gitignore
 mv -f /tmp/.gitignore .gitignore
 
-# run docker pull
-nohup bash -c 'docker pull cs50/cli:latest &'
+# run docker pull with cpu limit
+nohup bash -c "sudo cpulimit --pid=$(pidof dockerd) --limit=30 &" > /dev/null 2>&1
+nohup bash -c "(sleep 3m && docker pull cs50/cli:latest && sudo kill $(pidof cpulimit)) &" > /dev/null 2>&1

@@ -34,6 +34,7 @@ RUN wget https://github.com/novnc/noVNC/archive/refs/tags/v1.4.0.zip -P/tmp && \
 RUN apt update && \
     apt install --no-install-recommends --yes \
         clang-format \
+        cpulimit \
         dwarfdump \
         jq \
         manpages-dev \
