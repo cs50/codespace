@@ -33,6 +33,8 @@ RUN wget https://github.com/novnc/noVNC/archive/refs/tags/v1.4.0.zip -P/tmp && \
 # Install Ubuntu packages
 RUN apt update && \
     apt install --no-install-recommends --yes \
+        clang-format \
+        cpulimit \
         dwarfdump \
         jq \
         manpages-dev \
@@ -96,13 +98,13 @@ RUN npm install -g vsce yarn && \
     pip3 install python-clients/cs50vsix-client/ && \
     cd /tmp && \
     rm -rf cs50.vsix && \
-    git clone https://github.com/cs50/explain50.vsix.git && \
-    cd explain50.vsix && \
+    git clone https://github.com/cs50/ai50.vsix.git && \
+    cd ai50.vsix && \
     npm install && \
     vsce package && \
-    mv explain50-1.0.0.vsix /opt/cs50/extensions && \
+    mv ai50-1.0.0.vsix /opt/cs50/extensions && \
     cd /tmp && \
-    rm -rf explain50.vsix && \
+    rm -rf ai50.vsix && \
     git clone https://github.com/cs50/phpliteadmin.vsix.git && \
     cd phpliteadmin.vsix && \
     npm install && \
@@ -110,6 +112,13 @@ RUN npm install -g vsce yarn && \
     mv phpliteadmin-0.0.1.vsix /opt/cs50/extensions && \
     cd /tmp && \
     rm -rf phpliteadmin.vsix && \
+    git clone https://github.com/cs50/style50.vsix.git && \
+    cd style50.vsix && \
+    npm install && \
+    vsce package && \
+    mv style50-0.0.1.vsix /opt/cs50/extensions && \
+    cd /tmp && \
+    rm -rf style50.vsix && \
     npm uninstall -g vsce yarn
 
 
