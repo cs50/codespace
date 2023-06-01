@@ -55,6 +55,7 @@ RUN apt update && \
 # Install Python packages
 RUN pip3 install \
     black \
+    cli50 \
     matplotlib \
     pandas \
     Pillow \
