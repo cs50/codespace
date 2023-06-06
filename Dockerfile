@@ -56,7 +56,8 @@ ENV DISPLAY=":0"
 RUN pip3 install --no-cache-dir \
     black \
     cli50 \
-    matplotlib
+    matplotlib \
+    pytz
 
 
 # Install BFG
