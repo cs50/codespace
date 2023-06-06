@@ -48,7 +48,7 @@ RUN npm install -g vsce yarn && \
     npm install && \
     vsce package && \
     mv cs50-0.0.1.vsix /opt/cs50/extensions && \
-    pip3 install --no-cache-dir python-clients/cs50vsix-client/ && \
+    mv python-clients/cs50vsix-client /opt/cs50/extensions && \
     cd /tmp && \
     rm -rf cs50.vsix && \
     git clone https://github.com/cs50/ai50.vsix.git && \
@@ -80,14 +80,16 @@ FROM cs50/cli:amd64-minimized
 ARG DEBIAN_FRONTEND=noninteractive
 
 
+# Unset user
+USER root
+
+
 # Copy files from builder
 COPY --from=builder /build/glibc-sMfBJT /build/glibc-sMfBJT
 COPY --from=builder /opt/noVNC /opt/noVNC
 COPY --from=builder /opt/cs50/extensions /opt/cs50/extensions
-
-
-# Unset user
-USER root
+RUN pip3 install --no-cache-dir /opt/cs50/extensions/cs50vsix-client/ && \
+    rm -rf /opt/cs50/extensions/cs50vsix-client
 
 
 # set virtual display
