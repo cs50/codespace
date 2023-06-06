@@ -61,7 +61,8 @@ RUN apt update && \
 # Install Python packages
 RUN pip3 install --no-cache-dir \
     black \
-    cli50
+    cli50 \
+    matplotlib
 
 
 # Install BFG
