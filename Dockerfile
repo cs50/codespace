@@ -14,6 +14,7 @@ RUN echo "deb-src http://archive.ubuntu.com/ubuntu/ jammy main restricted" > /et
     apt install --no-install-recommends --yes dpkg-dev && \
     cd /tmp && \
     apt source glibc && \
+    rm -rf *.tar.* *.dsc && \
     mkdir --parents /build/glibc-sMfBJT && \
     tar --create --gzip --file /build/glibc-sMfBJT/glibc.tar.gz glibc*
 

@@ -61,4 +61,4 @@ nohup bash -c "docker pull cs50/cli &" > /dev/null 2>&1
 
 # unzip /build/glibc-sMfBJT/glibc.tar.gz
 sudo tar --extract --file /build/glibc-sMfBJT/glibc.tar.gz --directory /build/glibc-sMfBJT
-sudo rm -rf /build/glibc-sMfBJT/*.tar.* /build/glibc-sMfBJT/*.dsc
+sudo rm --force /build/glibc-sMfBJT/glibc.tar.gz
