@@ -9,7 +9,7 @@ USER root
 
 # Install glibc sources for debugger
 # https://github.com/Microsoft/vscode-cpptools/issues/1123#issuecomment-335867997
-RUN echo "deb-src http://archive.ubuntu.com/ubuntu/ focal main restricted" > /etc/apt/sources.list.d/_.list && \
+RUN echo "deb-src http://archive.ubuntu.com/ubuntu/ jammy main restricted" > /etc/apt/sources.list.d/_.list && \
     apt update && \
     apt install --no-install-recommends --yes dpkg-dev && \
     cd /tmp && \
@@ -133,16 +133,12 @@ RUN echo "shopt -q login_shell || bash --login" >> /home/ubuntu/.bashrc && \
     chown -R ubuntu:ubuntu /home/ubuntu/.bashrc
 
 
-# Invalidate caching for the remaining instructions
-ARG VCS_REF
-
-
 # Copy files to image
 COPY ./etc /etc
 COPY ./opt /opt
-RUN chmod a+rx /opt/cs50/bin/*
-RUN chmod a+rx /opt/cs50/phpliteadmin/bin/phpliteadmin
-RUN ln --symbolic /opt/cs50/phpliteadmin/bin/phpliteadmin /opt/cs50/bin/phpliteadmin
+RUN chmod a+rx /opt/cs50/bin/* && \
+    chmod a+rx /opt/cs50/phpliteadmin/bin/phpliteadmin && \
+    ln --symbolic /opt/cs50/phpliteadmin/bin/phpliteadmin /opt/cs50/bin/phpliteadmin
 
 
 # Temporary workaround for https://github.com/cs50/cs50.dev/issues/19
