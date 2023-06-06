@@ -1,4 +1,5 @@
-FROM cs50/cli:amd64
+# Build stage
+FROM cs50/cli:amd64-minimized as builder
 ARG DEBIAN_FRONTEND=noninteractive
 
 
@@ -10,6 +11,7 @@ USER root
 # https://github.com/Microsoft/vscode-cpptools/issues/1123#issuecomment-335867997
 RUN echo "deb-src http://archive.ubuntu.com/ubuntu/ focal main restricted" > /etc/apt/sources.list.d/_.list && \
     apt update && \
+    apt install --no-install-recommends --yes dpkg-dev && \
     cd /tmp && \
     apt source glibc && \
     mkdir --parents /build/glibc-sMfBJT && \
@@ -17,52 +19,6 @@ RUN echo "deb-src http://archive.ubuntu.com/ubuntu/ focal main restricted" > /et
     cd /build/glibc-sMfBJT \
     rm -rf *.tar.xz *.dsc && \
     rm -rf /var/lib/apt/lists/*
-
-
-# Install Ubuntu packages
-# Install acl for temporarily removing ACLs via opt/cs50/bin/postCreateCommand
-# https://github.community/t/bug-umask-does-not-seem-to-be-respected/129638/9
-RUN apt update && apt install --no-install-recommends --yes \
-    acl \
-    clang-format \
-    dwarfdump \
-    jq \
-    manpages-dev \
-    mysql-client \
-    openbox \
-    pgloader \
-    php-cli \
-    php-mbstring \
-    php-sqlite3 \
-    postgresql \
-    xvfb \
-    x11vnc && \
-    rm -rf /var/lib/apt/lists/*
-
-
-# noVNC (VNC client)
-RUN wget https://github.com/novnc/noVNC/archive/refs/tags/v1.4.0.zip -P/tmp && \
-    unzip /tmp/v1.4.0.zip -d /tmp && \
-    mv /tmp/noVNC-1.4.0 /opt/noVNC && \
-    rm -rf /tmp/noVNC-1.4.0 /tmp/v1.4.0.zip && \
-    chown -R ubuntu:ubuntu /opt/noVNC
-
-
-# set virtual display
-ENV DISPLAY=":0"
-
-
-# Install Python packages
-RUN pip3 install --no-cache-dir \
-    black \
-    cli50 \
-    matplotlib \
-    pytz
-
-
-# Install BFG
-RUN wget https://repo1.maven.org/maven2/com/madgag/bfg/1.14.0/bfg-1.14.0.jar -P /opt/share && \
-    chown -R ubuntu:ubuntu /opt/share
 
 
 # Install Lua 5.x
@@ -75,13 +31,12 @@ RUN wget http://www.lua.org/ftp/lua-5.4.4.tar.gz -P/tmp && \
     rm -rf /tmp/lua-5.4.4*
 
 
-# Enforce login shell
-RUN echo "shopt -q login_shell || bash --login" >> /home/ubuntu/.bashrc && \
-    chown -R ubuntu:ubuntu /home/ubuntu/.bashrc
-
-
-# Invalidate caching for the remaining instructions
-ARG VCS_REF
+# noVNC (VNC client)
+RUN wget https://github.com/novnc/noVNC/archive/refs/tags/v1.4.0.zip -P/tmp && \
+    unzip /tmp/v1.4.0.zip -d /tmp && \
+    mv /tmp/noVNC-1.4.0 /opt/noVNC && \
+    rm -rf /tmp/noVNC-1.4.0 /tmp/v1.4.0.zip && \
+    chown -R ubuntu:ubuntu /opt/noVNC
 
 
 # Install VS Code extensions
@@ -118,6 +73,68 @@ RUN npm install -g vsce yarn && \
     cd /tmp && \
     rm -rf style50.vsix && \
     npm uninstall -g vsce yarn
+
+
+# Final stage
+FROM cs50/cli:amd64-minimized
+ARG DEBIAN_FRONTEND=noninteractive
+
+
+# Copy files from builder
+COPY --from=builder /build/glibc-sMfBJT /build/glibc-sMfBJT
+COPY --from=builder /opt/noVNC /opt/noVNC
+COPY --from=builder /opt/cs50/extensions /opt/cs50/extensions
+
+
+# Unset user
+USER root
+
+
+# set virtual display
+ENV DISPLAY=":0"
+
+
+# Install Ubuntu packages
+# Install acl for temporarily removing ACLs via opt/cs50/bin/postCreateCommand
+# https://github.community/t/bug-umask-does-not-seem-to-be-respected/129638/9
+RUN apt update && apt install --no-install-recommends --yes \
+        acl \
+        clang-format \
+        dwarfdump \
+        jq \
+        manpages-dev \
+        mysql-client \
+        openbox \
+        pgloader \
+        php-cli \
+        php-mbstring \
+        php-sqlite3 \
+        postgresql \
+        xvfb \
+        x11vnc && \
+    apt clean
+
+
+# Install Python packages
+RUN pip3 install --no-cache-dir \
+    black \
+    cli50 \
+    matplotlib \
+    pytz
+
+
+# Install BFG
+RUN wget https://repo1.maven.org/maven2/com/madgag/bfg/1.14.0/bfg-1.14.0.jar -P /opt/share && \
+    chown -R ubuntu:ubuntu /opt/share
+
+
+# Enforce login shell
+RUN echo "shopt -q login_shell || bash --login" >> /home/ubuntu/.bashrc && \
+    chown -R ubuntu:ubuntu /home/ubuntu/.bashrc
+
+
+# Invalidate caching for the remaining instructions
+ARG VCS_REF
 
 
 # Copy files to image
