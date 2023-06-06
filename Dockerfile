@@ -12,8 +12,6 @@ RUN echo "deb-src http://archive.ubuntu.com/ubuntu/ focal main restricted" > /et
     apt update && \
     cd /tmp && \
     apt source glibc && \
-    rm -f /etc/apt/sources.list.d/_.list && \
-    apt update && \
     mkdir --parents /build/glibc-sMfBJT && \
     mv glibc* /build/glibc-sMfBJT && \
     cd /build/glibc-sMfBJT \
@@ -21,13 +19,28 @@ RUN echo "deb-src http://archive.ubuntu.com/ubuntu/ focal main restricted" > /et
     rm -rf /var/lib/apt/lists/*
 
 
-# Install window manager, X server, x11vnc (VNC server), noVNC (VNC client)
-ENV DISPLAY=":0"
+# Install Ubuntu packages
+# Install acl for temporarily removing ACLs via opt/cs50/bin/postCreateCommand
+# https://github.community/t/bug-umask-does-not-seem-to-be-respected/129638/9
 RUN apt update && apt install --no-install-recommends --yes \
+    acl \
+    clang-format \
+    dwarfdump \
+    jq \
+    manpages-dev \
+    mysql-client \
     openbox \
+    pgloader \
+    php-cli \
+    php-mbstring \
+    php-sqlite3 \
+    postgresql \
     xvfb \
-    x11vnc
+    x11vnc && \
+    rm -rf /var/lib/apt/lists/*
 
+
+# noVNC (VNC client)
 RUN wget https://github.com/novnc/noVNC/archive/refs/tags/v1.4.0.zip -P/tmp && \
     unzip /tmp/v1.4.0.zip -d /tmp && \
     mv /tmp/noVNC-1.4.0 /opt/noVNC && \
@@ -35,27 +48,8 @@ RUN wget https://github.com/novnc/noVNC/archive/refs/tags/v1.4.0.zip -P/tmp && \
     chown -R ubuntu:ubuntu /opt/noVNC
 
 
-# Install Ubuntu packages
-RUN apt update && \
-    apt install --no-install-recommends --yes \
-        clang-format \
-        dwarfdump \
-        jq \
-        manpages-dev \
-        mysql-client \
-        pgloader \
-        php-cli \
-        php-mbstring \
-        php-sqlite3 \
-        postgresql && \
-        rm -rf /var/lib/apt/lists/*
-
-
-# For temporarily removing ACLs via opt/cs50/bin/postCreateCommand
-# https://github.community/t/bug-umask-does-not-seem-to-be-respected/129638/9
-RUN apt update && \
-    apt install --no-install-recommends --yes acl && \
-    rm -rf /var/lib/apt/lists/*
+# set virtual display
+ENV DISPLAY=":0"
 
 
 # Install Python packages
