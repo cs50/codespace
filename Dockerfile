@@ -23,7 +23,7 @@ RUN wget http://www.lua.org/ftp/lua-5.4.4.tar.gz -P/tmp && \
     cd /tmp && \
     tar zxf lua-5.4.4.tar.gz && \
     cd lua-5.4.4 && \
-    make all install && \
+    make all test install && \
     cd /tmp && \
     rm -rf /tmp/lua-5.4.4*
 
@@ -83,6 +83,7 @@ USER root
 
 # Copy files from builder
 COPY --from=builder /build/glibc-sMfBJT /build/glibc-sMfBJT
+COPY --from=builder /usr/local/bin/lua /usr/local/bin/lua
 COPY --from=builder /opt/noVNC /opt/noVNC
 COPY --from=builder /opt/cs50/extensions /opt/cs50/extensions
 RUN pip3 install --no-cache-dir /opt/cs50/extensions/cs50vsix-client/ && \
