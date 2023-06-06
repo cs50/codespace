@@ -15,10 +15,7 @@ RUN echo "deb-src http://archive.ubuntu.com/ubuntu/ focal main restricted" > /et
     cd /tmp && \
     apt source glibc && \
     mkdir --parents /build/glibc-sMfBJT && \
-    mv glibc* /build/glibc-sMfBJT && \
-    cd /build/glibc-sMfBJT \
-    rm -rf *.tar.xz *.dsc && \
-    rm -rf /var/lib/apt/lists/*
+    tar --create --gzip --file /build/glibc-sMfBJT/glibc.tar.gz glibc*
 
 
 # Install Lua 5.x
