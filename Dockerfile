@@ -17,12 +17,17 @@ RUN echo "deb-src http://archive.ubuntu.com/ubuntu/ focal main restricted" > /et
     mkdir --parents /build/glibc-sMfBJT && \
     mv glibc* /build/glibc-sMfBJT && \
     cd /build/glibc-sMfBJT \
-    rm -rf *.tar.xz *.dsc
+    rm -rf *.tar.xz *.dsc && \
+    rm -rf /var/lib/apt/lists/*
 
 
 # Install window manager, X server, x11vnc (VNC server), noVNC (VNC client)
 ENV DISPLAY=":0"
-RUN apt install openbox xvfb x11vnc -y
+RUN apt update && apt install --no-install-recommends --yes \
+    openbox \
+    xvfb \
+    x11vnc
+
 RUN wget https://github.com/novnc/noVNC/archive/refs/tags/v1.4.0.zip -P/tmp && \
     unzip /tmp/v1.4.0.zip -d /tmp && \
     mv /tmp/noVNC-1.4.0 /opt/noVNC && \
@@ -42,24 +47,21 @@ RUN apt update && \
         php-cli \
         php-mbstring \
         php-sqlite3 \
-        postgresql
+        postgresql && \
+        rm -rf /var/lib/apt/lists/*
 
 
 # For temporarily removing ACLs via opt/cs50/bin/postCreateCommand
 # https://github.community/t/bug-umask-does-not-seem-to-be-respected/129638/9
 RUN apt update && \
-    apt install acl
+    apt install --no-install-recommends --yes acl && \
+    rm -rf /var/lib/apt/lists/*
 
 
 # Install Python packages
-RUN pip3 install \
+RUN pip3 install --no-cache-dir \
     black \
-    cli50 \
-    matplotlib \
-    pandas \
-    Pillow \
-    scipy \
-    scikit-learn
+    cli50
 
 
 # Install BFG
@@ -95,7 +97,7 @@ RUN npm install -g vsce yarn && \
     npm install && \
     vsce package && \
     mv cs50-0.0.1.vsix /opt/cs50/extensions && \
-    pip3 install python-clients/cs50vsix-client/ && \
+    pip3 install --no-cache-dir python-clients/cs50vsix-client/ && \
     cd /tmp && \
     rm -rf cs50.vsix && \
     git clone https://github.com/cs50/ai50.vsix.git && \
