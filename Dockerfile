@@ -19,6 +19,10 @@ RUN echo "deb-src http://archive.ubuntu.com/ubuntu/ jammy main restricted" > /et
     tar --create --gzip --file /build/glibc-sMfBJT/glibc.tar.gz glibc*
 
 
+# Install BFG
+RUN wget https://repo1.maven.org/maven2/com/madgag/bfg/1.14.0/bfg-1.14.0.jar -P /opt/share
+
+
 # Install Lua 5.x
 RUN wget http://www.lua.org/ftp/lua-5.4.4.tar.gz -P/tmp && \
     cd /tmp && \
@@ -29,7 +33,7 @@ RUN wget http://www.lua.org/ftp/lua-5.4.4.tar.gz -P/tmp && \
     rm -rf /tmp/lua-5.4.4*
 
 
-# noVNC (VNC client)
+# Install noVNC (VNC client)
 RUN wget https://github.com/novnc/noVNC/archive/refs/tags/v1.4.0.zip -P/tmp && \
     unzip /tmp/v1.4.0.zip -d /tmp && \
     mv /tmp/noVNC-1.4.0 /opt/noVNC && \
@@ -87,6 +91,8 @@ COPY --from=builder /build/glibc-sMfBJT /build/glibc-sMfBJT
 COPY --from=builder /usr/local/bin/lua /usr/local/bin/lua
 COPY --from=builder /opt/noVNC /opt/noVNC
 COPY --from=builder /opt/cs50/extensions /opt/cs50/extensions
+COPY --from=builder /opt/share/bfg-1.14.0.jar /opt/share/bfg-1.14.0.jar
+RUN chown -R ubuntu:ubuntu /opt/share
 RUN pip3 install --no-cache-dir /opt/cs50/extensions/cs50vsix-client/ && \
     rm -rf /opt/cs50/extensions/cs50vsix-client
 
@@ -113,7 +119,7 @@ RUN apt update && apt install --no-install-recommends --yes \
         postgresql \
         xvfb \
         x11vnc && \
-    apt clean
+        apt clean
 
 
 # Install Python packages
@@ -122,11 +128,6 @@ RUN pip3 install --no-cache-dir \
     cli50 \
     matplotlib \
     pytz
-
-
-# Install BFG
-RUN wget https://repo1.maven.org/maven2/com/madgag/bfg/1.14.0/bfg-1.14.0.jar -P /opt/share && \
-    chown -R ubuntu:ubuntu /opt/share
 
 
 # Enforce login shell
