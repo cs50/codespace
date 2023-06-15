@@ -39,7 +39,7 @@
             "settings": {
                 "breadcrumbs.enabled": false,
                 "C_Cpp.autocomplete": "disabled",
-                "C_Cpp.clang_format_fallbackStyle": "{ BraceWrapping: { AfterCaseLabel: true, AfterControlStatement: true, AfterFunction: true, AfterStruct: true, BeforeElse: true, BeforeWhile: true }, BreakBeforeBraces: Custom, ColumnLimit: 132, IndentWidth: 4, AllowShortFunctionsOnASingleLine: Empty, SpaceAfterCStyleCast: true, TabWidth: 4 }", /* https://clang.llvm.org/docs/ClangFormatStyleOptions.html */
+                "C_Cpp.clang_format_fallbackStyle": "{ AllowShortFunctionsOnASingleLine: Empty, BraceWrapping: { AfterCaseLabel: true, AfterControlStatement: true, AfterFunction: true, AfterStruct: true, BeforeElse: true, BeforeWhile: true }, BreakBeforeBraces: Custom, ColumnLimit: 132, IndentCaseLabels: true, IndentWidth: 4, SpaceAfterCStyleCast: true, TabWidth: 4 }", /* https://clang.llvm.org/docs/ClangFormatStyleOptions.html */
                 "C_Cpp.codeFolding": "disabled",
                 "C_Cpp.debugShortcut": false,
                 "C_Cpp.dimInactiveRegions": false,
