@@ -11,9 +11,9 @@
             "extensions": [
                 "/opt/cs50/extensions/ai50-1.0.0.vsix",
                 "/opt/cs50/extensions/cs50-0.0.1.vsix",
+                "/opt/cs50/extensions/ddb50-2.0.0.vsix",
                 "/opt/cs50/extensions/phpliteadmin-0.0.1.vsix",
                 "/opt/cs50/extensions/style50-0.0.1.vsix",
-                "cs50.ddb50",
                 "cs50.extension-uninstaller",
                 "ms-ceintl.vscode-language-pack-cs",
                 "ms-ceintl.vscode-language-pack-de",
