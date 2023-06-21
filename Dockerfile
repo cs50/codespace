@@ -45,6 +45,13 @@ RUN wget https://github.com/novnc/noVNC/archive/refs/tags/v1.4.0.zip -P/tmp && \
 RUN npm install -g vsce yarn && \
     mkdir --parents /opt/cs50/extensions && \
     cd /tmp && \
+    git clone https://github.com/cs50/ai50.vsix.git && \
+    cd ai50.vsix && \
+    npm install && \
+    vsce package && \
+    mv ai50-1.0.0.vsix /opt/cs50/extensions && \
+    cd /tmp && \
+    rm -rf ai50.vsix && \
     git clone https://github.com/cs50/cs50.vsix.git && \
     cd cs50.vsix && \
     npm install && \
@@ -53,13 +60,13 @@ RUN npm install -g vsce yarn && \
     mv python-clients/cs50vsix-client /opt/cs50/extensions && \
     cd /tmp && \
     rm -rf cs50.vsix && \
-    git clone https://github.com/cs50/ai50.vsix.git && \
-    cd ai50.vsix && \
+    git clone https://github.com/cs50/ddb50.vsix.git && \
+    cd ddb50.vsix && \
     npm install && \
     vsce package && \
-    mv ai50-1.0.0.vsix /opt/cs50/extensions && \
+    mv ddb50-2.0.0.vsix /opt/cs50/extensions && \
     cd /tmp && \
-    rm -rf ai50.vsix && \
+    rm -rf ddb50.vsix && \
     git clone https://github.com/cs50/phpliteadmin.vsix.git && \
     cd phpliteadmin.vsix && \
     npm install && \
