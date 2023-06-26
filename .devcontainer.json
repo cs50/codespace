@@ -85,6 +85,8 @@
                 "extensions.ignoreRecommendations": true,
                 "explorer.compactFolders": false,
                 "extension-uninstaller.uninstall": [
+                    "Codeium.codeium",
+                    "Codeium.codeium-enterprise-updater",
                     "github.copilot",
                     "github.copilot-nightly",
                     "ms-toolsai.vscode-jupyter-cell-tags",
