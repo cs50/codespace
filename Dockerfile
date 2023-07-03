@@ -134,6 +134,7 @@ RUN pip3 install --no-cache-dir \
     black \
     cli50 \
     matplotlib \
+    "pydantic<2" \
     pytz
 
 
