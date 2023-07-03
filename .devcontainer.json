@@ -15,6 +15,7 @@
                 "/opt/cs50/extensions/phpliteadmin-0.0.1.vsix",
                 "/opt/cs50/extensions/style50-0.0.1.vsix",
                 "cs50.extension-uninstaller",
+                "ms-ceintl.vscode-language-pack-bg",
                 "ms-ceintl.vscode-language-pack-cs",
                 "ms-ceintl.vscode-language-pack-de",
                 "ms-ceintl.vscode-language-pack-es",
