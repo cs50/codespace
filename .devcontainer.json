@@ -130,6 +130,7 @@
                 "javascript.validate.enable": false, /* Disable red squiggles */
                 "problems.decorations.enabled": false,
                 "python.formatting.provider": "black",
+                "python.terminal.executeInFileDir": true,
                 "remote.otherPortsAttributes": {
                     "onAutoForward": "silent"
                 },
