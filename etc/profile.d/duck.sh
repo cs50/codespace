@@ -16,7 +16,7 @@ _prompt_command() {
         mkdir --parents $(dirname "$SCRIPT")
 
         # Make a typescript of everything displayed in terminal
-        ## Reset terminal first so that `script` outputs "Script started..." immediately so we can truncate it
+        ## Write \r first so that `script` outputs "Script started..." immediately so we can truncate it
         script --append --command "echo -e -n '\r' && bash --login" --flush --quiet "$SCRIPT"
 
         # Remove typescript before exiting this shell
