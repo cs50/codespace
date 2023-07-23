@@ -114,6 +114,7 @@ ENV DISPLAY=":0"
 RUN apt update && apt install --no-install-recommends --yes \
         acl \
         clang-format \
+        colorized-logs `# For duck` \ 
         dwarfdump \
         jq \
         manpages-dev \
