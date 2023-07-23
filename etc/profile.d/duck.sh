@@ -57,7 +57,7 @@ _prompt_command() {
     # https://tldp.org/LDP/abs/html/exitcodes.html
     if [ $exit_status -ne 0 ] && [ $exit_status -ne 130 ] && [ $exit_status -ne 148 ]; then
         prompt=$(echo -e "Explain this error:\n\n$text")
-        command50 ddb50.ask "$prompt"
+        command50 ddb50.ask "$prompt" &
     fi
 }
 
