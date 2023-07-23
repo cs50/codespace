@@ -44,6 +44,9 @@ _prompt_command() {
     # Command's PWD (unused for now)
     local pwd="$PWD"
 
+    # File tree (unused for now)
+    local tree=$(find "$CODESPACE_VSCODE_FOLDER" -not -path '*/\.*' \( -type d -printf '%P/    \n' , -type f -printf '%P\n' \))
+
     # Typescript as text
     local text=$(echo "$typescript" | ansi2txt)
 
