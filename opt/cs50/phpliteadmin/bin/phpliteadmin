@@ -58,8 +58,9 @@ def parse_args(args):
 
 def display_codespace_url(port):
     codespace_name = os.getenv('CODESPACE_NAME')
+    port_forwarding_domain = os.getenv('GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN', 'app.github.dev')
     if (codespace_name is not None):
-        local_address = f'https://{codespace_name}-{port}.preview.app.github.dev/'
+        local_address = f'https://{codespace_name}-{port}.{port_forwarding_domain}/'
         msg = f"\nphpLiteAdmin running on {local_address}\n"
         print(termcolor.colored(msg, 'green'))
 
