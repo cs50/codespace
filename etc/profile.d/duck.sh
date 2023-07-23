@@ -6,9 +6,6 @@ _prompt_command() {
     # Append to history right away
     history -a
 
-    # Listen for ctl-c
-    trap 'sigint=1' SIGINT
-
     # If no typescript yet
     if [ -z "$SCRIPT" ]; then
 
@@ -56,12 +53,12 @@ _prompt_command() {
     # Truncate typescript before next command
     echo -n > "$SCRIPT"
 
-    # Ask duck for help
-    if [[ "$exit_status" -ne 0 && "$sigint" -ne 1 ]]; then
+    # Ask duck for help if exit status non-0 and not ctl-c or ctl-z
+    # https://tldp.org/LDP/abs/html/exitcodes.html
+    if [ $exit_status -ne 0 ] && [ $exit_status -ne 130 ] && [ $exit_status -ne 148 ]; then
         prompt=$(echo -e "Explain this error:\n\n$text")
         command50 ddb50.ask "$prompt"
     fi
-    sigint=0
 }
 
 export PROMPT_COMMAND=_prompt_command
