@@ -15,6 +15,7 @@
                 "/opt/cs50/extensions/phpliteadmin-0.0.1.vsix",
                 "/opt/cs50/extensions/style50-0.0.1.vsix",
                 "cs50.extension-uninstaller",
+                "inferrinizzard.prettier-sql-vscode",
                 "ms-ceintl.vscode-language-pack-bg",
                 "ms-ceintl.vscode-language-pack-cs",
                 "ms-ceintl.vscode-language-pack-de",
@@ -128,6 +129,7 @@
                 "javascript.format.insertSpaceAfterFunctionKeywordForAnonymousFunctions": false,
                 "javascript.suggest.enabled": false,
                 "javascript.validate.enable": false, /* Disable red squiggles */
+                "Prettier-SQL.keywordCase": "upper",
                 "problems.decorations.enabled": false,
                 "python.formatting.provider": "black",
                 "python.terminal.executeInFileDir": true,
