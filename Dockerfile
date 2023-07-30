@@ -133,6 +133,7 @@ RUN apt update && apt install --no-install-recommends --yes \
 RUN pip3 install --no-cache-dir \
     black \
     cli50 \
+    djhtml \
     matplotlib \
     "pydantic<2" \
     pytz
