@@ -1,10 +1,9 @@
-#!/usr/local/bin/python3
+#!/usr/bin/env python3
 
 import argparse
 import os
 import re
 import subprocess
-import sys
 import shutil
 import termcolor
 import tempfile
@@ -12,25 +11,24 @@ import tempfile
 
 DEFAULT_HOST = '127.0.0.1'
 DEFAULT_PORT = 8082
-PHP_FILE = f'/opt/cs50/phpliteadmin/share/index.php'
-PHP_THEME = f'/opt/cs50/phpliteadmin/share/phpliteadmin.css'
+PHP_FILE = '/opt/cs50/phpliteadmin/share/index.php'
+PHP_THEME = '/opt/cs50/phpliteadmin/share/phpliteadmin.css'
 EXECUTABLE = '/usr/bin/php'
 
 
 def main():
-
-    args = parse_args(sys.argv[1:])
+    args = parse_args()
 
     if not os.path.isfile(args.path):
         sys.exit("Database not found, exiting...")
 
     # Preparing files
-    tempDir = tempfile.mkdtemp()
-    shutil.copy(PHP_FILE, tempDir)
-    shutil.copy(PHP_THEME, tempDir)
+    temp_dir = tempfile.mkdtemp()
+    shutil.copy(PHP_FILE, temp_dir)
+    shutil.copy(PHP_THEME, temp_dir)
 
     # Update database path and name in phpliteadmin
-    with open(f'{tempDir}/{os.path.basename(PHP_FILE)}', 'r+') as file:
+    with open(f'{temp_dir}/{os.path.basename(PHP_FILE)}', 'r+') as file:
         content = file.read()
         content = re.sub('ENV_DATABASE_PATH', os.path.abspath(args.path), content)
         content = re.sub('ENV_DATABASE_NAME', os.path.basename(args.path), content)
@@ -39,27 +37,22 @@ def main():
         file.truncate()
 
     # Construct php command
-    command = [EXECUTABLE]
-    command.extend(['-S', f'{DEFAULT_HOST}:{DEFAULT_PORT}', '-t', tempDir])
-    os.system(f'fuser -k {DEFAULT_PORT}/tcp') # Kill any process listing on the specified port
+    command = [EXECUTABLE, '-S', f'{DEFAULT_HOST}:{DEFAULT_PORT}', '-t', temp_dir]
+    subprocess.run(['fuser', '-k', f'{DEFAULT_PORT}/tcp'], stdout=subprocess.DEVNULL, stderr=subprocess.STDOUT)
+
     display_codespace_url(DEFAULT_PORT)
 
-    # Start php server
-    subprocess.run(command, stdout=subprocess.DEVNULL, stderr=subprocess.STDOUT)
 
-
-def parse_args(args):
+def parse_args():
     parser = argparse.ArgumentParser()
-    parser.add_argument(
-        'path'
-    )
-    return parser.parse_args(args)
+    parser.add_argument('path')
+    return parser.parse_args()
 
 
 def display_codespace_url(port):
     codespace_name = os.getenv('CODESPACE_NAME')
     port_forwarding_domain = os.getenv('GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN', 'app.github.dev')
-    if (codespace_name is not None):
+    if codespace_name is not None:
         local_address = f'https://{codespace_name}-{port}.{port_forwarding_domain}/'
         msg = f"\nphpLiteAdmin running on {local_address}\n"
         print(termcolor.colored(msg, 'green'))
