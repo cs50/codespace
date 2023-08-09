@@ -42,7 +42,7 @@ RUN wget https://github.com/novnc/noVNC/archive/refs/tags/v1.4.0.zip -P/tmp && \
 
 
 # Install VS Code extensions
-RUN npm install -g vsce yarn && \
+RUN npm install -g @vscode/vsce yarn && \
     mkdir --parents /opt/cs50/extensions && \
     cd /tmp && \
     git clone https://github.com/cs50/explain50.vsix.git && \
