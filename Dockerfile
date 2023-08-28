@@ -34,7 +34,7 @@ RUN wget http://www.lua.org/ftp/lua-5.4.4.tar.gz -P/tmp && \
 
 
 # Install noVNC (VNC client)
-RUN wget https://github.com/novnc/noVNC/archive/refs/tags/v1.4.0.zip -P/tmp && \
+RUN curl -LJ https://github.com/novnc/noVNC/archive/refs/tags/v1.4.0.zip -o /tmp/v1.4.0.zip && \
     unzip /tmp/v1.4.0.zip -d /tmp && \
     mv /tmp/noVNC-1.4.0 /opt/noVNC && \
     rm -rf /tmp/noVNC-1.4.0 /tmp/v1.4.0.zip && \
