@@ -45,7 +45,7 @@ _prompt_command() {
     local tree=$(find "$CODESPACE_VSCODE_FOLDER" -not -path '*/\.*' \( -type d -printf '%P/    \n' , -type f -printf '%P\n' \))
 
     # Typescript as text
-    local text=$(echo "$typescript" | ansi2txt)
+    local text=$(echo "$typescript" | ansi2txt | col -b)
 
     # Typescript as HTML (unused for now)
     local html=$(echo "$typescript" | ansi2html)
