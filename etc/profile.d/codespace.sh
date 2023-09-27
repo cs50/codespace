@@ -69,10 +69,4 @@ if [ "$(whoami)" != "root" ]; then
 
     # Manual sections to search
     export MANSECT=3,2,1
-
-    # Enable hardware acceleration for simple rendering operations
-    # https://docs.oracle.com/javase/7/docs/technotes/guides/2d/flags.html
-    #
-    # This resolves invisible GUI elements issues in noVNC
-    export JAVA_TOOL_OPTIONS="-Dsun.java2d.opengl=true"
 fi
