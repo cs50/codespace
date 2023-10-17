@@ -136,7 +136,8 @@ RUN pip3 install --no-cache-dir \
     djhtml \
     matplotlib \
     "pydantic<2" \
-    pytz
+    pytz \
+    setuptools
 
 
 # Enforce login shell
