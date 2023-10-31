@@ -124,9 +124,10 @@ RUN apt update && apt install --no-install-recommends --yes \
         php-mbstring \
         php-sqlite3 \
         postgresql \
+        tmux \
         xvfb \
         x11vnc && \
-        apt clean
+        apt clean 
 
 
 # Install Python packages
