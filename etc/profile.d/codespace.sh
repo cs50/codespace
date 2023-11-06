@@ -17,6 +17,16 @@ if [ "$(whoami)" != "root" ]; then
         fi
     }
 
+    # Filter out the http-server version information
+    _version() {
+        local version="http-server version:"
+        while read; do
+            if [[ ! $REPLY =~ ${version} ]]; then
+                echo "$REPLY"
+            fi
+        done
+    }
+
     # Configure prompt
     _prompt() {
         local dir="$(dirs +0)" # CWD with ~ for home
@@ -64,7 +74,7 @@ if [ "$(whoami)" != "root" ]; then
 
     # Rewrite URLs in stdout
     http-server() {
-        command http-server "$@" | _hostname | uniq
+        command http-server "$@" | _hostname | _version | uniq
     }
 
     # Manual sections to search
