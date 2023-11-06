@@ -159,7 +159,7 @@ RUN echo "if [ -z \"\$_PROFILE_D\" ] ; then for i in /etc/profile.d/*.sh; do if 
 
 # Patch index.js in http-server
 COPY index.js.patch /tmp
-RUN cd /usr/local/lib/node_modules/http-server/lib/core && \
+RUN cd /usr/local/lib/node_modules/http-server/lib/core/show-dir && \
     patch index.js < /tmp/index.js.patch && \
     rm -rf /tmp/index.js.patch
 
