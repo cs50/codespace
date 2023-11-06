@@ -157,5 +157,12 @@ RUN chmod a+rx /opt/cs50/bin/* && \
 RUN echo "if [ -z \"\$_PROFILE_D\" ] ; then for i in /etc/profile.d/*.sh; do if ["$i" == "/etc/profile.d/debuginfod*"] ; then continue; fi; . \"\$i\"; done; export _PROFILE_D=1; fi"
 
 
+# Patch index.js in http-server
+COPY index.js.patch /tmp
+RUN cd /usr/local/lib/node_modules/http-server/lib/core && \
+    patch index.js < /tmp/index.js.patch && \
+    rm -rf /tmp/index.js.patch
+
+
 # Set user
 USER ubuntu
