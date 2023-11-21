@@ -98,6 +98,7 @@
                     "tabnine.tabnine-vscode"
                 ],
                 "files.autoSave": "afterDelay",
+                "files.autoSaveDelay": 1000,
                 "files.exclude": {
                     "**/.*": true
                 },
