@@ -119,6 +119,7 @@
                 "gitdoc.commitMessageFormat": "ccc, LLL d, kkkk, h:mm a ZZ",
                 "gitdoc.commitValidationLevel": "none",
                 "gitdoc.pullOnOpen": false,
+                "html.autoCreateQuotes": false,
                 "html.format.indentInnerHtml": true,
                 "html.suggest.html5": false,
                 "java.server.launchMode": "Standard",
