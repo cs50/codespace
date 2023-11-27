@@ -113,8 +113,9 @@ ENV DISPLAY=":0"
 # https://github.community/t/bug-umask-does-not-seem-to-be-respected/129638/9
 RUN apt update && apt install --no-install-recommends --yes \
         acl \
+        bsdextrautils `# For ddb50.sh` \ 
         clang-format \
-        colorized-logs `# For duck` \ 
+        colorized-logs `# For ddb50.sh` \ 
         dwarfdump \
         jq \
         manpages-dev \

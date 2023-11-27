@@ -1,3 +1,4 @@
+# Globals
 DEPENDENCIES=(ansi2txt col)
 STDOUT="/tmp/ddb50.$$"
 ARGV="${STDOUT}.argv"
@@ -6,7 +7,7 @@ ARGV="${STDOUT}.argv"
 for cmd in ${DEPENDENCIES[@]}; do
     if ! command -v "$cmd" &>/dev/null; then
         echo "Missing $cmd"
-        exit 1
+        return 1
     fi
 done
 
@@ -31,6 +32,12 @@ duck() {
         unset RUBBERDUCKING
         return 0
 
+    # duck restart
+    elif [[ $1 == restart ]]; then
+        duck off
+        duck on
+        return 0
+
     # duck status
     elif [[ $1 == status ]]; then
         if [[ -z $RUBBERDUCKING ]]; then
@@ -43,7 +50,7 @@ duck() {
 
     # duck -h
     else
-        echo "Usage: duck [off|on|status]"
+        echo "Usage: duck [off|on|restart|status]"
         return 1
     fi
 }
@@ -61,7 +68,7 @@ _prompt_command() {
 
             # Get command
             HISTFILE="$ARGV" history -a
-            local argv=$(tail -n 1 "$ARGV")
+            local argv=$(tail -n 1 "$ARGV" 2> /dev/null)
 
             # Get command's output
             local txt=$(cat "$STDOUT" 2> /dev/null) # Redirect stderr in case file doesn't exit somehow
@@ -91,6 +98,9 @@ export PROMPT_COMMAND=_prompt_command
 
 # Turn duck off when shell exits
 trap 'duck off' EXIT
+
+# Without this, ctl-c seems to exit tee and, in turn, shell
+trap 'duck restart' SIGINT
 
 # Turn duck on by default
 duck on
