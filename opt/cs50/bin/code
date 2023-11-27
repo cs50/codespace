@@ -53,6 +53,14 @@ if [ "$options" = false ]; then
                 fi
             fi
 
+            # If file doesn't have an extension
+            if [[ ! "$arg" =~ \.[^.]+$ ]]; then
+                read -p "Are you sure you want to create $(tput bold)$arg$(tput sgr0)? Filenames usually have extensions. [y/N] " -r
+                if [[ ! "${REPLY,,}" =~ ^y|yes$ ]]; then
+                    exit 1
+                fi
+            fi
+
             # If file extension is capitalized
             if [[ "$arg" =~ \.[A-Z]+$ ]]; then
                 read -p "Are you sure you want to create $(tput bold)$arg$(tput sgr0)? File extensions aren't usually capitalized. [y/N] " -r

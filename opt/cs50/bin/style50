@@ -1,26 +1,12 @@
 #!/bin/bash
 
-# A wrapper for style50.vsix that allows it to be invoked from the command line.
-if [ "$#" -eq 0 ]; then
-    echo "Error: No file provided."
-    echo "Usage: style50 filename"
-    echo "Usage: style50 --cli filename"
+# A simplified wrapper for style50.vsix that allows it to be invoked from the command line with a single file.
+if [ "$#" -ne 1 ]; then
+    echo "Error: Invalid number of arguments."
+    echo "Usage: style50 FILE"
+    echo "For CLI usage, please run style50-cli instead."
     exit 1
 fi
 
-# Backwards compatibility for style50 cli version.
-if [ "$1" = "--cli" ]; then
-    if [ "$#" -eq 2 ]; then
-        /usr/local/bin/style50 "$2"
-    else
-        echo "Error: No file provided for --cli option."
-        echo "Usage: style50 --cli filename"
-        exit 1
-    fi
-elif [ "$#" -gt 1 ]; then
-    echo "Error: Too many arguments."
-    echo "Usage: style50 filename"
-    exit 1
-else
-    command50 "style50.runFromTerminal" "$(pwd)/$1"
-fi
+# Now we only run the command if one argument is provided
+command50 "style50.runFromTerminal" "$(pwd)/$1"

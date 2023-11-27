@@ -42,7 +42,7 @@ RUN wget https://github.com/novnc/noVNC/archive/refs/tags/v1.4.0.zip -P/tmp && \
 
 
 # Install VS Code extensions
-RUN npm install -g vsce yarn && \
+RUN npm install -g @vscode/vsce yarn && \
     mkdir --parents /opt/cs50/extensions && \
     cd /tmp && \
     git clone https://github.com/cs50/explain50.vsix.git && \
@@ -134,9 +134,11 @@ RUN apt update && apt install --no-install-recommends --yes \
 RUN pip3 install --no-cache-dir \
     black \
     cli50 \
+    djhtml \
     matplotlib \
     "pydantic<2" \
-    pytz
+    pytz \
+    setuptools
 
 
 # Enforce login shell
@@ -154,6 +156,13 @@ RUN chmod a+rx /opt/cs50/bin/* && \
 
 # Temporary workaround for https://github.com/cs50/cs50.dev/issues/19
 RUN echo "if [ -z \"\$_PROFILE_D\" ] ; then for i in /etc/profile.d/*.sh; do if ["$i" == "/etc/profile.d/debuginfod*"] ; then continue; fi; . \"\$i\"; done; export _PROFILE_D=1; fi"
+
+
+# Patch index.js in http-server
+COPY index.js.patch /tmp
+RUN cd /usr/local/lib/node_modules/http-server/lib/core/show-dir && \
+    patch index.js < /tmp/index.js.patch && \
+    rm -rf /tmp/index.js.patch
 
 
 # Set user

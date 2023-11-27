@@ -17,6 +17,16 @@ if [ "$(whoami)" != "root" ]; then
         fi
     }
 
+    # Filter out the http-server version information
+    _version() {
+        local version="http-server version:"
+        while read; do
+            if [[ ! $REPLY =~ ${version} ]]; then
+                echo "$REPLY"
+            fi
+        done
+    }
+
     # Configure prompt
     _prompt() {
         local dir="$(dirs +0)" # CWD with ~ for home
@@ -32,7 +42,7 @@ if [ "$(whoami)" != "root" ]; then
     alias bfg="java -jar /opt/share/bfg-1.14.0.jar"
 
     # Configure cd to default to workspace
-    alias cd="HOME=\"$CODESPACE_VSCODE_FOLDER\" cd"
+    alias cd="HOME=\"/workspaces/$RepositoryName\" cd"
 
     # Rewrite URL in stderr
     # https://stackoverflow.com/a/52575087/5156190
@@ -64,15 +74,9 @@ if [ "$(whoami)" != "root" ]; then
 
     # Rewrite URLs in stdout
     http-server() {
-        command http-server "$@" | _hostname | uniq
+        command http-server "$@" | _hostname | _version | uniq
     }
 
     # Manual sections to search
     export MANSECT=3,2,1
-
-    # Enable hardware acceleration for simple rendering operations
-    # https://docs.oracle.com/javase/7/docs/technotes/guides/2d/flags.html
-    #
-    # This resolves invisible GUI elements issues in noVNC
-    export JAVA_TOOL_OPTIONS="-Dsun.java2d.opengl=true"
 fi

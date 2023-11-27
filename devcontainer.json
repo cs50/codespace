@@ -15,6 +15,8 @@
                 "/opt/cs50/extensions/phpliteadmin-0.0.1.vsix",
                 "/opt/cs50/extensions/style50-0.0.1.vsix",
                 "cs50.extension-uninstaller",
+                "inferrinizzard.prettier-sql-vscode",
+                "mathematic.vscode-pdf",
                 "ms-ceintl.vscode-language-pack-bg",
                 "ms-ceintl.vscode-language-pack-cs",
                 "ms-ceintl.vscode-language-pack-de",
@@ -30,6 +32,7 @@
                 "ms-ceintl.vscode-language-pack-zh-hans",
                 "ms-ceintl.vscode-language-pack-zh-hant",
                 "ms-python.python",
+                "ms-python.black-formatter",
                 "ms-vscode.cpptools",
                 "ms-vscode.hexeditor",
                 "ms-vsliveshare.vsliveshare",
@@ -52,6 +55,7 @@
                 "diffEditor.ignoreTrimWhitespace": false,
                 "editor.autoClosingQuotes": "never",
                 "editor.colorDecorators": false,
+                "editor.defaultFormatter": "ms-python.black-formatter",
                 "editor.emptySelectionClipboard": false,
                 "editor.folding": false,
                 "editor.foldingHighlight": false,
@@ -97,6 +101,7 @@
                 "files.exclude": {
                     "**/.*": true
                 },
+                "files.insertFinalNewline": true,
                 "files.trimTrailingWhitespace": true,
                 "files.watcherExclude": {
                     "**/.git/objects/**": true,
@@ -118,8 +123,8 @@
                 "java.server.launchMode": "Standard",
                 "java.configuration.runtimes": [
                     {
-                        "name": "JavaSE-19",
-                        "path": "/opt/jdk-19.0.2", /* env | grep JAVA_HOME (set in cs50/cli) */
+                        "name": "JavaSE-20",
+                        "path": "/opt/jdk-20.0.2", /* env | grep JAVA_HOME (set in cs50/cli) */
                         "default": true
                     }
                 ],
@@ -128,6 +133,7 @@
                 "javascript.format.insertSpaceAfterFunctionKeywordForAnonymousFunctions": false,
                 "javascript.suggest.enabled": false,
                 "javascript.validate.enable": false, /* Disable red squiggles */
+                "Prettier-SQL.keywordCase": "upper",
                 "problems.decorations.enabled": false,
                 "python.formatting.provider": "black",
                 "python.terminal.executeInFileDir": true,
@@ -208,6 +214,13 @@
     "features": {
         "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {}
     },
+    "forwardPorts": [
+        5000, /* Flask */
+        5900, /* VNC server */
+        6081, /* VNC client */
+        8080, /* http-server */
+        8082  /* phpLiteAdmin */
+    ],
     "postCreateCommand": "/opt/cs50/bin/postCreateCommand",
     "remoteEnv": {
         "CS50_GH_USER": "${localEnv:GITHUB_USER}",

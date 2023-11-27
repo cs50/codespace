@@ -31,7 +31,7 @@ jobs:
         run: |
           export VCS_REF=$(git rev-parse HEAD)
           npm install -g @devcontainers/cli
-          devcontainer build --workspace-folder . --image-name cs50/codespace:${{ github.sha }} --image-name cs50/codespace:latest
+          devcontainer build --workspace-folder . --config devcontainer.json --image-name cs50/codespace:${{ github.sha }} --image-name cs50/codespace:latest
 
       - name: Push (latest) to GitHub Packages
         if: ${{ github.ref == 'refs/heads/main' }}
@@ -52,7 +52,7 @@ jobs:
         run: |
           export VCS_REF=$(git rev-parse HEAD)
           npm install -g @devcontainers/cli
-          devcontainer build --workspace-folder . --image-name cs50/codespace:${{ github.sha }} --image-name cs50/codespace:develop
+          devcontainer build --workspace-folder . --config devcontainer.json --image-name cs50/codespace:${{ github.sha }} --image-name cs50/codespace:develop
 
       - name: Push (develop) to GitHub Packages
         if: ${{ github.ref == 'refs/heads/develop' }}
