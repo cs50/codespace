@@ -125,8 +125,8 @@
                 "java.server.launchMode": "Standard",
                 "java.configuration.runtimes": [
                     {
-                        "name": "JavaSE-20",
-                        "path": "/opt/jdk-20.0.2", /* env | grep JAVA_HOME (set in cs50/cli) */
+                        "name": "JavaSE-21",
+                        "path": "/opt/jdk-21.0.1", /* env | grep JAVA_HOME (set in cs50/cli) */
                         "default": true
                     }
                 ],
