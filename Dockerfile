@@ -140,6 +140,11 @@ RUN pip3 install --no-cache-dir \
     setuptools
 
 
+# Enforce login shell
+RUN echo "shopt -q login_shell || bash --login" >> /home/ubuntu/.bashrc && \
+    chown -R ubuntu:ubuntu /home/ubuntu/.bashrc
+
+
 # Copy files to image
 COPY ./etc /etc
 COPY ./opt /opt
