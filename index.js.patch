@@ -1,6 +1,0 @@
-129,131c129
-<           html += `<br><address>Node.js ${
-<             process.version
-<             }/ <a href="https://github.com/http-party/http-server">http-server</a> ` +
----
->           html += `<br><address><a href="https://github.com/http-party/http-server">http-server</a> ` +
