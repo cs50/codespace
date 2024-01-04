@@ -213,9 +213,6 @@
             }
         }
     },
-    "features": {
-        "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {}
-    },
     "forwardPorts": [
         5000, /* Flask */
         5900, /* VNC server */
