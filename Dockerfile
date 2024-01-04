@@ -157,5 +157,10 @@ RUN chmod a+rx /opt/cs50/bin/* && \
 RUN echo "if [ -z \"\$_PROFILE_D\" ] ; then for i in /etc/profile.d/*.sh; do if ["$i" == "/etc/profile.d/debuginfod*"] ; then continue; fi; . \"\$i\"; done; export _PROFILE_D=1; fi"
 
 
+# Bake docker-outside-of-docker into image itself rather than install feature during codespaces' creation
+# https://github.com/devcontainers/features/tree/main/src/docker-outside-of-docker
+RUN curl --location --show-error --silent https://raw.githubusercontent.com/devcontainers/features/main/src/docker-outside-of-docker/install.sh | bash
+
+
 # Set user
 USER ubuntu
