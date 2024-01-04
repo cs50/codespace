@@ -163,9 +163,11 @@ RUN cd /usr/local/lib/node_modules/http-server/lib/core/show-dir && \
     patch index.js < /tmp/index.js.patch && \
     rm -rf /tmp/index.js.patch
 
+
 # Bake docker-outside-of-docker into image itself rather than install feature during codespaces' creation
 # https://github.com/devcontainers/features/tree/main/src/docker-outside-of-docker
 RUN curl --location --show-error --silent https://raw.githubusercontent.com/devcontainers/features/main/src/docker-outside-of-docker/install.sh | bash
+
 
 # Set user
 USER ubuntu
