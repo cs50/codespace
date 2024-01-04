@@ -31,8 +31,8 @@
                 "ms-ceintl.vscode-language-pack-ru",
                 "ms-ceintl.vscode-language-pack-zh-hans",
                 "ms-ceintl.vscode-language-pack-zh-hant",
+                "ms-python.autopep8",
                 "ms-python.python",
-                "ms-python.black-formatter",
                 "ms-vscode.cpptools",
                 "ms-vscode.hexeditor",
                 "ms-vsliveshare.vsliveshare",
@@ -55,7 +55,6 @@
                 "diffEditor.ignoreTrimWhitespace": false,
                 "editor.autoClosingQuotes": "never",
                 "editor.colorDecorators": false,
-                "editor.defaultFormatter": "ms-python.black-formatter",
                 "editor.emptySelectionClipboard": false,
                 "editor.folding": false,
                 "editor.foldingHighlight": false,
@@ -137,8 +136,10 @@
                 "javascript.validate.enable": false, /* Disable red squiggles */
                 "Prettier-SQL.keywordCase": "upper",
                 "problems.decorations.enabled": false,
-                "python.formatting.provider": "black",
                 "python.terminal.executeInFileDir": true,
+                "[python]": {
+                  "editor.defaultFormatter": "ms-python.autopep8"
+                },
                 "remote.otherPortsAttributes": {
                     "onAutoForward": "silent"
                 },
@@ -202,7 +203,6 @@
                 },
                 "workbench.editor.closeOnFileDelete": true,
                 "workbench.editor.enablePreview": false,
-                "workbench.editor.untitled.hint": "hidden",
                 "workbench.iconTheme": "vs-minimal", /* Simplify icons */
                 "workbench.preferredDarkColorTheme": "GitHub Dark Default",
                 "workbench.preferredLightColorTheme": "GitHub Light Default",
