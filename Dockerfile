@@ -1,5 +1,5 @@
 # Build stage
-FROM cs50/cli:amd64-minimized as builder
+FROM cs50/cli:amd64 as builder
 ARG DEBIAN_FRONTEND=noninteractive
 
 
@@ -85,7 +85,7 @@ RUN npm install -g @vscode/vsce yarn && \
 
 
 # Final stage
-FROM cs50/cli:amd64-minimized
+FROM cs50/cli:amd64
 ARG DEBIAN_FRONTEND=noninteractive
 
 
