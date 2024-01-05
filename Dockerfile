@@ -140,21 +140,12 @@ RUN pip3 install --no-cache-dir \
     setuptools
 
 
-# Enforce login shell
-RUN echo "shopt -q login_shell || bash --login" >> /home/ubuntu/.bashrc && \
-    chown -R ubuntu:ubuntu /home/ubuntu/.bashrc
-
-
 # Copy files to image
 COPY ./etc /etc
 COPY ./opt /opt
 RUN chmod a+rx /opt/cs50/bin/* && \
     chmod a+rx /opt/cs50/phpliteadmin/bin/phpliteadmin && \
     ln --symbolic /opt/cs50/phpliteadmin/bin/phpliteadmin /opt/cs50/bin/phpliteadmin
-
-
-# Temporary workaround for https://github.com/cs50/cs50.dev/issues/19
-RUN echo "if [ -z \"\$_PROFILE_D\" ] ; then for i in /etc/profile.d/*.sh; do if ["$i" == "/etc/profile.d/debuginfod*"] ; then continue; fi; . \"\$i\"; done; export _PROFILE_D=1; fi"
 
 
 # Set user
