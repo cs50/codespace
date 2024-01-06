@@ -148,5 +148,9 @@ RUN chmod a+rx /opt/cs50/bin/* && \
     ln --symbolic /opt/cs50/phpliteadmin/bin/phpliteadmin /opt/cs50/bin/phpliteadmin
 
 
+# Enforce login shell
+RUN echo "shopt -q login_shell || exec bash --login" >> /etc/bash.bashrc
+
+
 # Set user
 USER ubuntu
