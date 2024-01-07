@@ -113,7 +113,6 @@ ENV DISPLAY=":0"
 # https://github.community/t/bug-umask-does-not-seem-to-be-respected/129638/9
 RUN apt update && apt install --no-install-recommends --yes \
         acl \
-        clang-format \
         dwarfdump \
         jq \
         manpages-dev \
@@ -132,6 +131,7 @@ RUN apt update && apt install --no-install-recommends --yes \
 # Install Python packages
 RUN pip3 install --no-cache-dir \
     black \
+    clang-format \
     cli50 \
     djhtml \
     matplotlib \
