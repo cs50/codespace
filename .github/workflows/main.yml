@@ -31,7 +31,7 @@ jobs:
         with:
           python-version: '3.12' 
       
-      - name: Remove "customizations" from devcontainer.json via Python3
+      - name: Only use "build" and "features" from devcontainer.json
         run: |
           pip3 install jsmin
           python3 -c "import jsmin, json; f = open('devcontainer.json', 'r'); data = json.loads(jsmin.jsmin(f.read())); o = {}; o['build']=data['build']; o['features']=data['features']; f.close(); f = open('devcontainer.json', 'w'); f.write(json.dumps(o, indent=4)); f.close()"
