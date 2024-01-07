@@ -149,7 +149,7 @@ RUN chmod a+rx /opt/cs50/bin/* && \
 
 
 # Enforce login shell
-RUN echo "shopt -q login_shell || exec bash --login" >> /etc/bash.bashrc
+RUN echo "shopt -q login_shell || exec bash --login -i" >> /etc/bash.bashrc
 
 
 # Set user
