@@ -25,16 +25,16 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      
+
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.12' 
-      
+          python-version: '3.12'
+
       - name: Only use "build" and "features" from devcontainer.json
         run: |
           pip3 install jsmin
-          python3 -c "import jsmin, json; f = open('devcontainer.json', 'r'); data = json.loads(jsmin.jsmin(f.read())); o = {}; o['build']=data['build']; o['features']=data['features']; f.close(); f = open('devcontainer.json', 'w'); f.write(json.dumps(o, indent=4)); f.close()"
+          python3 -c "import jsmin, json; f = open('devcontainer.json', 'r'); data = json.loads(jsmin.jsmin(f.read())); o = {}; o['build']=data['build']; o['features']=data['features']; o['remoteEnv']=data['remoteEnv']; f.close(); f = open('devcontainer.json', 'w'); f.write(json.dumps(o, indent=4)); f.close()"
 
       - name: Build (latest)
         if: ${{ github.ref == 'refs/heads/main' }}
