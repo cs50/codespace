@@ -38,7 +38,7 @@ RUN wget https://github.com/novnc/noVNC/archive/refs/tags/v1.4.0.zip -P/tmp && \
     unzip /tmp/v1.4.0.zip -d /tmp && \
     mv /tmp/noVNC-1.4.0 /opt/noVNC && \
     rm -rf /tmp/noVNC-1.4.0 /tmp/v1.4.0.zip && \
-    chown -R ubuntu:ubuntu /opt/noVNC
+    chmod -R 644 /opt/noVNC
 
 
 # Install VS Code extensions
@@ -99,7 +99,7 @@ COPY --from=builder /usr/local/bin/lua /usr/local/bin/lua
 COPY --from=builder /opt/noVNC /opt/noVNC
 COPY --from=builder /opt/cs50/extensions /opt/cs50/extensions
 COPY --from=builder /opt/share/bfg-1.14.0.jar /opt/share/bfg-1.14.0.jar
-RUN chown -R ubuntu:ubuntu /opt/share
+RUN chmod -R 644 /opt/share
 RUN pip3 install --no-cache-dir /opt/cs50/extensions/cs50vsix-client/ && \
     rm -rf /opt/cs50/extensions/cs50vsix-client
 
