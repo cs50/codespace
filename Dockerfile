@@ -90,11 +90,11 @@ RUN npm install --global @vscode/vsce yarn && \
 
 # Final stage
 FROM cs50/cli
-ARG DEBIAN_FRONTEND=noninteractive
 
 
 # Unset user
 USER root
+ARG DEBIAN_FRONTEND=noninteractive
 
 
 # Copy files from builder
@@ -116,7 +116,6 @@ RUN apt update && \
     apt install --no-install-recommends --no-install-suggests --yes \
         acl \
         dwarfdump \
-        gdebi-core `# For openbox (and python3, which gets pulled in)` \
         jq \
         openbox \
         php-cli \
