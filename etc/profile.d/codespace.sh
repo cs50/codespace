@@ -81,7 +81,4 @@ if [ "$(whoami)" != "root" ]; then
     rstudio() {
         command rstudio | _hostname
     }
-
-    # Manual sections to search
-    export MANSECT=3,2,1
 fi
