@@ -1,7 +1,4 @@
 .*
-*.json
-!.devcontainer.json
-!.github/
 !.gitignore
-
+!/.github/
 node_modules/
