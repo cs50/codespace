@@ -1,5 +1,5 @@
 # Build stage
-FROM cs50/cli:amd64 as builder
+FROM cs50/cli as builder
 ARG DEBIAN_FRONTEND=noninteractive
 
 
@@ -39,23 +39,6 @@ RUN wget https://github.com/novnc/noVNC/archive/refs/tags/v1.4.0.zip -P/tmp && \
     mv /tmp/noVNC-1.4.0 /opt/noVNC && \
     rm -rf /tmp/noVNC-1.4.0 /tmp/v1.4.0.zip && \
     chown -R ubuntu:ubuntu /opt/noVNC
-
-
-# Install RStudio
-# https://posit.co/download/rstudio-server/
-# https://dailies.rstudio.com/rstudio/cherry-blossom/server/jammy-amd64/
-# https://dailies.rstudio.com/rstudio/cherry-blossom/server/jammy-arm64/
-RUN apt update && \
-    apt install --no-install-recommends --no-install-suggests --yes \
-        gdebi-core \
-        software-properties-common && \
-    cd /tmp && \
-    if [ $(uname -m) = "x86_64" ]; then ARCH="amd64"; else ARCH="arm64"; fi && \
-    curl --remote-name https://s3.amazonaws.com/rstudio-ide-build/server/jammy/${ARCH}/rstudio-server-2023.03.3-547-${ARCH}.deb && \
-    gdebi --non-interactive rstudio-server-2023.03.3-547-${ARCH}.deb && \
-    add-apt-repository --yes ppa:c2d4u.team/c2d4u4.0+ && \
-    apt update && \
-    apt install --no-install-recommends --no-install-suggests --yes r-cran-tidyverse
 
 
 # Install VS Code extensions
@@ -102,7 +85,7 @@ RUN npm install -g @vscode/vsce yarn && \
 
 
 # Final stage
-FROM cs50/cli:amd64
+FROM cs50/cli
 ARG DEBIAN_FRONTEND=noninteractive
 
 
@@ -112,9 +95,8 @@ USER root
 
 # Copy files from builder
 COPY --from=builder /build /build
-COPY --from=builder /etc /etc
 COPY --from=builder /opt /opt
-COPY --from=builder /usr /usr
+COPY --from=builder /usr/local /usr/local
 RUN pip3 install --no-cache-dir /opt/cs50/extensions/cs50vsix-client/ && \
     rm --force --recursive /opt/cs50/extensions/cs50vsix-client
 
@@ -133,13 +115,11 @@ RUN apt update && \
         gdebi-core `# For openbox (and python3, which gets pulled in)` \
         jq \
         manpages-dev \
-        mysql-client \
         openbox \
-        pgloader \
         php-cli \
         php-mbstring \
         php-sqlite3 \
-        postgresql \
+        software-properties-common `# For add-apt-repository` \
         xvfb \
         x11vnc && \
     apt clean
@@ -149,12 +129,26 @@ RUN apt update && \
 RUN pip3 install --no-cache-dir \
         black \
         clang-format \
-        cli50 \
         djhtml \
         matplotlib \
         "pydantic<2" \
         pytz \
         setuptools
+
+
+# Install RStudio
+# https://posit.co/download/rstudio-server/
+# https://dailies.rstudio.com/rstudio/cherry-blossom/server/jammy-amd64/
+# https://dailies.rstudio.com/rstudio/cherry-blossom/server/jammy-arm64/
+RUN cd /tmp && \
+    if [ $(uname -m) = "x86_64" ]; then ARCH="amd64"; else ARCH="arm64"; fi && \
+    curl --remote-name https://s3.amazonaws.com/rstudio-ide-build/server/jammy/${ARCH}/rstudio-server-2023.03.3-547-${ARCH}.deb && \
+    dpkg --install rstudio-server-2023.03.3-547-${ARCH}.deb && \
+    apt update && \
+    apt install --fix-broken --yes && \
+    add-apt-repository --yes ppa:c2d4u.team/c2d4u4.0+ && \
+    apt update && \
+    apt install --no-install-recommends --no-install-suggests --yes r-cran-tidyverse
 
 
 # Copy files to image

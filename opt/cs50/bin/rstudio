@@ -7,9 +7,7 @@ export USER="${USER:-$(whoami)}"
 fuser --kill -TERM "${PORT}/tcp" &>/dev/null
 
 # Start server
-echo "Available on:"
-echo "  http://0.0.0.0:${PORT}"
-echo "Hit CTRL-C to stop the server"
+echo -n "Available on http://0.0.0.0:${PORT}. Hit CTRL-C to stop the server. "
 /usr/lib/rstudio-server/bin/rserver \
     --auth-none=1 \
     --server-daemonize=0 \
