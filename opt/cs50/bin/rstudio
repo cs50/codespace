@@ -6,11 +6,16 @@ export USER="${USER:-$(whoami)}"
 # Kill any process listing on the specified port
 fuser --kill -TERM "${PORT}/tcp" &>/dev/null
 
+# Formatting
+bold=$(tput bold)
+normal=$(tput sgr0)
+
 # Start server
-echo -n "Available on http://0.0.0.0:${PORT}. Hit CTRL-C to stop the server. "
+echo "${bold}Started server on http://0.0.0.0:${PORT}. Hit CTRL-C to stop the server.${normal}"
 /usr/lib/rstudio-server/bin/rserver \
     --auth-none=1 \
     --server-daemonize=0 \
-    --server-data-dir=/tmp \
+    --server-data-dir=/tmp/rstudio-server \
     --server-user="$USER" \
-    --www-port=${PORT} 2> /dev/null
+    --www-port="$PORT" \
+    --www-root-path=/ # Else $PORT is appended during redirects
