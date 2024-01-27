@@ -11,7 +11,7 @@ bold=$(tput bold)
 normal=$(tput sgr0)
 
 # Start server
-echo -n "${bold}Started server on http://0.0.0.0:${PORT}. Hit CTRL-C to stop the server.${normal} "
+echo "${bold}Started server on http://0.0.0.0:${PORT}. Hit CTRL-C to stop the server.${normal}"
 /usr/lib/rstudio-server/bin/rserver \
     --auth-none=1 \
     --server-daemonize=0 \
