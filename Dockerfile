@@ -43,8 +43,8 @@ RUN wget https://github.com/novnc/noVNC/archive/refs/tags/v1.4.0.zip -P/tmp && \
 
 # Install RStudio
 # https://posit.co/download/rstudio-server/
-# https://github.com/rstudio/rstudio/tags
-# https://cran.rstudio.com/bin/linux/ubuntu/
+# https://dailies.rstudio.com/rstudio/cherry-blossom/server/jammy-amd64/
+# https://dailies.rstudio.com/rstudio/cherry-blossom/server/jammy-arm64/
 RUN apt update && \
     apt install --no-install-recommends --no-install-suggests --yes \
         gdebi-core \
