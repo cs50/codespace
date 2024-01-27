@@ -143,7 +143,7 @@ RUN pip3 install --no-cache-dir \
 RUN cd /tmp && \
     if [ $(uname -m) = "x86_64" ]; then ARCH="amd64"; else ARCH="arm64"; fi && \
     curl --remote-name https://s3.amazonaws.com/rstudio-ide-build/server/jammy/${ARCH}/rstudio-server-2023.03.3-547-${ARCH}.deb && \
-    dpkg --install rstudio-server-2023.03.3-547-${ARCH}.deb && \
+    dpkg --force-depends --install rstudio-server-2023.03.3-547-${ARCH}.deb && \
     apt update && \
     apt install --fix-broken --yes && \
     add-apt-repository --yes ppa:c2d4u.team/c2d4u4.0+ && \
