@@ -41,8 +41,9 @@ RUN cd /tmp && \
     curl --location --remote-name https://github.com/novnc/noVNC/archive/refs/tags/v1.4.0.zip && \
     unzip v1.4.0.zip && \
     rm --force v1.4.0.zip && \
-    mv noVNC-1.4.0 /opt/noVNC && \
-    chown -R ubuntu:ubuntu /opt/noVNC
+    cd noVNC-1.4.0 && cd utils && \
+    git clone https://github.com/novnc/websockify.git &&  \
+    cd ../../ && mv noVNC-1.4.0 /opt/noVNC
 
 
 # Install VS Code extensions
