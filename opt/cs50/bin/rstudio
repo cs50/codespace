@@ -13,7 +13,6 @@ echo "  http://0.0.0.0:${PORT}"
 echo "Hit CTRL-C to stop the server"
 /usr/lib/rstudio-server/bin/rserver \
     --auth-none=1 \
-    --database-config-file=/etc/opt/rstudio-server/database.conf \
     --server-daemonize=0 \
     --server-data-dir=/tmp \
     --server-user="$USER" \
