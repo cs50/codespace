@@ -11,7 +11,8 @@ USER root
 # https://github.com/Microsoft/vscode-cpptools/issues/1123#issuecomment-335867997
 RUN echo "deb-src http://archive.ubuntu.com/ubuntu/ jammy main restricted" > /etc/apt/sources.list.d/_.list && \
     apt update && \
-    apt install --no-install-recommends --no-install-suggests --yes dpkg-dev && \
+    apt install --no-install-recommends --no-install-suggests --yes \
+        dpkg-dev && \
     cd /tmp && \
     apt source glibc && \
     rm --force --recursive *.dsc *.tar.* && \
@@ -24,25 +25,28 @@ RUN wget https://repo1.maven.org/maven2/com/madgag/bfg/1.14.0/bfg-1.14.0.jar -P 
 
 
 # Install Lua 5.x
-RUN wget http://www.lua.org/ftp/lua-5.4.4.tar.gz -P/tmp && \
-    cd /tmp && \
-    tar zxf lua-5.4.4.tar.gz && \
+# https://www.lua.org/manual/5.4/readme.html
+RUN cd /tmp && \
+    curl --remote-name http://www.lua.org/ftp/lua-5.4.4.tar.gz && \
+    tar xzf lua-5.4.4.tar.gz && \
+    rm --force lua-5.4.4.tar.gz && \
     cd lua-5.4.4 && \
-    make all test install && \
-    cd /tmp && \
-    rm -rf /tmp/lua-5.4.4*
+    make all install && \
+    cd .. && \
+    rm --force --recursive /tmp/lua-5.4.4
 
 
 # Install noVNC (VNC client)
-RUN wget https://github.com/novnc/noVNC/archive/refs/tags/v1.4.0.zip -P/tmp && \
-    unzip /tmp/v1.4.0.zip -d /tmp && \
-    mv /tmp/noVNC-1.4.0 /opt/noVNC && \
-    rm -rf /tmp/noVNC-1.4.0 /tmp/v1.4.0.zip && \
+RUN cd /tmp && \
+    curl --location --remote-name https://github.com/novnc/noVNC/archive/refs/tags/v1.4.0.zip && \
+    unzip v1.4.0.zip && \
+    rm --force v1.4.0.zip && \
+    mv noVNC-1.4.0 /opt/noVNC && \
     chown -R ubuntu:ubuntu /opt/noVNC
 
 
 # Install VS Code extensions
-RUN npm install -g @vscode/vsce yarn && \
+RUN npm install --global @vscode/vsce yarn && \
     mkdir --parents /opt/cs50/extensions && \
     cd /tmp && \
     git clone https://github.com/cs50/explain50.vsix.git && \
@@ -51,7 +55,7 @@ RUN npm install -g @vscode/vsce yarn && \
     vsce package && \
     mv explain50-1.0.0.vsix /opt/cs50/extensions && \
     cd /tmp && \
-    rm -rf explain50.vsix && \
+    rm --force --recursive explain50.vsix && \
     git clone https://github.com/cs50/cs50.vsix.git && \
     cd cs50.vsix && \
     npm install && \
@@ -59,29 +63,29 @@ RUN npm install -g @vscode/vsce yarn && \
     mv cs50-0.0.1.vsix /opt/cs50/extensions && \
     mv python-clients/cs50vsix-client /opt/cs50/extensions && \
     cd /tmp && \
-    rm -rf cs50.vsix && \
+    rm --force --recursive cs50.vsix && \
     git clone https://github.com/cs50/ddb50.vsix.git && \
     cd ddb50.vsix && \
     npm install && \
     vsce package && \
     mv ddb50-2.0.0.vsix /opt/cs50/extensions && \
     cd /tmp && \
-    rm -rf ddb50.vsix && \
+    rm --force --recursive ddb50.vsix && \
     git clone https://github.com/cs50/phpliteadmin.vsix.git && \
     cd phpliteadmin.vsix && \
     npm install && \
     vsce package && \
     mv phpliteadmin-0.0.1.vsix /opt/cs50/extensions && \
     cd /tmp && \
-    rm -rf phpliteadmin.vsix && \
+    rm --force --recursive phpliteadmin.vsix && \
     git clone https://github.com/cs50/style50.vsix.git && \
     cd style50.vsix && \
     npm install && \
     vsce package && \
     mv style50-0.0.1.vsix /opt/cs50/extensions && \
     cd /tmp && \
-    rm -rf style50.vsix && \
-    npm uninstall -g vsce yarn
+    rm --force --recursive style50.vsix && \
+    npm uninstall --global vsce yarn
 
 
 # Final stage
@@ -114,12 +118,10 @@ RUN apt update && \
         dwarfdump \
         gdebi-core `# For openbox (and python3, which gets pulled in)` \
         jq \
-        manpages-dev \
         openbox \
         php-cli \
         php-mbstring \
         php-sqlite3 \
-        software-properties-common `# For add-apt-repository` \
         xvfb \
         x11vnc && \
     apt clean
@@ -140,7 +142,10 @@ RUN pip3 install --no-cache-dir \
 # https://posit.co/download/rstudio-server/
 # https://dailies.rstudio.com/rstudio/cherry-blossom/server/jammy-amd64/
 # https://dailies.rstudio.com/rstudio/cherry-blossom/server/jammy-arm64/
-RUN cd /tmp && \
+RUN apt update && \
+    apt install \
+        software-properties-common && \
+    cd /tmp && \
     if [ $(uname -m) = "x86_64" ]; then ARCH="amd64"; else ARCH="arm64"; fi && \
     curl --remote-name https://s3.amazonaws.com/rstudio-ide-build/server/jammy/${ARCH}/rstudio-server-2023.03.3-547-${ARCH}.deb && \
     dpkg --force-depends --install rstudio-server-2023.03.3-547-${ARCH}.deb && \
@@ -148,7 +153,11 @@ RUN cd /tmp && \
     apt install --fix-broken --yes && \
     add-apt-repository --yes ppa:c2d4u.team/c2d4u4.0+ && \
     apt update && \
-    apt install --no-install-recommends --no-install-suggests --yes r-cran-tidyverse
+    apt install --no-install-recommends --no-install-suggests --yes \
+        r-cran-tidyverse &&
+    apt remove --yes \
+        software-properties-common && \
+    apt clean
 
 
 # Copy files to image
