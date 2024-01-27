@@ -64,6 +64,12 @@ jobs:
           npm install -g @devcontainers/cli
           devcontainer build --workspace-folder . --config devcontainer.json --image-name cs50/codespace:${{ github.sha }} --image-name cs50/codespace:develop
 
+      - name: Squash (develop)
+        if: ${{ github.ref == 'refs/heads/develop' }}
+        run: |
+          pip3 install docker-squash
+          docker-squash --tag cs50/codespace:develop cs50/codespace:develop
+
       - name: Push (develop) to GitHub Packages
         if: ${{ github.ref == 'refs/heads/develop' }}
         run: |
