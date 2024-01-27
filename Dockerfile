@@ -27,13 +27,13 @@ RUN wget https://repo1.maven.org/maven2/com/madgag/bfg/1.14.0/bfg-1.14.0.jar -P 
 # Install Lua 5.x
 # https://www.lua.org/manual/5.4/readme.html
 RUN cd /tmp && \
-    curl --remote-name http://www.lua.org/ftp/lua-5.4.4.tar.gz && \
-    tar xzf lua-5.4.4.tar.gz && \
-    rm --force lua-5.4.4.tar.gz && \
-    cd lua-5.4.4 && \
+    curl --remote-name https://www.lua.org/ftp/lua-5.4.6.tar.gz && \
+    tar xzf lua-5.4.6.tar.gz && \
+    rm --force lua-5.4.6.tar.gz && \
+    cd lua-5.4.6 && \
     make all install && \
     cd .. && \
-    rm --force --recursive /tmp/lua-5.4.4
+    rm --force --recursive /tmp/lua-5.4.6
 
 
 # Install noVNC (VNC client)
@@ -143,7 +143,7 @@ RUN pip3 install --no-cache-dir \
 # https://dailies.rstudio.com/rstudio/cherry-blossom/server/jammy-amd64/
 # https://dailies.rstudio.com/rstudio/cherry-blossom/server/jammy-arm64/
 RUN apt update && \
-    apt install \
+    apt install --no-install-recommends --no-install-suggests --yes \
         software-properties-common && \
     cd /tmp && \
     if [ $(uname -m) = "x86_64" ]; then ARCH="amd64"; else ARCH="arm64"; fi && \
@@ -154,7 +154,7 @@ RUN apt update && \
     add-apt-repository --yes ppa:c2d4u.team/c2d4u4.0+ && \
     apt update && \
     apt install --no-install-recommends --no-install-suggests --yes \
-        r-cran-tidyverse &&
+        r-cran-tidyverse && \
     apt remove --yes \
         software-properties-common && \
     apt clean
