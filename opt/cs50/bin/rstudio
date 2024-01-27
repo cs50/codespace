@@ -1,7 +1,6 @@
 #!/bin/bash
 
 PORT="8080"
-export RSTUDIO_CONFIG_DIR="/etc/opt/rstudio" # https://docs.posit.co/ide/desktop-pro/settings/settings.html
 export USER="${USER:-$(whoami)}"
 
 # Kill any process listing on the specified port
