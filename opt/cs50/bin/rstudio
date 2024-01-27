@@ -1,21 +1,17 @@
 #!/bin/bash
 
-PORT="8080"
-export USER="${USER:-$(whoami)}"
-
 # Kill any process listing on the specified port
-fuser --kill -TERM "${PORT}/tcp" &>/dev/null
+fuser --kill -TERM "8787/tcp" &>/dev/null
 
 # Formatting
 bold=$(tput bold)
 normal=$(tput sgr0)
 
 # Start server
-echo "${bold}Started server on http://0.0.0.0:${PORT}. Hit CTRL-C to stop the server.${normal}"
+export USER="${USER:-$(whoami)}"
+echo "${bold}Started server on http://0.0.0.0:8787. Hit CTRL-C to stop the server.${normal}"
 /usr/lib/rstudio-server/bin/rserver \
     --auth-none=1 \
     --server-daemonize=0 \
     --server-data-dir=/tmp/rstudio-server \
-    --server-user="$USER" \
-    --www-port="$PORT" \
-    --www-root-path=/ # Else $PORT is appended during redirects
+    --server-user="$USER"
