@@ -142,28 +142,6 @@ RUN pip3 install --no-cache-dir \
         setuptools
 
 
-# Install RStudio
-# https://posit.co/download/rstudio-server/
-# https://dailies.rstudio.com/rstudio/cherry-blossom/server/jammy-amd64/
-# https://dailies.rstudio.com/rstudio/cherry-blossom/server/jammy-arm64/
-RUN apt update && \
-    apt install --no-install-recommends --no-install-suggests --yes \
-        software-properties-common && \
-    cd /tmp && \
-    if [ $(uname -m) = "x86_64" ]; then ARCH="amd64"; else ARCH="arm64"; fi && \
-    curl --remote-name https://s3.amazonaws.com/rstudio-ide-build/server/jammy/${ARCH}/rstudio-server-2023.03.3-547-${ARCH}.deb && \
-    dpkg --force-depends --install rstudio-server-2023.03.3-547-${ARCH}.deb && \
-    apt update && \
-    apt install --fix-broken --yes && \
-    add-apt-repository --yes ppa:c2d4u.team/c2d4u4.0+ && \
-    apt update && \
-    apt install --no-install-recommends --no-install-suggests --yes \
-        r-cran-tidyverse && \
-    apt remove --yes \
-        software-properties-common && \
-    apt clean
-
-
 # Copy files to image
 COPY ./etc /etc
 COPY ./opt /opt

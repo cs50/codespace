@@ -40,7 +40,7 @@
         ]
     },
     "posix_terminal_shell": "bash",
-    "reuse_sessions_for_project_links": true,
+    "reuse_sessions_for_project_links": false,
     "save_workspace": "never",
     "show_data_preview": false,
     "show_function_signature_tooltips": false,

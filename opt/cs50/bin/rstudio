@@ -1,17 +1,45 @@
 #!/bin/bash
 
-# Kill any process listing on the specified port
-fuser --kill -TERM "8787/tcp" &>/dev/null
+IMAGE="rocker/tidyverse"
+NAME="rstudio"
 
 # Formatting
 bold=$(tput bold)
 normal=$(tput sgr0)
 
-# Start server
-export USER="${USER:-$(whoami)}"
-echo "${bold}Started server on http://0.0.0.0:8787. Hit CTRL-C to stop the server.${normal}"
-/usr/lib/rstudio-server/bin/rserver \
-    --auth-none=1 \
-    --server-daemonize=0 \
-    --server-data-dir=/tmp/rstudio-server \
-    --server-user="$USER"
+# Check for $1
+if [[ $# -eq 1 ]]; then
+    if [[ "$1" == "restart" ]]; then
+        docker stop  "$NAME" > /dev/null 2>&1
+        docker rm "$NAME" > /dev/null 2>&1
+    elif [[ "$1" == "stop" ]]; then
+        docker stop "$NAME" > /dev/null 2>&1
+        docker rm "$NAME" > /dev/null 2>&1
+        exit $?
+    fi
+fi
+
+# Check for running image
+id=$(docker ps --filter "name=rstudio" --quiet)
+if [[ -z "$id" ]]; then
+
+    # Pull image synchronously
+    docker pull --quiet "$IMAGE" > /dev/null 2>&1
+
+    # Run image asynchronously
+    # https://rocker-project.org/images/versioned/rstudio.html#environment-variables
+    docker run \
+        --detach \
+        --env DISABLE_AUTH=true \
+        --env ROOT=true \
+        --interactive \
+        --name "$NAME" \
+        --publish 8787:8787 \
+        --quiet \
+        --rm \
+        --tty \
+        --volume /etc/rstudio/rstudio-prefs.json:/etc/rstudio/rstudio-prefs.json \
+        --volume "/workspaces/$RepositoryName":/home/rstudio \
+        rocker/tidyverse > /dev/null 2>&1
+fi
+echo "${bold}Available at http://0.0.0.0:8787.${normal}"
