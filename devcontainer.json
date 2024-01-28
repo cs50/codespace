@@ -51,6 +51,12 @@
                 "C_Cpp.enhancedColorization": "enabled",
                 "C_Cpp.errorSquiggles": "disabled",
                 "C_Cpp.formatting": "clangFormat",
+                "cs50.watchPorts": [
+                    5000,
+                    8080,
+                    8082,
+                    8787
+                ],
                 "diffEditor.diffAlgorithm": "advanced",
                 "diffEditor.ignoreTrimWhitespace": false,
                 "editor.autoClosingQuotes": "never",
@@ -221,7 +227,8 @@
         5900, /* VNC server */
         6081, /* VNC client */
         8080, /* http-server */
-        8082  /* phpLiteAdmin */
+        8082, /* phpLiteAdmin */
+        8787  /* RStudio */
     ],
     "postCreateCommand": "/opt/cs50/bin/postCreateCommand",
     "remoteEnv": {
