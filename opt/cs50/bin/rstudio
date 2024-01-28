@@ -32,12 +32,10 @@ if [[ -z "$id" ]]; then
         --detach \
         --env DISABLE_AUTH=true \
         --env ROOT=true \
-        --interactive \
         --name "$NAME" \
         --publish 8787:8787 \
         --quiet \
         --rm \
-        --tty \
         --volume /etc/rstudio/rstudio-prefs.json:/etc/rstudio/rstudio-prefs.json \
         --volume "/workspaces/$RepositoryName":/home/rstudio \
         rocker/tidyverse > /dev/null 2>&1
