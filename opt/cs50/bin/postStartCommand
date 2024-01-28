@@ -1,0 +1,4 @@
+#!/bin/bash
+
+# Start Docker outside of Docker
+sudo /etc/init.d/docker start
