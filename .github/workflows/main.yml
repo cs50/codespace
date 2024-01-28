@@ -34,7 +34,7 @@ jobs:
       - name: Only use `build` and `features`, if any, from devcontainer.json
         run: |
           pip3 install jsmin
-          python3 -c "import jsmin, json; f = open('devcontainer.json', 'r'); data = json.loads(jsmin.jsmin(f.read())); o = {}; o['build']=data['build']; o['features']=data.get('features', []); o['remoteEnv']=data['remoteEnv']; f.close(); f = open('devcontainer.json', 'w'); f.write(json.dumps(o, indent=4)); f.close()"
+          python3 -c "import jsmin, json; f = open('devcontainer.json', 'r'); data = json.loads(jsmin.jsmin(f.read())); o = {}; o['build']=data['build']; o['features']=data.get('features', []); f.close(); f = open('devcontainer.json', 'w'); f.write(json.dumps(o, indent=4)); f.close()"
 
       - name: Build (latest)
         if: ${{ github.ref == 'refs/heads/main' }}
