@@ -171,6 +171,7 @@
                 "terminal.integrated.sendKeybindingsToShell": true,
                 "terminal.integrated.shellIntegration.enabled": true,
                 "terminal.integrated.shellIntegration.decorationsEnabled": "never", /* Remove decoration for each command */
+                "terminal.integrated.showExitAlert": false,
                 "terminal.integrated.tabs.description": "${task}${separator}${local}", /* Remove cwdFolder from description */
                 "terminal.integrated.tabs.showActiveTerminal": "never",
                 "window.autoDetectColorScheme": true,
