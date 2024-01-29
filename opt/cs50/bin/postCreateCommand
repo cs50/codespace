@@ -52,6 +52,9 @@ mv -f /tmp/.gitignore .gitignore
 sudo tar --extract --file /build/glibc-sMfBJT/glibc.tar.gz --directory /build/glibc-sMfBJT
 sudo rm --force /build/glibc-sMfBJT/glibc.tar.gz
 
+# Start Docker outside of Docker
+sudo nohup /etc/init.d/docker start > /dev/null 2>&1
+
 # An array of Docker images we need to pull in background
 docker_images=(
     "cs50/cli:amd64"
