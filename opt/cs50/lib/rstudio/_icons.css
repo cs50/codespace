@@ -1,0 +1,14 @@
+#rstudio_console_interpreter_version,
+#rstudio_console_interpreter_version_tabbed {
+    display: none;
+}
+
+div:has(> #rstudio_console_interpreter_version) + div,
+div:has(> #rstudio_console_interpreter_version_tabbed) + div {
+    display: none;
+}
+
+div:has(> #rstudio_console_interpreter_version) + div + div,
+div:has(> #rstudio_console_interpreter_version_tabbed) + div + div {
+    margin-left: 0;
+}

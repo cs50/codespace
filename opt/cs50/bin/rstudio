@@ -36,9 +36,16 @@ if [[ -z "$id" ]]; then
         --volume "$LOCAL_WORKSPACE_FOLDER":/home/rstudio \
         rocker/tidyverse
 
-    # Copy preferences into container
-    docker cp /opt/cs50/etc/rstudio/rstudio-prefs.json rstudio:/etc/rstudio/
+    # Copy files into container
+    docker cp /opt/cs50/lib/rstudio/rstudio-prefs.json rstudio:/etc/rstudio/
+    docker cp /opt/cs50/lib/rstudio/_icons.css rstudio:/tmp
 
-    # Start and attach to container
-    docker start --attach rstudio
+    # Start container
+    docker start rstudio
+
+    # Inject CSS
+    docker exec rstudio sh -c "cat /tmp/_icons.css >> /usr/lib/rstudio-server/www/css/icons.css"
+
+    # Attach to container
+    docker attach rstudio
 fi
