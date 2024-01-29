@@ -4,6 +4,7 @@
     "auto_discover_package_dependencies": false,
     "code_completion": "never",
     "editor_theme": "Tomorrow Night Bright",
+    "enable_cloud_publish_ui": false,
     "enable_screen_reader": true,
     "initial_working_directory": "~",
     "insert_native_pipe_operator": true,
