@@ -20,4 +20,4 @@ run:
 	docker run --interactive --publish 8080:8080 --rm --security-opt seccomp=unconfined --tty --volume "$(PWD)":/mnt cs50/codespace || true
 
 squash: depends
-	docker-squash --tag cs50/codespace cs50/codespace
+	docker-squash --tag cs50/codespace:"$(TAG)" cs50/codespace:"$(TAG)"

@@ -24,7 +24,7 @@ id=$(docker ps --filter "name=rstudio" --quiet)
 if [[ -z "$id" ]]; then
 
     # Pull image
-    docker pull --quiet "$IMAGE"
+    docker pull "$IMAGE"
 
     # Create container
     # https://rocker-project.org/images/versioned/rstudio.html#environment-variables
@@ -32,7 +32,6 @@ if [[ -z "$id" ]]; then
         --env DISABLE_AUTH=true \
         --name "$NAME" \
         --publish 8787:8787 \
-        --quiet \
         --rm \
         --volume "$LOCAL_WORKSPACE_FOLDER":/home/rstudio \
         rocker/tidyverse
