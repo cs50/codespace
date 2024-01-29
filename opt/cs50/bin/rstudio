@@ -33,13 +33,16 @@ if [[ -z "$id" ]]; then
         --name "$NAME" \
         --publish 8787:8787 \
         --rm \
-        --volume "$LOCAL_WORKSPACE_FOLDER":/home/rstudio \
+        --volume "$LOCAL_WORKSPACE_FOLDER":"/workspaces/$RepositoryName" \
         rocker/tidyverse
+
+    # Customize rstudio-prefs.json
+    jq ".initial_working_directory = \"/workspaces/$RepositoryName\"" /opt/cs50/lib/rstudio/rstudio-prefs.json > /tmp/rstudio-prefs.json
 
     # Copy files into container
     docker cp /opt/cs50/lib/rstudio/_icons.css rstudio:/tmp
-    docker cp /opt/cs50/lib/rstudio/rstudio-prefs.json rstudio:/etc/rstudio/
     docker cp /opt/cs50/lib/rstudio/rstudio-server.json rstudio:/etc/rstudio/
+    docker cp /tmp/rstudio-prefs.json rstudio:/etc/rstudio/
 
     # Start container
     docker start rstudio

@@ -6,7 +6,6 @@
     "editor_theme": "Tomorrow Night Bright",
     "enable_cloud_publish_ui": false,
     "enable_screen_reader": true,
-    "initial_working_directory": "~",
     "insert_native_pipe_operator": true,
     "insert_parens_after_function_completion": false,
     "insert_spaces_around_equals": false,
