@@ -1,13 +1,16 @@
 {
     "always_save_history": false,
+    "auto_append_newline": true,
     "auto_discover_package_dependencies": false,
     "code_completion": "never",
     "editor_theme": "Tomorrow Night Bright",
+    "enable_screen_reader": true,
     "initial_working_directory": "~",
     "insert_native_pipe_operator": true,
     "insert_parens_after_function_completion": false,
     "insert_spaces_around_equals": false,
     "jobs_tab_visibility": "closed",
+    "load_workspace": false,
     "panes": {
         "additional_source_columns": 0,
         "console_left_on_top": false,
@@ -40,11 +43,15 @@
         ]
     },
     "posix_terminal_shell": "bash",
+    "restore_last_project": false,
+    "restore_source_documents": false,
+    "restore_source_document_cursor_position": false,
     "reuse_sessions_for_project_links": false,
     "save_workspace": "never",
     "show_data_preview": false,
     "show_function_signature_tooltips": false,
     "show_margin": false,
     "show_terminal_tab": false,
+    "strip_trailing_whitespace": true,
     "tab_completion": false
 }
