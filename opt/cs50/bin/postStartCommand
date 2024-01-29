@@ -10,7 +10,7 @@ docker_images=(
     "rocker/tidyverse"
 )
 for image in "${docker_images[@]}"; do
-    docker pull "$image" > /dev/null 2>&1
+    docker pull "$image" > /dev/null 2>&1 &
 done
 docker image prune --force
-' > /dev/null 2>&1 &
+' > /dev/null 2>&1
