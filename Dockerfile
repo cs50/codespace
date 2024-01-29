@@ -1,5 +1,6 @@
 # Build stage
-FROM cs50/cli as builder
+ARG TAG=amd64
+FROM cs50/cli:${TAG} as builder
 ARG DEBIAN_FRONTEND=noninteractive
 
 
@@ -94,7 +95,7 @@ RUN npm install --global @vscode/vsce yarn && \
 
 
 # Final stage
-FROM cs50/cli
+FROM cs50/cli:${TAG}
 
 
 # Unset user

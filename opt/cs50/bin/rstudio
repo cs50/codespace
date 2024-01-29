@@ -36,8 +36,7 @@ if [[ -z "$id" ]]; then
         --publish 8787:8787 \
         --quiet \
         --rm \
-        --volume /etc/rstudio/rstudio-prefs.json:/etc/rstudio/rstudio-prefs.json \
-        --volume "/workspaces/$RepositoryName":/home/rstudio \
+        --volume "$LOCAL_WORKSPACE_FOLDER":/home/rstudio \
         rocker/tidyverse > /dev/null 2>&1
 fi
 echo "${bold}Available at http://0.0.0.0:8787.${normal}"
