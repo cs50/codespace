@@ -3,17 +3,14 @@
 # Start Docker outside of Docker
 sudo nohup /etc/init.d/docker start > /dev/null 2>&1
 
-# An array of Docker images we need to pull in background
+# Loop through the array and pull each image in background
+nohup bash -c '
 docker_images=(
     "cs50/cli:amd64"
     "rocker/tidyverse"
-    # Add more images here as needed
 )
-
-# Loop through the array and pull each image
 for image in "${docker_images[@]}"; do
-    nohup docker pull "$image" > /dev/null 2>&1
+    docker pull "$image" > /dev/null 2>&1
 done
-
-# Remove dangling Docker images
 docker image prune --force
+' > /dev/null 2>&1 &
