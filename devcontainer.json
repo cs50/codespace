@@ -158,13 +158,6 @@
                 "terminal.integrated.defaultProfile.linux": "bash",
                 "terminal.integrated.gpuAcceleration": "off",
                 "terminal.integrated.profiles.linux": {
-                    "bash": {
-                        "args": [
-                            "--login"
-                        ],
-                        "icon": "terminal",
-                        "path": "bash"
-                    },
                     "JavaScript Debug Terminal": null
                 },
                 "terminal.integrated.persistentSessionReviveProcess": "never",
