@@ -23,20 +23,23 @@ fi
 id=$(docker ps --filter "name=rstudio" --quiet)
 if [[ -z "$id" ]]; then
 
-    # Pull image synchronously
-    docker pull --quiet "$IMAGE" > /dev/null 2>&1
+    # Pull image
+    docker pull --quiet "$IMAGE"
 
-    # Run image asynchronously
+    # Create container
     # https://rocker-project.org/images/versioned/rstudio.html#environment-variables
-    docker run \
-        --detach \
+    docker create \
         --env DISABLE_AUTH=true \
-        --env ROOT=true \
         --name "$NAME" \
         --publish 8787:8787 \
         --quiet \
         --rm \
         --volume "$LOCAL_WORKSPACE_FOLDER":/home/rstudio \
-        rocker/tidyverse > /dev/null 2>&1
+        rocker/tidyverse
+
+    # Copy preferences into container
+    docker cp /opt/cs50/etc/rstudio/rstudio-prefs.json rstudio:/etc/rstudio/
+
+    # Start and attach to container
+    docker start --attach rstudio
 fi
-echo "${bold}Available at http://0.0.0.0:8787.${normal}"
