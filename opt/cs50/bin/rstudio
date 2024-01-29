@@ -37,8 +37,9 @@ if [[ -z "$id" ]]; then
         rocker/tidyverse
 
     # Copy files into container
-    docker cp /opt/cs50/lib/rstudio/rstudio-prefs.json rstudio:/etc/rstudio/
     docker cp /opt/cs50/lib/rstudio/_icons.css rstudio:/tmp
+    docker cp /opt/cs50/lib/rstudio/rstudio-prefs.json rstudio:/etc/rstudio/
+    docker cp /opt/cs50/lib/rstudio/rstudio-server.json rstudio:/etc/rstudio/
 
     # Start container
     docker start rstudio
