@@ -1,5 +1,21 @@
 #!/bin/bash
 
+# Check for -t flag for develop mode
+if [ "$1" == "-t" ]; then
+    # Use the specified tag to build the URL
+    tag=$2
+    url="https://cs50.dev/devcontainer.json?tag=$tag"
+
+    # Fetch and save the JSON
+    curl --fail --header "Cache-Control: no-cache" --silent --location "$url" > "/workspaces/$RepositoryName/.devcontainer.json"
+    if [ $? -ne 0 ]; then
+        echo "Could not update codespace with tag $tag. Try again later."
+        exit 1
+    fi
+    command50 github.codespaces.fullRebuildEnvironment
+    exit 0
+fi
+
 # Get remote JSON
 remote=$(curl --fail --header "Cache-Control: no-cache" --silent --location https://cs50.dev/devcontainer.json)
 if [ $? -ne 0 ]; then
