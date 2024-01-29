@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Start Docker outside of Docker
-sudo nohup /etc/init.d/docker start > /dev/null 2>&1
+sudo /etc/init.d/docker start > /dev/null 2>&1
 
 # Loop through the array and pull each image in background
 nohup bash -c '
