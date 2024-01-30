@@ -1,0 +1,19 @@
+#!/bin/bash
+
+# This script is run after the Docker container is started.
+LOG="/tmp/cs50_post_start_command.log"
+echo -e "\n$(date)" >> "$LOG"
+
+# Start Docker outside of Docker
+sudo /etc/init.d/docker start >> "$LOG" 2>&1
+
+# Loop through the array and pull each image in background
+nohup bash -c '
+(docker_images=(
+    "cs50/cli:amd64"
+    "rocker/tidyverse"
+)
+for image in "${docker_images[@]}"; do
+    nice -n 10 docker pull "$image" >> "'"$LOG"'" 2>&1
+done
+docker image prune --force) &' >> "$LOG" 2>&1

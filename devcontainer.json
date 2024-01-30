@@ -17,6 +17,7 @@
                 "cs50.extension-uninstaller",
                 "inferrinizzard.prettier-sql-vscode",
                 "mathematic.vscode-pdf",
+                "ms-azuretools.vscode-docker",
                 "ms-ceintl.vscode-language-pack-bg",
                 "ms-ceintl.vscode-language-pack-cs",
                 "ms-ceintl.vscode-language-pack-de",
@@ -51,6 +52,12 @@
                 "C_Cpp.enhancedColorization": "enabled",
                 "C_Cpp.errorSquiggles": "disabled",
                 "C_Cpp.formatting": "clangFormat",
+                "cs50.watchPorts": [
+                    5000,
+                    8080,
+                    8082,
+                    8787
+                ],
                 "diffEditor.diffAlgorithm": "advanced",
                 "diffEditor.ignoreTrimWhitespace": false,
                 "editor.autoClosingQuotes": "never",
@@ -151,19 +158,13 @@
                 "terminal.integrated.defaultProfile.linux": "bash",
                 "terminal.integrated.gpuAcceleration": "off",
                 "terminal.integrated.profiles.linux": {
-                    "bash": {
-                        "args": [
-                            "--login"
-                        ],
-                        "icon": "terminal",
-                        "path": "bash"
-                    },
                     "JavaScript Debug Terminal": null
                 },
                 "terminal.integrated.persistentSessionReviveProcess": "never",
                 "terminal.integrated.sendKeybindingsToShell": true,
                 "terminal.integrated.shellIntegration.enabled": true,
                 "terminal.integrated.shellIntegration.decorationsEnabled": "never", /* Remove decoration for each command */
+                "terminal.integrated.showExitAlert": false,
                 "terminal.integrated.tabs.description": "${task}${separator}${local}", /* Remove cwdFolder from description */
                 "terminal.integrated.tabs.showActiveTerminal": "never",
                 "window.autoDetectColorScheme": true,
@@ -213,17 +214,23 @@
             }
         }
     },
-    "features": {
-        "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {}
-    },
     "forwardPorts": [
         5000, /* Flask */
         5900, /* VNC server */
         6081, /* VNC client */
         8080, /* http-server */
-        8082  /* phpLiteAdmin */
+        8082, /* phpLiteAdmin */
+        8787  /* RStudio */
+    ],
+    "mounts": [
+        {
+            "source": "/var/run/docker.sock",
+            "target": "/var/run/docker-host.sock", /* https://github.com/devcontainers/features/blob/main/src/docker-outside-of-docker/devcontainer-feature.json */
+            "type": "bind"
+        }
     ],
     "postCreateCommand": "/opt/cs50/bin/postCreateCommand",
+    "postStartCommand": "/opt/cs50/bin/postStartCommand",
     "remoteEnv": {
         "CS50_GH_USER": "${localEnv:GITHUB_USER}",
         "GH_TOKEN": "${localEnv:CS50_TOKEN}",

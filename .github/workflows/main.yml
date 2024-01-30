@@ -3,7 +3,7 @@ on:
   - workflow_dispatch
 jobs:
   build:
-    runs-on: ubuntu-latest-16-cores
+    runs-on: ubuntu-latest-64-cores
     steps:
 
       - name: Checkout
@@ -19,7 +19,6 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Log into GitHub Packages
-        if: ${{ github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop' }}
         uses: docker/login-action@v2
         with:
           registry: ghcr.io
@@ -29,12 +28,12 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.12'
+          python-version: '3.11'
 
-      - name: Only use "build" and "features" from devcontainer.json
+      - name: Only use `build` and `features`, if any, from devcontainer.json
         run: |
           pip3 install jsmin
-          python3 -c "import jsmin, json; f = open('devcontainer.json', 'r'); data = json.loads(jsmin.jsmin(f.read())); o = {}; o['build']=data['build']; o['features']=data['features']; o['remoteEnv']=data['remoteEnv']; f.close(); f = open('devcontainer.json', 'w'); f.write(json.dumps(o, indent=4)); f.close()"
+          python3 -c "import jsmin, json; f = open('devcontainer.json', 'r'); data = json.loads(jsmin.jsmin(f.read())); o = {}; o['build']=data['build']; o['features']=data.get('features', []); f.close(); f = open('devcontainer.json', 'w'); f.write(json.dumps(o, indent=4)); f.close()"
 
       - name: Build (latest)
         if: ${{ github.ref == 'refs/heads/main' }}
@@ -57,24 +56,31 @@ jobs:
           docker push cs50/codespace:${{ github.sha }}
           docker push cs50/codespace:latest
 
-      - name: Build (develop)
-        if: ${{ github.ref == 'refs/heads/develop' }}
+      - name: Build ${{ github.ref_name}}
+        if: ${{ github.ref != 'refs/heads/main' }}
         run: |
           export VCS_REF=$(git rev-parse HEAD)
           npm install -g @devcontainers/cli
-          devcontainer build --workspace-folder . --config devcontainer.json --image-name cs50/codespace:${{ github.sha }} --image-name cs50/codespace:develop
+          devcontainer build --workspace-folder . --config devcontainer.json --image-name cs50/codespace:${{ github.sha }} --image-name cs50/codespace:${{ github.ref_name }}
 
-      - name: Push (develop) to GitHub Packages
-        if: ${{ github.ref == 'refs/heads/develop' }}
+      - name: Squash (${{ github.ref_name }})
+        if: ${{ github.ref != 'refs/heads/main' }}
         run: |
-          docker tag cs50/codespace:${{ github.sha }} ghcr.io/cs50/codespace:develop
-          docker push ghcr.io/cs50/codespace:develop
+          pip3 install docker-squash
+          docker-squash --tag cs50/codespace:${{ github.ref_name }} cs50/codespace:${{ github.ref_name }}
 
-      - name: Push to Docker Hub (develop)
-        if: ${{ github.ref == 'refs/heads/develop' }}
+      - name: Push (${{ github.ref_name }}) to GitHub Packages
+        if: ${{ github.ref != 'refs/heads/main' }}
         run: |
+          docker tag cs50/codespace:${{ github.ref_name }} ghcr.io/cs50/codespace:${{ github.ref_name }}
+          docker push ghcr.io/cs50/codespace:${{ github.ref_name }}
+
+      - name: Push to Docker Hub (${{ github.ref_name }})
+        if: ${{ github.ref != 'refs/heads/main' }}
+        run: |
+          docker tag cs50/codespace:${{ github.ref_name }} cs50/codespace:${{ github.sha }}
+          docker push cs50/codespace:${{ github.ref_name }}
           docker push cs50/codespace:${{ github.sha }}
-          docker push cs50/codespace:develop
 
       - name: Tag main as latest
         if: ${{ github.ref == 'refs/heads/main' }}

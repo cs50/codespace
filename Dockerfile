@@ -1,5 +1,6 @@
 # Build stage
-FROM cs50/cli:amd64 as builder
+ARG TAG=amd64
+FROM cs50/cli:${TAG} as builder
 ARG DEBIAN_FRONTEND=noninteractive
 
 
@@ -11,10 +12,11 @@ USER root
 # https://github.com/Microsoft/vscode-cpptools/issues/1123#issuecomment-335867997
 RUN echo "deb-src http://archive.ubuntu.com/ubuntu/ jammy main restricted" > /etc/apt/sources.list.d/_.list && \
     apt update && \
-    apt install --no-install-recommends --yes dpkg-dev && \
+    apt install --no-install-recommends --no-install-suggests --yes \
+        dpkg-dev && \
     cd /tmp && \
     apt source glibc && \
-    rm -rf *.tar.* *.dsc && \
+    rm --force --recursive *.dsc *.tar.* && \
     mkdir --parents /build/glibc-sMfBJT && \
     tar --create --gzip --file /build/glibc-sMfBJT/glibc.tar.gz glibc*
 
@@ -24,25 +26,33 @@ RUN wget https://repo1.maven.org/maven2/com/madgag/bfg/1.14.0/bfg-1.14.0.jar -P 
 
 
 # Install Lua 5.x
-RUN wget http://www.lua.org/ftp/lua-5.4.4.tar.gz -P/tmp && \
-    cd /tmp && \
-    tar zxf lua-5.4.4.tar.gz && \
-    cd lua-5.4.4 && \
-    make all test install && \
-    cd /tmp && \
-    rm -rf /tmp/lua-5.4.4*
+# https://www.lua.org/manual/5.4/readme.html
+RUN cd /tmp && \
+    curl --remote-name https://www.lua.org/ftp/lua-5.4.6.tar.gz && \
+    tar xzf lua-5.4.6.tar.gz && \
+    rm --force lua-5.4.6.tar.gz && \
+    cd lua-5.4.6 && \
+    make all install && \
+    cd .. && \
+    rm --force --recursive /tmp/lua-5.4.6
 
 
 # Install noVNC (VNC client)
-RUN wget https://github.com/novnc/noVNC/archive/refs/tags/v1.4.0.zip -P/tmp && \
-    unzip /tmp/v1.4.0.zip -d /tmp && \
-    mv /tmp/noVNC-1.4.0 /opt/noVNC && \
-    rm -rf /tmp/noVNC-1.4.0 /tmp/v1.4.0.zip && \
-    chown -R ubuntu:ubuntu /opt/noVNC
+RUN cd /tmp && \
+    curl --location --remote-name https://github.com/novnc/noVNC/archive/refs/tags/v1.4.0.zip && \
+    unzip v1.4.0.zip && \
+    rm --force v1.4.0.zip && \
+    cd noVNC-1.4.0/utils && \
+    curl --location --remote-name https://github.com/novnc/websockify/archive/refs/heads/master.tar.gz && \
+    tar xzf master.tar.gz && \
+    mv websockify-master websockify && \
+    rm --force master.tar.gz && \
+    cd ../.. && \
+    mv noVNC-1.4.0 /opt/noVNC
 
 
 # Install VS Code extensions
-RUN npm install -g @vscode/vsce yarn && \
+RUN npm install --global @vscode/vsce yarn && \
     mkdir --parents /opt/cs50/extensions && \
     cd /tmp && \
     git clone https://github.com/cs50/explain50.vsix.git && \
@@ -51,7 +61,7 @@ RUN npm install -g @vscode/vsce yarn && \
     vsce package && \
     mv explain50-1.0.0.vsix /opt/cs50/extensions && \
     cd /tmp && \
-    rm -rf explain50.vsix && \
+    rm --force --recursive explain50.vsix && \
     git clone https://github.com/cs50/cs50.vsix.git && \
     cd cs50.vsix && \
     npm install && \
@@ -59,85 +69,78 @@ RUN npm install -g @vscode/vsce yarn && \
     mv cs50-0.0.1.vsix /opt/cs50/extensions && \
     mv python-clients/cs50vsix-client /opt/cs50/extensions && \
     cd /tmp && \
-    rm -rf cs50.vsix && \
+    rm --force --recursive cs50.vsix && \
     git clone https://github.com/cs50/ddb50.vsix.git && \
     cd ddb50.vsix && \
     npm install && \
     vsce package && \
     mv ddb50-2.0.0.vsix /opt/cs50/extensions && \
     cd /tmp && \
-    rm -rf ddb50.vsix && \
+    rm --force --recursive ddb50.vsix && \
     git clone https://github.com/cs50/phpliteadmin.vsix.git && \
     cd phpliteadmin.vsix && \
     npm install && \
     vsce package && \
     mv phpliteadmin-0.0.1.vsix /opt/cs50/extensions && \
     cd /tmp && \
-    rm -rf phpliteadmin.vsix && \
+    rm --force --recursive phpliteadmin.vsix && \
     git clone https://github.com/cs50/style50.vsix.git && \
     cd style50.vsix && \
     npm install && \
     vsce package && \
     mv style50-0.0.1.vsix /opt/cs50/extensions && \
     cd /tmp && \
-    rm -rf style50.vsix && \
-    npm uninstall -g vsce yarn
+    rm --force --recursive style50.vsix && \
+    npm uninstall --global vsce yarn
 
 
 # Final stage
-FROM cs50/cli:amd64
-ARG DEBIAN_FRONTEND=noninteractive
+FROM cs50/cli:${TAG}
 
 
 # Unset user
 USER root
+ARG DEBIAN_FRONTEND=noninteractive
 
 
 # Copy files from builder
-COPY --from=builder /build/glibc-sMfBJT /build/glibc-sMfBJT
-COPY --from=builder /usr/local/bin/lua /usr/local/bin/lua
-COPY --from=builder /opt/noVNC /opt/noVNC
-COPY --from=builder /opt/cs50/extensions /opt/cs50/extensions
-COPY --from=builder /opt/share/bfg-1.14.0.jar /opt/share/bfg-1.14.0.jar
-RUN chown -R ubuntu:ubuntu /opt/share
+COPY --from=builder /build /build
+COPY --from=builder /opt /opt
+COPY --from=builder /usr/local /usr/local
 RUN pip3 install --no-cache-dir /opt/cs50/extensions/cs50vsix-client/ && \
-    rm -rf /opt/cs50/extensions/cs50vsix-client
+    rm --force --recursive /opt/cs50/extensions/cs50vsix-client
 
 
-# set virtual display
+# Set virtual display
 ENV DISPLAY=":0"
 
 
 # Install Ubuntu packages
 # Install acl for temporarily removing ACLs via opt/cs50/bin/postCreateCommand
 # https://github.community/t/bug-umask-does-not-seem-to-be-respected/129638/9
-RUN apt update && apt install --no-install-recommends --yes \
+RUN apt update && \
+    apt install --no-install-recommends --no-install-suggests --yes \
         acl \
         dwarfdump \
         jq \
-        manpages-dev \
-        mysql-client \
         openbox \
-        pgloader \
         php-cli \
         php-mbstring \
         php-sqlite3 \
-        postgresql \
         xvfb \
         x11vnc && \
-        apt clean
+    apt clean
 
 
 # Install Python packages
 RUN pip3 install --no-cache-dir \
-    black \
-    clang-format \
-    cli50 \
-    djhtml \
-    matplotlib \
-    "pydantic<2" \
-    pytz \
-    setuptools
+        black \
+        clang-format \
+        djhtml \
+        matplotlib \
+        "pydantic<2" \
+        pytz \
+        setuptools
 
 
 # Copy files to image

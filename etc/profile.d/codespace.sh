@@ -60,8 +60,8 @@ if [ "$(whoami)" != "root" ]; then
 
     # Override --system credential.helper to use $CS50_TOKEN instead of $GITHUB_TOKEN
     # https://stackoverflow.com/a/64868901
-    git config --global --replace-all credential.helper ""
-    git config --global --add credential.helper /opt/cs50/bin/gitcredential_github.sh
+    command git config --global --replace-all credential.helper ""
+    command git config --global --add credential.helper /opt/cs50/bin/gitcredential_github.sh
 
     # Discourage use of git in repository
     git() {
@@ -77,6 +77,8 @@ if [ "$(whoami)" != "root" ]; then
         command http-server "$@" | _hostname | _version | uniq
     }
 
-    # Manual sections to search
-    export MANSECT=3,2,1
+    # Rewrite URL in stdout
+    rstudio() {
+        command rstudio | _hostname
+    }
 fi
