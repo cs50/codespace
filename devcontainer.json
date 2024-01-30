@@ -132,7 +132,7 @@
                 "java.configuration.runtimes": [
                     {
                         "name": "JavaSE-21",
-                        "path": "/opt/jdk-21.0.1", /* env | grep JAVA_HOME (set in cs50/cli) */
+                        "path": "/opt/jdk", /* env | grep JAVA_HOME (set in cs50/cli) */
                         "default": true
                     }
                 ],
