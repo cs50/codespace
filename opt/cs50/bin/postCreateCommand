@@ -36,6 +36,7 @@ vendor/
 !*.js
 !*.md
 !*.py
+!*.R
 !*.sql
 !*.ts
 !*.txt
