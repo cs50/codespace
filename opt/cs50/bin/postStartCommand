@@ -10,7 +10,7 @@ sudo /etc/init.d/docker start >> "$LOG" 2>&1
 # Loop through the array and pull each image in background
 # Impose a CPU limit of 30% on the Docker daemon
 nohup bash -c '
-docker_images=(
+(docker_images=(
     "cs50/cli:amd64"
     "rocker/tidyverse"
 )
@@ -18,5 +18,4 @@ for image in "${docker_images[@]}"; do
     docker pull "$image" >> "'"$LOG"'" 2>&1 &
     sudo cpulimit --pid=$(pidof docker) --limit=30 >> "'"$LOG"'" 2>&1
 done
-docker image prune --force >> "'"$LOG"'" 2>&1
-' >> "$LOG" 2>&1 &
+docker image prune --force) &' >> "$LOG" 2>&1
