@@ -8,7 +8,6 @@ echo -e "\n$(date)" >> "$LOG"
 sudo /etc/init.d/docker start >> "$LOG" 2>&1
 
 # Loop through the array and pull each image in background
-# Impose a CPU limit of 30% on the Docker daemon
 nohup bash -c '
 (docker_images=(
     "cs50/cli:amd64"
