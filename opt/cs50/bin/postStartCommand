@@ -15,6 +15,6 @@ nohup bash -c '
     "rocker/tidyverse"
 )
 for image in "${docker_images[@]}"; do
-    docker pull "$image" >> "'"$LOG"'" 2>&1
+    nice -n 10 docker pull "$image" >> "'"$LOG"'" 2>&1
 done
 docker image prune --force) &' >> "$LOG" 2>&1
