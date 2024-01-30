@@ -27,8 +27,8 @@
             "Viewer"
         ],
         "quadrants": [
-            "Console",
             "Source",
+            "Console",
             "TabSet1",
             "TabSet2"
         ],
