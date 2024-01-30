@@ -121,7 +121,6 @@ ENV DISPLAY=":0"
 RUN apt update && \
     apt install --no-install-recommends --no-install-suggests --yes \
         acl \
-        cpulimit \
         dwarfdump \
         jq \
         openbox \
