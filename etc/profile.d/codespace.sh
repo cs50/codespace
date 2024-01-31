@@ -1,6 +1,20 @@
 # If not root
 if [ "$(whoami)" != "root" ]; then
 
+    # Check each environment variable and echo a warning message if it's not set
+    missing=0
+    env_vars=("CS50_TOKEN" "CS50_LANG" "CS50_TZ")
+    for var in "${env_vars[@]}"; do
+        if [[ -z "${!var}" ]]; then
+            echo "WARNING: Missing environment variable $var"
+            missing=1
+        fi
+    done
+
+    if [ $missing -eq 1 ]; then
+        echo "Please report this issue to sysadmins@cs50.harvard.edu"
+    fi
+
     # Rewrites URLs of the form http://HOST:PORT as https://$CODESPACE_NAME.app.github.dev:PORT
     _hostname() {
 
