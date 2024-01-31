@@ -12,7 +12,7 @@ if [ "$(whoami)" != "root" ]; then
     done
 
     if [ $missing -eq 1 ]; then
-        echo "Please report this issue to sysadmins@cs50.harvard.edu with the following information:"
+        echo "Please report all missing environment variables to sysadmins@cs50.harvard.edu with the following information:"
         echo "GitHub username: $GITHUB_USER"
         echo "Codespace name: $CODESPACE_NAME"
     fi
