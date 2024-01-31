@@ -232,8 +232,7 @@
     "postCreateCommand": "/opt/cs50/bin/postCreateCommand",
     "postStartCommand": "/opt/cs50/bin/postStartCommand",
     "remoteEnv": {
-        "CS50_GH_USER": "${localEnv:GITHUB_USER}",
-        "GH_TOKEN": "${localEnv:CS50_TOKEN}",
+        "CS50_GH_USER": "${localEnv:GITHUB_USER}", /* For lib50 */
         "LANG": "${localEnv:CS50_LANG}",
         "LOCAL_WORKSPACE_FOLDER": "${localWorkspaceFolder}",
         "TZ": "${localEnv:CS50_TZ}"
