@@ -6,15 +6,15 @@ if [ "$(whoami)" != "root" ]; then
     env_vars=("CS50_TOKEN" "CS50_LANG" "CS50_TZ")
     for var in "${env_vars[@]}"; do
         if [[ -z "${!var}" ]]; then
-            echo -e "\e[31mWARNING: Missing environment variable $var\e[0m"
+            echo -e "\e[31mMissing environment variable: $var\e[0m"
             missing=1
         fi
     done
 
     if [ $missing -eq 1 ]; then
-        echo "Please report all missing environment variables to sysadmins@cs50.harvard.edu with the following information:"
-        echo "GitHub username: $GITHUB_USER"
-        echo "Codespace name: $CODESPACE_NAME"
+        echo -e "\e[31mGitHub username: $GITHUB_USER\e[0m"
+        echo -e "\e[31mCodespace name: $CODESPACE_NAME\e[0m"
+        echo "Please email sysadmins@cs50.harvard.edu with the above warning messages, your GitHub username and Codespace name."
     fi
 
     # Rewrites URLs of the form http://HOST:PORT as https://$CODESPACE_NAME.app.github.dev:PORT
