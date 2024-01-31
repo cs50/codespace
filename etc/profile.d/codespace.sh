@@ -1,6 +1,22 @@
 # If not root
 if [ "$(whoami)" != "root" ]; then
 
+    # Check each environment variable and echo a warning message if it's not set
+    missing=0
+    env_vars=("CS50_TOKEN" "CS50_LANG" "CS50_TZ")
+    for var in "${env_vars[@]}"; do
+        if [[ -z "${!var}" ]]; then
+            echo -e "\e[31mMissing environment variable: $var\e[0m"
+            missing=1
+        fi
+    done
+
+    if [ $missing -eq 1 ]; then
+        echo -e "\e[31mGitHub username: $GITHUB_USER\e[0m"
+        echo -e "\e[31mCodespace name: $CODESPACE_NAME\e[0m"
+        echo "Your codespace doesn't seem to be configured properly. Please copy/paste the above into an email to sysadmins@cs50.harvard.edu so that we can troubleshoot for you!"
+    fi
+
     # Rewrites URLs of the form http://HOST:PORT as https://$CODESPACE_NAME.app.github.dev:PORT
     _hostname() {
 
