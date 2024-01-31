@@ -14,7 +14,7 @@ if [ "$(whoami)" != "root" ]; then
     if [ $missing -eq 1 ]; then
         echo -e "\e[31mGitHub username: $GITHUB_USER\e[0m"
         echo -e "\e[31mCodespace name: $CODESPACE_NAME\e[0m"
-        echo "Please email sysadmins@cs50.harvard.edu with the above warning messages, your GitHub username and Codespace name."
+        echo "Please email sysadmins@cs50.harvard.edu with the above error messages, your GitHub username and Codespace name."
     fi
 
     # Rewrites URLs of the form http://HOST:PORT as https://$CODESPACE_NAME.app.github.dev:PORT
