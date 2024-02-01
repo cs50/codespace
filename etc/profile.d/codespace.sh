@@ -3,7 +3,7 @@ if [ "$(whoami)" != "root" ]; then
 
     # Check each environment variable and echo a warning message if it's not set
     missing=0
-    env_vars=("CS50_TOKEN" "CS50_LANG" "CS50_TZ")
+    env_vars=("CS50_GH_USER" "CS50_TOKEN" "CS50_LANG" "CS50_TZ" "LANG" "LOCAL_WORKSPACE_FOLDER" "TZ")
     for var in "${env_vars[@]}"; do
         if [[ -z "${!var}" ]]; then
             echo -e "\e[31mMissing environment variable: $var\e[0m"
