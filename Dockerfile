@@ -124,6 +124,7 @@ RUN apt update && \
         dwarfdump \
         jq \
         openbox \
+        mysql-client \
         php-cli \
         php-mbstring \
         php-sqlite3 \
