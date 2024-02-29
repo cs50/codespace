@@ -1,5 +1,5 @@
 # Build stage
-ARG TAG=amd64
+ARG TAG
 FROM cs50/cli:${TAG} as builder
 ARG DEBIAN_FRONTEND=noninteractive
 

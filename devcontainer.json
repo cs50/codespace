@@ -1,6 +1,7 @@
 {
     "build": {
         "args": {
+            "TAG": "${localEnv:TAG}",
             "VCS_REF": "${localEnv:VCS_REF}"
         },
         "context": ".",

@@ -38,6 +38,7 @@ jobs:
       - name: Build (latest)
         if: ${{ github.ref == 'refs/heads/main' }}
         run: |
+          export TAG=amd64
           export VCS_REF=$(git rev-parse HEAD)
           npm install -g @devcontainers/cli
           devcontainer build --workspace-folder . --config devcontainer.json --image-name cs50/codespace:${{ github.sha }} --image-name cs50/codespace:latest
@@ -59,6 +60,7 @@ jobs:
       - name: Build ${{ github.ref_name}}
         if: ${{ github.ref != 'refs/heads/main' }}
         run: |
+          export TAG=amd64
           export VCS_REF=$(git rev-parse HEAD)
           npm install -g @devcontainers/cli
           devcontainer build --workspace-folder . --config devcontainer.json --image-name cs50/codespace:${{ github.sha }} --image-name cs50/codespace:${{ github.ref_name }}
