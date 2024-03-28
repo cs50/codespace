@@ -133,7 +133,7 @@
                 "java.configuration.runtimes": [
                     {
                         "name": "JavaSE-22",
-                        "path": "/opt/jdk", /* env | grep JAVA_HOME (set in cs50/cli) */
+                        "path": "/opt/jdk",
                         "default": true
                     }
                 ],
