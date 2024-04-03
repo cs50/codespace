@@ -136,7 +136,6 @@ RUN apt update && \
 # Install Python packages
 RUN pip3 install --no-cache-dir \
         black \
-        clang-format \
         djhtml \
         matplotlib \
         "pydantic<2" \
