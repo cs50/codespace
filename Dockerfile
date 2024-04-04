@@ -140,7 +140,8 @@ RUN pip3 install --no-cache-dir \
         matplotlib \
         "pydantic<2" \
         pytz \
-        setuptools
+        setuptools \
+        inflect==7.0.0
 
 
 # Copy files to image
