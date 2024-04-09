@@ -150,7 +150,7 @@
                 },
                 "remote.autoForwardPorts": true,
                 "remote.autoForwardPortsFallback": 0,
-                "remote.autoForwardPortsSource": "hybrid",
+                "remote.autoForwardPortsSource": "process",
                 "remote.otherPortsAttributes": {
                     "onAutoForward": "silent"
                 },
