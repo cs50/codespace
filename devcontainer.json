@@ -148,6 +148,9 @@
                 "[python]": {
                   "editor.defaultFormatter": "ms-python.autopep8"
                 },
+                "remote.autoForwardPorts": true,
+                "remote.autoForwardPortsFallback": 0,
+                "remote.autoForwardPortsSource": "hybrid",
                 "remote.otherPortsAttributes": {
                     "onAutoForward": "silent"
                 },
