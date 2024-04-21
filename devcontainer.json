@@ -69,10 +69,11 @@
                 "editor.formatOnSave": false,
                 "editor.guides.indentation": false,
                 "editor.hover.enabled": false,
-                "editor.lightbulb.enabled": false,
+                "editor.lightbulb.enabled":"off",
                 "editor.matchBrackets": "never",
+                "editor.mouseWheelZoom": true,
                 "editor.minimap.enabled": false,
-                "editor.occurrencesHighlight": false,
+                "editor.occurrencesHighlight":"off",
                 "editor.parameterHints.enabled": false,
                 "editor.quickSuggestions": {
                     "other": "off",
