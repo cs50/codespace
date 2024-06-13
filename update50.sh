@@ -12,7 +12,7 @@ if [ "$1" == "-t" ]; then
         echo "Could not update codespace with tag $tag. Try again later."
         exit 1
     fi
-    command50 github.codespaces.fullRebuildEnvironment
+    command50 github.codespaces.rebuildEnvironment
     exit 0
 fi
 
@@ -46,7 +46,7 @@ if [ "$remote" != "$local" ] || [ "$tag" != "$issue" ] || [ "$1" == "-f" ] || [ 
     echo "$remote" > "/workspaces/$RepositoryName/.devcontainer.json"
 
     # Trigger rebuild
-    command50 github.codespaces.fullRebuildEnvironment
+    command50 github.codespaces.rebuildEnvironment
 
 else
     echo "Your codespace is already up-to-date!"
