@@ -1,6 +1,12 @@
 # If not root
 if [ "$(whoami)" != "root" ]; then
 
+    # Check if running locally and set $RepositoryName if not already set
+    if [[ "$CODESPACES" != "true" && -z "$RepositoryName" ]]; then
+        export RepositoryName=$(ls -1t --color=never /workspaces | tail -1 | sed 's:/*$::')
+        export LOCAL_WORKSPACE_FOLDER="/workspaces/$RepositoryName"
+    fi
+
     # Rewrites URLs of the form http://HOST:PORT as https://$CODESPACE_NAME.app.github.dev:PORT
     _hostname() {
 
