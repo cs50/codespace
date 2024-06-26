@@ -1,6 +1,6 @@
 #!/bin/bash
 
-IMAGE="rocker/tidyverse"
+IMAGE="cs50/rstudio"
 NAME="rstudio"
 
 # Formatting
@@ -30,11 +30,14 @@ if [[ -z "$id" ]]; then
     # https://rocker-project.org/images/versioned/rstudio.html#environment-variables
     docker create \
         --env DISABLE_AUTH=true \
+        --env CS50_GH_USER="$CS50_GH_USER" \
+        --env CS50_TOKEN="$CS50_TOKEN" \
+        --env CODESPACES="true" \
         --name "$NAME" \
         --publish 8787:8787 \
         --rm \
         --volume "$LOCAL_WORKSPACE_FOLDER":"/workspaces/$RepositoryName" \
-        rocker/tidyverse
+        $IMAGE
 
     # Customize rstudio-prefs.json
     jq ".initial_working_directory = \"/workspaces/$RepositoryName\"" /opt/cs50/lib/rstudio/rstudio-prefs.json > /tmp/rstudio-prefs.json
