@@ -1,11 +1,24 @@
 #!/bin/bash
 
-IMAGE="cs50/rstudio"
+IMAGE="rocker/tidyverse"
 NAME="rstudio"
 
 # Formatting
 bold=$(tput bold)
 normal=$(tput sgr0)
+
+# Helper
+function spin() {
+    local pid=$1
+    local spinner='|/-\'
+    while [ -d /proc/$pid ]; do
+        for i in $(seq 0 3); do
+            printf "\rHit CTRL-C to stop the server [%c]\n" "${spinner:$i:1}"
+            sleep 0.1
+        done
+    done
+    printf "\r    \r"
+}
 
 # Check for $1
 if [[ $# -eq 1 ]]; then
@@ -21,38 +34,43 @@ fi
 
 # Check for running image
 id=$(docker ps --filter "name=rstudio" --quiet)
-if [[ -z "$id" ]]; then
+if [[ -n "$id" ]]; then
 
-    # Pull image
-    docker pull "$IMAGE"
-
-    # Create container
-    # https://rocker-project.org/images/versioned/rstudio.html#environment-variables
-    docker create \
-        --env DISABLE_AUTH=true \
-        --env CS50_GH_USER="$CS50_GH_USER" \
-        --env CS50_TOKEN="$CS50_TOKEN" \
-        --env CODESPACES="true" \
-        --name "$NAME" \
-        --publish 8787:8787 \
-        --rm \
-        --volume "$LOCAL_WORKSPACE_FOLDER":"/workspaces/$RepositoryName" \
-        $IMAGE
-
-    # Customize rstudio-prefs.json
-    jq ".initial_working_directory = \"/workspaces/$RepositoryName\"" /opt/cs50/lib/rstudio/rstudio-prefs.json > /tmp/rstudio-prefs.json
-
-    # Copy files into container
-    docker cp /opt/cs50/lib/rstudio/_icons.css rstudio:/tmp
-    docker cp /opt/cs50/lib/rstudio/rstudio-server.json rstudio:/etc/rstudio/
-    docker cp /tmp/rstudio-prefs.json rstudio:/etc/rstudio/
-
-    # Start container
-    docker start rstudio
-
-    # Inject CSS
-    docker exec rstudio sh -c "cat /tmp/_icons.css >> /usr/lib/rstudio-server/www/css/icons.css"
-
-    # Attach to container
-    docker attach rstudio
+    # Stop current container (so as to restart port forwarding)
+    docker stop "$id"
 fi
+
+# Pull image
+docker pull "$IMAGE"
+
+# Create container
+# https://rocker-project.org/images/versioned/rstudio.html#environment-variables
+docker create \
+    --env DISABLE_AUTH=true \
+    --name "$NAME" \
+    --publish 8787:8787 \
+    --rm \
+    --volume "$LOCAL_WORKSPACE_FOLDER":"/workspaces/$RepositoryName" \
+    rocker/tidyverse
+
+# Customize rstudio-prefs.json
+jq ".initial_working_directory = \"/workspaces/$RepositoryName\"" /opt/cs50/lib/rstudio/rstudio-prefs.json > /tmp/rstudio-prefs.json
+
+# Copy files into container
+docker cp /opt/cs50/lib/rstudio/_icons.css rstudio:/tmp
+docker cp /opt/cs50/lib/rstudio/rstudio-server.json rstudio:/etc/rstudio/
+docker cp /tmp/rstudio-prefs.json rstudio:/etc/rstudio/
+
+# Start container
+docker start rstudio
+
+# Inject CSS
+docker exec rstudio sh -c "cat /tmp/_icons.css >> /usr/lib/rstudio-server/www/css/icons.css"
+
+# Attach to container
+docker attach rstudio &
+pid=$!
+
+# Spin until container stops
+spin $pid
+wait $pid
