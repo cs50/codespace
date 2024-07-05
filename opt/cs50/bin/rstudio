@@ -23,17 +23,17 @@ function spin() {
 # Check for $1
 if [[ $# -eq 1 ]]; then
     if [[ "$1" == "restart" ]]; then
-        docker stop  "$NAME" > /dev/null 2>&1
-        docker rm "$NAME" > /dev/null 2>&1
+        docker stop  "$NAME" &> /dev/null
+        docker rm "$NAME" &> /dev/null
     elif [[ "$1" == "stop" ]]; then
-        docker stop "$NAME" > /dev/null 2>&1
-        docker rm "$NAME" > /dev/null 2>&1
+        docker stop "$NAME" &> /dev/null
+        docker rm "$NAME" &> /dev/null
         exit $?
     fi
 fi
 
 # Check for running image
-id=$(docker ps --all --filter "name=rstudio" --quiet)
+id=$(docker ps --all --filter "name=$NAME" --quiet)
 if [[ -n "$id" ]]; then
 
     # Stop current container (so as to restart port forwarding)
@@ -54,7 +54,7 @@ docker create \
     --publish 8787:8787 \
     --rm \
     --volume "$LOCAL_WORKSPACE_FOLDER":"/workspaces/$RepositoryName" \
-    rocker/tidyverse > /dev/null
+    "$IMAGE" > /dev/null
 
 # Customize rstudio-prefs.json
 jq ".initial_working_directory = \"/workspaces/$RepositoryName\"" /opt/cs50/lib/rstudio/rstudio-prefs.json > /tmp/rstudio-prefs.json
@@ -65,13 +65,13 @@ docker cp --quiet /opt/cs50/lib/rstudio/rstudio-server.json rstudio:/etc/rstudio
 docker cp --quiet /tmp/rstudio-prefs.json rstudio:/etc/rstudio/
 
 # Start container
-docker start rstudio > /dev/null
+docker start "$NAME" > /dev/null
 
 # Inject CSS
-docker exec rstudio sh -c "cat /tmp/_icons.css >> /usr/lib/rstudio-server/www/css/icons.css"
+docker exec "$NAME" sh -c "cat /tmp/_icons.css >> /usr/lib/rstudio-server/www/css/icons.css"
 
 # Attach to container
-docker attach rstudio &> /dev/null &
+docker attach "$NAME" &> /dev/null &
 pid=$!
 
 # Spin until container stops
