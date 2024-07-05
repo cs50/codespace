@@ -1,6 +1,6 @@
 #!/bin/bash
 
-IMAGE="rocker/tidyverse"
+IMAGE="cs50/rstudio"
 NAME="rstudio"
 
 # Formatting
