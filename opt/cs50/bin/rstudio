@@ -51,8 +51,8 @@ docker pull "$IMAGE"
 docker create \
     --env DISABLE_AUTH=true \
     --env CODESPACES=true \
-    --env CS50_GH_USER="$CS50_GH_USER" \	
-    --env CS50_TOKEN="$CS50_TOKEN" \	
+    --env CS50_GH_USER="$CS50_GH_USER" \
+    --env CS50_TOKEN="$CS50_TOKEN" \
     --name "$NAME" \
     --publish 8787:8787 \
     --rm \
