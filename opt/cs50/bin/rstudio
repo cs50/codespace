@@ -14,7 +14,7 @@ function spin() {
     while [ -d /proc/$pid ]; do
         for i in $(seq 0 3); do
             printf "\rHit CTRL-C to stop the server [%c] " "${spinner:$i:1}"
-            sleep 0.5
+            sleep 0.1
         done
     done
     printf "\n"
@@ -50,6 +50,9 @@ docker pull "$IMAGE"
 # https://rocker-project.org/images/versioned/rstudio.html#environment-variables
 docker create \
     --env DISABLE_AUTH=true \
+    --env CODESPACES=true \
+    --env CS50_GH_USER="$CS50_GH_USER" \	
+    --env CS50_TOKEN="$CS50_TOKEN" \	
     --name "$NAME" \
     --publish 8787:8787 \
     --rm \
