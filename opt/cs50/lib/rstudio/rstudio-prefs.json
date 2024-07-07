@@ -1,6 +1,6 @@
 {
     "always_save_history": false,
-    "auto_append_newline": true,
+    "auto_append_newline": false,
     "auto_discover_package_dependencies": false,
     "auto_save_idle_ms": 1000,
     "auto_save_on_blur": true,
