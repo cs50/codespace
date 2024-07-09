@@ -65,10 +65,18 @@ jq ".initial_working_directory = \"/workspaces/$RepositoryName\"" /opt/cs50/lib/
 # Copy files into container
 docker cp --quiet /opt/cs50/lib/rstudio/_icons.css rstudio:/tmp
 docker cp --quiet /opt/cs50/lib/rstudio/rstudio-server.json rstudio:/etc/rstudio/
+docker cp --quiet /opt/cs50/lib/rstudio/rsession.conf rstudio:/etc/rstudio/
 docker cp --quiet /tmp/rstudio-prefs.json rstudio:/etc/rstudio/
+
+# Copy monitoring script into container
+sudo chmod +x /opt/cs50/lib/rstudio/monitor_rsession.sh
+docker cp --quiet /opt/cs50/lib/rstudio/monitor_rsession.sh rstudio:/usr/local/bin/monitor_rsession.sh
 
 # Start container
 docker start "$NAME" > /dev/null
+
+# Run the monitoring script in the background
+docker exec -d "$NAME" sh -c "/usr/local/bin/monitor_rsession.sh"
 
 # Inject CSS
 docker exec "$NAME" sh -c "cat /tmp/_icons.css >> /usr/lib/rstudio-server/www/css/icons.css"
