@@ -26,29 +26,29 @@ RUN wget https://repo1.maven.org/maven2/com/madgag/bfg/1.14.0/bfg-1.14.0.jar -P 
 
 
 # Install Lua 5.x
-# https://www.lua.org/manual/5.4/readme.html
+# https://www.lua.org/download.html
 RUN cd /tmp && \
-    curl --remote-name https://www.lua.org/ftp/lua-5.4.6.tar.gz && \
-    tar xzf lua-5.4.6.tar.gz && \
-    rm --force lua-5.4.6.tar.gz && \
-    cd lua-5.4.6 && \
+    curl --remote-name https://www.lua.org/ftp/lua-5.4.7.tar.gz && \
+    tar xzf lua-5.4.7.tar.gz && \
+    rm --force lua-5.4.7.tar.gz && \
+    cd lua-5.4.7 && \
     make all install && \
     cd .. && \
-    rm --force --recursive /tmp/lua-5.4.6
+    rm --force --recursive /tmp/lua-5.4.7
 
 
 # Install noVNC (VNC client)
 RUN cd /tmp && \
-    curl --location --remote-name https://github.com/novnc/noVNC/archive/refs/tags/v1.4.0.zip && \
-    unzip v1.4.0.zip && \
-    rm --force v1.4.0.zip && \
-    cd noVNC-1.4.0/utils && \
+    curl --location --remote-name https://github.com/novnc/noVNC/archive/refs/tags/v1.5.0.zip && \
+    unzip v1.5.0.zip && \
+    rm --force v1.5.0.zip && \
+    cd noVNC-1.5.0/utils && \
     curl --location --remote-name https://github.com/novnc/websockify/archive/refs/heads/master.tar.gz && \
     tar xzf master.tar.gz && \
     mv websockify-master websockify && \
     rm --force master.tar.gz && \
     cd ../.. && \
-    mv noVNC-1.4.0 /opt/noVNC
+    mv noVNC-1.5.0 /opt/noVNC
 
 
 # Install VS Code extensions
@@ -128,8 +128,8 @@ RUN apt update && \
         php-cli \
         php-mbstring \
         php-sqlite3 \
-        xvfb \
-        x11vnc && \
+        x11vnc \
+        xvfb && \
     apt clean
 
 
@@ -137,11 +137,11 @@ RUN apt update && \
 RUN pip3 install --no-cache-dir \
         black \
         djhtml \
+        inflect==7.0.0 \
         matplotlib \
         "pydantic<2" \
         pytz \
-        setuptools \
-        inflect==7.0.0
+        setuptools
 
 
 # Copy files to image
