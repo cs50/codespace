@@ -96,6 +96,7 @@
                 },
                 "editor.suggestOnTriggerCharacters": false,
                 "extensions.ignoreRecommendations": true,
+                "explorer.autoOpenDroppedFile": false,
                 "explorer.compactFolders": false,
                 "extension-uninstaller.uninstall": [
                     "Codeium.codeium",
