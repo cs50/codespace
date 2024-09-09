@@ -44,6 +44,9 @@
                 "vsls-contrib.gitdoc"
             ],
             "settings": {
+                "accessibility.signals.terminalBell": {
+                    "sound": "on"
+                },
                 "breadcrumbs.enabled": false,
                 "C_Cpp.autocomplete": "disabled",
                 "C_Cpp.clang_format_fallbackStyle": "{ AllowShortFunctionsOnASingleLine: Empty, BraceWrapping: { AfterCaseLabel: true, AfterControlStatement: true, AfterFunction: true, AfterStruct: true, BeforeElse: true, BeforeWhile: true }, BreakBeforeBraces: Custom, ColumnLimit: 100, IndentCaseLabels: true, IndentWidth: 4, SpaceAfterCStyleCast: true, TabWidth: 4 }", /* https://clang.llvm.org/docs/ClangFormatStyleOptions.html */
@@ -161,7 +164,7 @@
                 "terminal.integrated.commandsToSkipShell": [
                     "workbench.action.toggleSidebarVisibility"
                 ],
-                "terminal.integrated.enableBell": true,
+                "terminal.integrated.enableVisualBell": true,
                 "terminal.integrated.defaultProfile.linux": "bash",
                 "terminal.integrated.gpuAcceleration": "off",
                 "terminal.integrated.profiles.linux": {
