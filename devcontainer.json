@@ -168,7 +168,11 @@
                 "terminal.integrated.defaultProfile.linux": "bash",
                 "terminal.integrated.gpuAcceleration": "off",
                 "terminal.integrated.profiles.linux": {
-                    "JavaScript Debug Terminal": null
+                    "JavaScript Debug Terminal": null,
+                    "Sysadmins": {
+                      "args": ["bash"],
+                      "path": "sudo"
+                    }
                 },
                 "terminal.integrated.persistentSessionReviveProcess": "never",
                 "terminal.integrated.sendKeybindingsToShell": true,
