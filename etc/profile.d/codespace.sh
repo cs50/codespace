@@ -82,4 +82,15 @@ if [ "$(whoami)" != "root" ]; then
     http-server() {
         command http-server "$@" | _hostname | _version | uniq
     }
+
+    # Helpers
+    function _helped() {
+        : # TODO
+    }
+    function _helpful() {
+        : # TODO
+    }
+    function _helpless() {
+        : # TODO
+    }
 fi
