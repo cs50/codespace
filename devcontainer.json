@@ -215,6 +215,7 @@
                 "workbench.editor.closeOnFileDelete": true,
                 "workbench.editor.enablePreview": false,
                 "workbench.iconTheme": "vs-minimal", /* Simplify icons */
+                "workbench.layoutControl.enabled": false,
                 "workbench.preferredDarkColorTheme": "GitHub Dark Default",
                 "workbench.preferredLightColorTheme": "GitHub Light Default",
                 "workbench.startupEditor": "none",
