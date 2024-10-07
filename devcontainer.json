@@ -138,7 +138,7 @@
                 "java.server.launchMode": "Standard",
                 "java.configuration.runtimes": [
                     {
-                        "name": "JavaSE-22",
+                        "name": "JavaSE-23",
                         "path": "/opt/jdk",
                         "default": true
                     }
