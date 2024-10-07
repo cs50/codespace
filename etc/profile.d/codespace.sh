@@ -91,11 +91,11 @@ if [ `id -u` -ne 0 ]; then
         : # TODO: invoke command that hides help50 button
     }
     function _helpful() {
-        _alert "🦆 Click `help50` for help" # Temporary, to introduce new feature
+        $ _alert "$(_ansi "🦆 Click \`help50\` for help")" # Temporary, to introduce new feature
         : # TODO: invoke command that sends $1 to ddb50 as though from duck itself
     }
     function _helpless() {
-        _alert "🦆 Click `help50` for help" # Temporary, to introduce new feature
+        $ _alert "$(_ansi "🦆 Click \`help50\` for help")" # Temporary, to introduce new feature
         : # TODO: invoke command that sends $1 to ddb50 as though from student
     }
 fi
