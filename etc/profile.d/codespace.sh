@@ -1,5 +1,8 @@
 # If not root
-if [ "$(whoami)" != "root" ]; then
+if [ `id -u` -ne 0 ]; then
+
+    # Library
+    . /opt/cs50/lib/cli
 
     # Check if running locally and set $RepositoryName if not already set
     if [[ "$CODESPACES" != "true" && -z "$RepositoryName" ]]; then
@@ -85,12 +88,14 @@ if [ "$(whoami)" != "root" ]; then
 
     # Helpers
     function _helped() {
-        : # TODO
+        : # TODO: invoke command that hides help50 button
     }
     function _helpful() {
-        : # TODO
+        _alert "🦆 Click `help50` for help" # Temporary, to introduce new feature
+        : # TODO: invoke command that sends $1 to ddb50 as though from duck itself
     }
     function _helpless() {
-        : # TODO
+        _alert "🦆 Click `help50` for help" # Temporary, to introduce new feature
+        : # TODO: invoke command that sends $1 to ddb50 as though from student
     }
 fi
