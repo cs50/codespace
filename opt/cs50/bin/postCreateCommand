@@ -41,6 +41,12 @@ vendor/
 !*.ts
 !*.txt
 !Makefile
+
+# But do ignore these files from movies for now
+**/movie/movies.db
+**/movie/output.txt
+
+# Other ignores
 EOT
 
 # Automatically ignore all large files
