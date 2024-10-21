@@ -98,6 +98,7 @@
                         }
                     }
                 },
+                "editor.stickyScroll.enabled": false,
                 "editor.suggestOnTriggerCharacters": false,
                 "extensions.ignoreRecommendations": true,
                 "explorer.autoOpenDroppedFile": false,
@@ -150,6 +151,7 @@
                 "javascript.validate.enable": false, /* Disable red squiggles */
                 "Prettier-SQL.keywordCase": "upper",
                 "problems.decorations.enabled": false,
+                "problems.visibility": false,
                 "python.terminal.executeInFileDir": true,
                 "[python]": {
                   "editor.defaultFormatter": "ms-python.autopep8"
