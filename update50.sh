@@ -1,5 +1,16 @@
 #!/bin/bash
 
+# Check for gh and install it if not available (temporary)
+if ! command -v gh &> /dev/null; then
+    (type -p wget >/dev/null || (sudo apt update && sudo apt-get install wget -y)) \
+    && sudo mkdir -p -m 755 /etc/apt/keyrings \
+    && wget -qO- https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo tee /etc/apt/keyrings/githubcli-archive-keyring.gpg > /dev/null \
+    && sudo chmod go+r /etc/apt/keyrings/githubcli-archive-keyring.gpg \
+    && echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null \
+    && sudo apt update \
+    && sudo apt install gh -y
+fi
+
 # Check for -t flag for develop mode
 if [ "$1" == "-t" ]; then
     # Use the specified tag to build the URL
@@ -12,7 +23,19 @@ if [ "$1" == "-t" ]; then
         echo "Could not update codespace with tag $tag. Try again later."
         exit 1
     fi
-    command50 github.codespaces.rebuildEnvironment
+    
+    # Trigger rebuild
+    if command -v gh &> /dev/null; then
+        
+        # Use gh cli to rebuild if available
+        gh cs rebuild --repo $GITHUB_REPOSITORY --full
+        echo "Your codespace is now being rebuilt, please keep the browser window open and wait for it to reload.\nDo not perform any actions until the rebuild is complete."
+    else
+    
+        # Fall back to command50
+        command50 github.codespaces.rebuildEnvironment
+    fi
+
     exit 0
 fi
 
@@ -46,7 +69,16 @@ if [ "$remote" != "$local" ] || [ "$tag" != "$issue" ] || [ "$1" == "-f" ] || [ 
     echo "$remote" > "/workspaces/$RepositoryName/.devcontainer.json"
 
     # Trigger rebuild
-    command50 github.codespaces.rebuildEnvironment
+    if command -v gh &> /dev/null; then
+        
+        # Use gh cli to rebuild if available
+        gh cs rebuild --repo $GITHUB_REPOSITORY --full
+        echo "Your codespace is now being rebuilt, please keep the browser window open and wait for it to reload.\nDo not perform any actions until the rebuild is complete."
+    else
+    
+        # Fall back to command50
+        command50 github.codespaces.rebuildEnvironment
+    fi
 
 else
     echo "Your codespace is already up-to-date!"
