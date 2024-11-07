@@ -28,7 +28,7 @@ if [ "$1" == "-t" ]; then
     if command -v gh &> /dev/null; then
         
         # Use gh cli to rebuild if available
-        gh cs rebuild --repo $GITHUB_REPOSITORY --full
+        gh cs rebuild --repo $GITHUB_REPOSITORY --codespace $CODESPACE_NAME --full
         echo -e "\033[31mYour codespace is now being rebuilt, please keep the browser window open and wait for it to reload.\nDo not perform any actions until the rebuild is complete.\033[0m"
     else
 
@@ -73,7 +73,7 @@ if [ "$remote" != "$local" ] || [ "$tag" != "$issue" ] || [ "$1" == "-f" ] || [ 
     if command -v gh &> /dev/null; then
         
         # Use gh cli to rebuild if available
-        gh cs rebuild --repo $GITHUB_REPOSITORY --full
+        gh cs rebuild --repo $GITHUB_REPOSITORY --codespace $CODESPACE_NAME --full
         echo -e "\033[31mYour codespace is now being rebuilt, please keep the browser window open and wait for it to reload.\nDo not perform any actions until the rebuild is complete.\033[0m"
     else
     
