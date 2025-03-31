@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <title>Google Advanced Search</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="nav">
+        <a href="index.html">Google Search</a>
+            <a href="image.html">Image Search</a>
+    </div>
+
+    <div class="search-container">
+        <h1>Advanced Search</h1>
+        <form action="https://www.google.com/search">
+            <label>Find pages with ...</label>
+            <input type="text" name="as_q" placeholder="all these words">
+            <input type="text" name="as_epq"  placeholder="exact word or phrase">
+            <input type="text" name="as_oq" placeholder="any of these word">
+            <input type="text" name="as_eq" placeholder="non of these word">
+            <div class="buttons">
+                <input type="submit" value="Advanced Search">
+            </div>
+        </form>
+    </div>
+</body>
+</html>
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <title>Google Search</title>
+        <link rel="stylesheet" href="style.css">
+    </head>
+
+    <body>
+        <div class="nav">
+            <a href="image.html">Image Search</a>
+            <a href="advanced.html">Advanced Search</a>
+        </div>
+
+        <div class="search-container">
+            <h1>Google</h1>
+            <form action="https://www.google.com/search">
+                <input type="text" name="q" class="search-bar">
+                <div class="buttons">
+                    <input type="submit" value="Google Search">
+                </div>
+            </form>
+        </div>
+    </body>
+
+</html>
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <title>Google Image Search</title>
+        <link rel="stylesheet" href="style.css">
+    </head>
+
+    <body>
+        <div class="nav">
+            <a href="index.html">Google Search</a>
+            <a href="advanced.html">Advanced Search</a>
+        </div>
+
+        <div class="search-container">
+            <h1>Google Images</h1>
+            <form action="https://www.google.com/search">
+                <input type="hidden" name="tbm" value="isch">
+                <input type="text" name="q" class="search-bar">
+                <div class="buttons">
+                    <input type="submit" value="Image Search">
+                </div>
+            </form>
+        </div>
+    </body>
+
+</html>
+
+
+
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+}
+
+.nav {
+    text-align: right;
+    padding: 20px;
+}
+
+.nav a {
+    text-decoration: none;
+    padding: 10px;
+    color: blue;
+}
+
+.search-container {
+    margin-top: 150px;
+}
+
+h1 {
+    font-size: 60px;
+    font-weight: bold;
+    color: #4285f4;
+}
+
+.search-bar {
+    width: 50%;
+    padding: 10px;
+    margin: 10px;
+    font-size: 18px;
+    border: 1px solid #ccc;
+    border-radius: 24px;
+}
+
+.buttons input {
+    background-color: #f8f9fa;
+    border: 1px solid #dadce0;
+    padding: 10px 20px;
+    margin: 10px;
+    cursor: pointer;
+}
+
+.buttons input:hover {
+    background-color: #e8e9eb;
+}
+
+
+
+
