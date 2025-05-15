@@ -43,8 +43,8 @@ vendor/
 !Makefile
 
 # But do ignore these files from movies for now
-**/movie/movies.db
-**/movie/output.txt
+**/movies/movies.db
+**/movies/output.txt
 
 # Other ignores
 EOT
