@@ -154,10 +154,8 @@ RUN (type -p wget >/dev/null || (sudo apt update && sudo apt-get install wget -y
 RUN pip3 install --no-cache-dir \
         black \
         djhtml \
-        inflect==7.0.0 \
         matplotlib \
         pillow==10.4.0 \
-        "pydantic<2" \
         pytz \
         setuptools
 
