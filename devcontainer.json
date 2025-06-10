@@ -216,6 +216,7 @@
                 },
                 "workbench.editor.closeOnFileDelete": true,
                 "workbench.editor.enablePreview": false,
+                "workbench.editor.labelFormat": "medium",
                 "workbench.iconTheme": "vs-minimal", /* Simplify icons */
                 "workbench.layoutControl.enabled": false,
                 "workbench.preferredDarkColorTheme": "GitHub Dark Default",
