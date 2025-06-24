@@ -9,14 +9,12 @@ if [ "$(whoami)" != "root" ]; then
 
     # Rewrites URLs of the form http://HOST:PORT as https://$CODESPACE_NAME.app.github.dev:PORT
     _hostname() {
-
         # If in cloud
         if [[ "$CODESPACES" == "true" ]]; then
             local url="http://[^:]+:(\x1b\[[0-9;]*m)?([0-9]+)(\x1b\[[0-9;]*m)?"
             while read; do
                 echo "$REPLY" | sed -E "s#${url}#https://${CODESPACE_NAME}-\2.${GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN}#"
             done
-
         # Else if local
         else
             tee
@@ -51,7 +49,6 @@ if [ "$(whoami)" != "root" ]; then
     alias cd="HOME=\"/workspaces/$RepositoryName\" cd"
 
     # Rewrite URL in stderr
-    # https://stackoverflow.com/a/52575087/5156190
     flask() {
         command flask "$@" --host=127.0.0.1 2> >(_hostname >&2)
     }
@@ -65,7 +62,6 @@ if [ "$(whoami)" != "root" ]; then
     }
 
     # Override --system credential.helper to use $CS50_TOKEN instead of $GITHUB_TOKEN
-    # https://stackoverflow.com/a/64868901
     command git config --global --replace-all credential.helper ""
     command git config --global --add credential.helper /opt/cs50/bin/gitcredential_github.sh
 
@@ -82,4 +78,19 @@ if [ "$(whoami)" != "root" ]; then
     http-server() {
         command http-server "$@" | _hostname | _version | uniq
     }
+
+    # ✅ Fix for Issue #145: Append to .gitignore without overwriting
+    GITIGNORE_PATH="/workspaces/$RepositoryName/.gitignore"
+
+    touch "$GITIGNORE_PATH"
+
+    append_if_missing() {
+        grep -qxF "$1" "$GITIGNORE_PATH" || echo "$1" >> "$GITIGNORE_PATH"
+    }
+
+    append_if_missing "*"
+    append_if_missing "!.gitignore"
+    append_if_missing "!/.github/"
+    append_if_missing "node_modules/"
+
 fi
