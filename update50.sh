@@ -29,12 +29,13 @@ if [ "$1" == "-t" ]; then
         
         # Use gh cli to rebuild if available
         echo "Rebuilding codespace"
-        gh cs rebuild --codespace $CODESPACE_NAME --full &
         echo -e "\033[31mYour codespace is now being rebuilt, please keep the browser window open and wait for it to reload.\nDo not perform any actions until the rebuild is complete.\033[0m"
-        while true; do
+        for i in {1..10}; do
             echo -n "."
-            sleep 1
+            sleep 0.2
         done
+        
+        gh cs rebuild --codespace $CODESPACE_NAME --full
     else
 
         # Fall back to command50
@@ -79,12 +80,14 @@ if [ "$remote" != "$local" ] || [ "$tag" != "$issue" ] || [ "$1" == "-f" ] || [ 
         
         # Use gh cli to rebuild if available
         echo "Rebuilding codespace"
-        gh cs rebuild --codespace $CODESPACE_NAME --full &
         echo -e "\033[31mYour codespace is now being rebuilt, please keep the browser window open and wait for it to reload.\nDo not perform any actions until the rebuild is complete.\033[0m"
-        while true; do
+
+        for i in {1..10}; do
             echo -n "."
-            sleep 1
+            sleep 0.2
         done
+        
+        gh cs rebuild --codespace $CODESPACE_NAME --full
     else
     
         # Fall back to command50
