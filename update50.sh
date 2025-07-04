@@ -1,5 +1,15 @@
 #!/bin/bash
 
+# Function to check if /workspaces disk usage is over 85%
+check_disk_usage() {
+    local usage=$(df /workspaces 2>/dev/null | tail -1 | awk '{print $5}' | sed 's/%//')
+    if [ -n "$usage" ] && [ "$usage" -gt 85 ]; then
+        return 0  # Over 85%
+    else
+        return 1  # Under 85% or unable to determine
+    fi
+}
+
 # Check for gh and install it if not available (temporary)
 if ! command -v gh &> /dev/null; then
     (type -p wget >/dev/null || (sudo apt update && sudo apt-get install wget -y)) \
@@ -35,8 +45,8 @@ if [ "$1" == "-t" ]; then
             sleep 0.2
         done
         
-        # Check if force flag is present for full rebuild
-        if [ "$3" == "-f" ] || [ "$3" == "--force" ]; then
+        # Check if force flag is present or disk usage is over 85% for full rebuild
+        if [ "$3" == "-f" ] || [ "$3" == "--force" ] || check_disk_usage; then
             gh cs rebuild --codespace $CODESPACE_NAME --full
         else
             gh cs rebuild --codespace $CODESPACE_NAME
@@ -92,8 +102,8 @@ if [ "$remote" != "$local" ] || [ "$tag" != "$issue" ] || [ "$1" == "-f" ] || [ 
             sleep 0.2
         done
         
-        # Check if force flag is present for full rebuild
-        if [ "$1" == "-f" ] || [ "$1" == "--force" ]; then
+        # Check if force flag is present or disk usage is over 85% for full rebuild
+        if [ "$1" == "-f" ] || [ "$1" == "--force" ] || check_disk_usage; then
             gh cs rebuild --codespace $CODESPACE_NAME --full
         else
             gh cs rebuild --codespace $CODESPACE_NAME
