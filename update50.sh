@@ -35,7 +35,12 @@ if [ "$1" == "-t" ]; then
             sleep 0.2
         done
         
-        gh cs rebuild --codespace $CODESPACE_NAME --full
+        # Check if force flag is present for full rebuild
+        if [ "$3" == "-f" ] || [ "$3" == "--force" ]; then
+            gh cs rebuild --codespace $CODESPACE_NAME --full
+        else
+            gh cs rebuild --codespace $CODESPACE_NAME
+        fi
     else
 
         # Fall back to command50
@@ -87,7 +92,12 @@ if [ "$remote" != "$local" ] || [ "$tag" != "$issue" ] || [ "$1" == "-f" ] || [ 
             sleep 0.2
         done
         
-        gh cs rebuild --codespace $CODESPACE_NAME --full
+        # Check if force flag is present for full rebuild
+        if [ "$1" == "-f" ] || [ "$1" == "--force" ]; then
+            gh cs rebuild --codespace $CODESPACE_NAME --full
+        else
+            gh cs rebuild --codespace $CODESPACE_NAME
+        fi
     else
     
         # Fall back to command50
