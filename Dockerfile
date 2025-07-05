@@ -135,6 +135,7 @@ RUN apt update && \
         php-cli \
         php-mbstring \
         php-sqlite3 \
+        postgresql \
         x11vnc \
         xvfb && \
     apt clean
