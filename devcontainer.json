@@ -104,6 +104,7 @@
                 "extension-uninstaller.uninstall": [
                     "Codeium.codeium",
                     "Codeium.codeium-enterprise-updater",
+                    "github.copilot",
                     "ms-toolsai.vscode-jupyter-cell-tags",
                     "tabnine.tabnine-vscode"
                 ],
@@ -129,6 +130,24 @@
                 "gitdoc.commitMessageFormat": "ccc, LLL d, kkkk, h:mm a ZZ",
                 "gitdoc.commitValidationLevel": "none",
                 "gitdoc.pullOnOpen": false,
+                "chat.agent.enabled": false,
+                "chat.agent.maxRequests": 0,
+                "chat.commandCenter.enabled": false,
+                "chat.notifyWindowOnConfirmation": false,
+                "github.copilot.enable": {
+                    "*": false
+                },
+                "github.copilot.editor.enableCodeActions": false,
+                "github.copilot.chat.copilotDebugCommand.enabled": false,
+                "github.copilot.chat.reviewSelection.enabled": false,
+                "github.copilot.chat.startDebugging.enabled": false,
+                "github.copilot.chat.agent.currentEditorContext.enabled": false,
+                "github.copilot.chat.edits.newNotebook.enabled": false,
+                "github.copilot.chat.edits.suggestRelatedFilesForTests": false,
+                "github.copilot.chat.edits.suggestRelatedFilesFromGitHistory": false,
+                "github.copilot.chat.newWorkspaceCreation.enabled": false,
+                "github.copilot.chat.setupTests.enabled": false,
+                "github.copilot.chat.summarizeAgentConversationHistory.enabled": false,
                 "html.autoCreateQuotes": false,
                 "html.format.indentInnerHtml": true,
                 "html.suggest.html5": false,

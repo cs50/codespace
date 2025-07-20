@@ -36,6 +36,7 @@ if [ "$options" = false ]; then
             if [[ ! "${REPLY,,}" =~ ^y|yes$ ]]; then
                 exit 1
             fi
+            continue
         fi
 
         # If file doesn't exist
