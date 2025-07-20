@@ -17,7 +17,6 @@
                 "/opt/cs50/extensions/phpliteadmin-0.0.1.vsix",
                 "/opt/cs50/extensions/style50-0.0.1.vsix",
                 "cs50.extension-uninstaller",
-                "github.copilot",
                 "inferrinizzard.prettier-sql-vscode",
                 "mathematic.vscode-pdf",
                 "ms-azuretools.vscode-docker",
@@ -105,6 +104,7 @@
                 "extension-uninstaller.uninstall": [
                     "Codeium.codeium",
                     "Codeium.codeium-enterprise-updater",
+                    "github.copilot",
                     "ms-toolsai.vscode-jupyter-cell-tags",
                     "tabnine.tabnine-vscode"
                 ],
