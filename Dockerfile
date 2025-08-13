@@ -1,5 +1,6 @@
 # Build stage
-ARG TAG
+ARG TAG \REPAT
+
 FROM cs50/cli:${TAG} AS builder
 ARG DEBIAN_FRONTEND=noninteractive
 
