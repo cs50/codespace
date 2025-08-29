@@ -130,6 +130,7 @@
                 "gitdoc.commitMessageFormat": "ccc, LLL d, kkkk, h:mm a ZZ",
                 "gitdoc.commitValidationLevel": "none",
                 "gitdoc.pullOnOpen": false,
+                "chat.disableAIFeatures": true,
                 "chat.agent.enabled": false,
                 "chat.agent.maxRequests": 0,
                 "chat.commandCenter.enabled": false,
