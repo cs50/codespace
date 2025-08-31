@@ -130,6 +130,7 @@
                 "gitdoc.commitMessageFormat": "ccc, LLL d, kkkk, h:mm a ZZ",
                 "gitdoc.commitValidationLevel": "none",
                 "gitdoc.pullOnOpen": false,
+                "chat.disableAIFeatures": true,
                 "chat.agent.enabled": false,
                 "chat.agent.maxRequests": 0,
                 "chat.commandCenter.enabled": false,
@@ -172,10 +173,29 @@
                   "editor.defaultFormatter": "ms-python.autopep8"
                 },
                 "remote.autoForwardPorts": true,
-                "remote.autoForwardPortsFallback": 0,
                 "remote.autoForwardPortsSource": "process",
+                "remote.portsAttributes": {
+                    "5000": {
+                        "onAutoForward": "silent"
+                    },
+                    "5900": {
+                        "onAutoForward": "silent"
+                    },
+                    "6081": {
+                        "onAutoForward": "silent"
+                    },
+                    "8080": {
+                        "onAutoForward": "silent"
+                    },
+                    "8082": {
+                        "onAutoForward": "silent"
+                    },
+                    "8787": {
+                        "onAutoForward": "silent"
+                    }
+                },
                 "remote.otherPortsAttributes": {
-                    "onAutoForward": "silent"
+                    "onAutoForward": "ignore"
                 },
                 "scm.countBadge": "off",
                 "terminal.integrated.commandsToSkipShell": [
