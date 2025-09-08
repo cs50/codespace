@@ -82,4 +82,14 @@ if [ "$options" = false ]; then
 fi
 
 # since /opt/cs50/bin already have higher precedence in PATH
-$(which -a code | grep remote-cli) "$@" || $(which -a code-insiders | grep remote-cli) "$@"
+remote_code=$(which -a code | grep remote-cli)
+remote_insiders=$(which -a code-insiders | grep remote-cli)
+
+if [ -n "$remote_code" ]; then
+    exec "$remote_code" "$@"
+elif [ -n "$remote_insiders" ]; then
+    exec "$remote_insiders" "$@"
+else
+    echo "Error: Could not find VS Code remote CLI" >&2
+    exit 1
+fi
