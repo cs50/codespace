@@ -169,6 +169,7 @@
                 "problems.decorations.enabled": false,
                 "problems.visibility": false,
                 "python.terminal.executeInFileDir": true,
+                "python.terminal.shellIntegration.enabled": false,
                 "[python]": {
                   "editor.defaultFormatter": "ms-python.autopep8"
                 },
