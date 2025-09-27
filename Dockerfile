@@ -100,39 +100,32 @@ RUN npm install --global @vscode/vsce yarn && \
     rm --force --recursive design50.vsix && \
     npm uninstall --global vsce yarn
 
-# Remove the run button from both the main Python extension, debugger, and environments extensions
-RUN cd /tmp && \
-    git clone --branch v2025.14.0 --depth 1 https://github.com/microsoft/vscode-python.git && \
-    cd vscode-python && \
-    # Remove the editor/title/run entry and save back to package.json
-    jq 'del(.contributes.menus."editor/title/run")' package.json > package.tmp.json && mv package.tmp.json package.json && \
-    npm install && \
-    npm run package && \
-    mv ms-python-insiders.vsix /opt/cs50/extensions && \
-    cd /tmp && \
-    rm --force --recursive vscode-python
 
+# This builds custom versions of Microsoft's Python extensions without the "Run Python File" button
 RUN cd /tmp && \
-    git clone --branch v2025.10.0 --depth 1 https://github.com/microsoft/vscode-python-debugger.git && \
-    cd vscode-python-debugger && \
-    # Remove the editor/title/run entry and save back to package.json
-    jq 'del(.contributes.menus."editor/title/run")' package.json > package.tmp.json && mv package.tmp.json package.json && \
-    npm install && \
-    npm run vsce-package && \
-    mv python-debugger.vsix /opt/cs50/extensions && \
-    cd /tmp && \
-    rm --force --recursive vscode-python-debugger
-
-RUN cd /tmp && \
-    git clone --branch v1.8.0 --depth 1 https://github.com/microsoft/vscode-python-environments.git && \
-    cd vscode-python-environments && \
-    # Remove the editor/title/run entry and save back to package.json
-    jq 'del(.contributes.menus."editor/title/run")' package.json > package.tmp.json && mv package.tmp.json package.json && \
-    npm install && \
-    npm run vsce-package && \
-    mv ms-python-envs-insiders.vsix /opt/cs50/extensions && \
-    cd /tmp && \
-    rm --force --recursive vscode-python-environments
+    # Process each extension: format is "repo-name|build-command|output-filename"
+    for ext in \
+        "vscode-python|package|ms-python-insiders.vsix" \
+        "vscode-python-debugger|vsce-package|python-debugger.vsix" \
+        "vscode-python-environments|vsce-package|ms-python-envs-insiders.vsix"; \
+    do \
+        IFS='|' read -r repo build_cmd output_file <<< "$ext" && \
+        # Fetch the latest release tag from GitHub API
+        echo "Fetching latest release for $repo..." && \
+        latest_tag=$(curl -s "https://api.github.com/repos/microsoft/$repo/releases/latest" | jq -r .tag_name) && \
+        echo "Using version: $latest_tag" && \
+        # Clone the repository at the latest release tag
+        git clone --branch "$latest_tag" --depth 1 "https://github.com/microsoft/$repo.git" && \
+        cd "$repo" && \
+        # Modify package.json to remove the "Run Python File" button from the editor title bar
+        jq 'del(.contributes.menus."editor/title/run")' package.json > package.tmp.json && \
+        mv package.tmp.json package.json && \
+        npm install && \
+        npm run "$build_cmd" && \
+        mv "$output_file" /opt/cs50/extensions && \
+        cd /tmp && \
+        rm --force --recursive "$repo"; \
+    done
 
 # Final stage
 FROM cs50/cli:${TAG}
