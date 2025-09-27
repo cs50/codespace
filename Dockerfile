@@ -100,14 +100,14 @@ RUN npm install --global @vscode/vsce yarn && \
     rm --force --recursive design50.vsix && \
     npm uninstall --global vsce yarn
 
-# Pull Python VS Code extension and remove run
+# Pull Python VS Code extension and remove run button from editor title menu
 RUN cd /tmp && \
     git clone --branch v2025.14.0 --depth 1 https://github.com/microsoft/vscode-python.git && \
     cd vscode-python && \
     # Remove the editor/title/run entry and save back to package.json
     jq 'del(.contributes.menus."editor/title/run")' package.json > package.tmp.json && mv package.tmp.json package.json && \
     npm install && \
-    npm run build && \
+    npm run package && \
     mv ms-python-insiders.vsix /opt/cs50/extensions && \
     cd /tmp && \
     rm --force --recursive vscode-python
