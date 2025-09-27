@@ -100,7 +100,7 @@ RUN npm install --global @vscode/vsce yarn && \
     rm --force --recursive design50.vsix && \
     npm uninstall --global vsce yarn
 
-# Remove the run button from both the main Python extension and the debugger extension
+# Remove the run button from both the main Python extension, debugger, and environments extensions
 RUN cd /tmp && \
     git clone --branch v2025.14.0 --depth 1 https://github.com/microsoft/vscode-python.git && \
     cd vscode-python && \
@@ -122,6 +122,17 @@ RUN cd /tmp && \
     mv python-debugger.vsix /opt/cs50/extensions && \
     cd /tmp && \
     rm --force --recursive vscode-python-debugger
+
+RUN cd /tmp && \
+    git clone --branch v1.8.0 --depth 1 https://github.com/microsoft/vscode-python-environments.git && \
+    cd vscode-python-environments && \
+    # Remove the editor/title/run entry and save back to package.json
+    jq 'del(.contributes.menus."editor/title/run")' package.json > package.tmp.json && mv package.tmp.json package.json && \
+    npm install && \
+    npm run vsce-package && \
+    mv ms-python-envs-insiders.vsix /opt/cs50/extensions && \
+    cd /tmp && \
+    rm --force --recursive vscode-python-environments
 
 # Final stage
 FROM cs50/cli:${TAG}
