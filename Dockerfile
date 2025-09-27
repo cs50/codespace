@@ -117,7 +117,7 @@ RUN cd /tmp && \
         # Clone the repository at the latest release tag
         git clone --branch "$latest_tag" --depth 1 "https://github.com/microsoft/$repo.git" && \
         cd "$repo" && \
-        # Modify package.json to remove the "Run Python File" button from the editor title bar
+        # Modify package.json to remove the editor/title/run contributions if it exists
         jq 'del(.contributes.menus."editor/title/run")' package.json > package.tmp.json && \
         mv package.tmp.json package.json && \
         npm install && \
