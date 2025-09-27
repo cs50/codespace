@@ -101,7 +101,7 @@ RUN npm install --global @vscode/vsce yarn && \
     npm uninstall --global vsce yarn
 
 
-# This builds custom versions of Microsoft's Python extensions without the "Run Python File" button
+# Build custom versions of Microsoft's Python extensions to remove the "Run Button"
 RUN cd /tmp && \
     # Process each extension: format is "repo-name|build-command|output-filename"
     for ext in \
@@ -109,7 +109,10 @@ RUN cd /tmp && \
         "vscode-python-debugger|vsce-package|python-debugger.vsix" \
         "vscode-python-environments|vsce-package|ms-python-envs-insiders.vsix"; \
     do \
-        IFS='|' read -r repo build_cmd output_file <<< "$ext" && \
+        # Parse the pipe-delimited string
+        repo=$(echo "$ext" | cut -d'|' -f1) && \
+        build_cmd=$(echo "$ext" | cut -d'|' -f2) && \
+        output_file=$(echo "$ext" | cut -d'|' -f3) && \
         # Fetch the latest release tag from GitHub API
         echo "Fetching latest release for $repo..." && \
         latest_tag=$(curl -s "https://api.github.com/repos/microsoft/$repo/releases/latest" | jq -r .tag_name) && \
