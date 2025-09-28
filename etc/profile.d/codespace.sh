@@ -1,5 +1,8 @@
 # If not root
-if [ "$(whoami)" != "root" ]; then
+if [ `id -u` -ne 0 ]; then
+
+    # Library
+    . /opt/cs50/lib/cli
 
     # Check if running locally and set $RepositoryName if not already set
     if [[ "$CODESPACES" != "true" && -z "$RepositoryName" ]]; then
@@ -81,5 +84,18 @@ if [ "$(whoami)" != "root" ]; then
     # Rewrite URLs in stdout
     http-server() {
         command http-server "$@" | _hostname | _version | uniq
+    }
+
+    # Helpers
+    function _helped() {
+        : # TODO: invoke command that hides help50 button
+    }
+    function _helpful() {
+        $ _alert "$(_ansi "🦆 Click \`help50\` for help")" # Temporary, to introduce new feature
+        : # TODO: invoke command that sends $1 to ddb50 as though from duck itself
+    }
+    function _helpless() {
+        $ _alert "$(_ansi "🦆 Click \`help50\` for help")" # Temporary, to introduce new feature
+        : # TODO: invoke command that sends $1 to ddb50 as though from student
     }
 fi

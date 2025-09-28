@@ -98,6 +98,13 @@ RUN npm install --global @vscode/vsce yarn && \
     mv design50-1.0.0.vsix /opt/cs50/extensions && \
     cd /tmp && \
     rm --force --recursive design50.vsix && \
+    git clone https://github.com/cs50/help50.vsix.git && \
+    cd help50.vsix && \
+    npm install && \
+    vsce package && \
+    mv help50-0.0.1.vsix /opt/cs50/extensions && \
+    cd /tmp && \
+    rm --force --recursive help50.vsix && \
     npm uninstall --global vsce yarn
 
 
