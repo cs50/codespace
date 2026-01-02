@@ -21,10 +21,6 @@ RUN echo "deb-src http://archive.ubuntu.com/ubuntu/ jammy main restricted" > /et
     tar --create --gzip --file /build/glibc-sMfBJT/glibc.tar.gz glibc*
 
 
-# Install BFG
-RUN wget https://repo1.maven.org/maven2/com/madgag/bfg/1.14.0/bfg-1.14.0.jar -P /opt/share
-
-
 # Install Lua 5.x
 # https://www.lua.org/download.html
 RUN cd /tmp && \
