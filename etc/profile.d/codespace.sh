@@ -44,9 +44,6 @@ if [ "$(whoami)" != "root" ]; then
     }
     PS1='$(_prompt)'
 
-    # Alias BFG
-    alias bfg="java -jar /opt/share/bfg-1.14.0.jar"
-
     # Configure cd to default to workspace
     alias cd="HOME=\"/workspaces/$RepositoryName\" cd"
 
