@@ -6,7 +6,7 @@ jobs:
     runs-on: ubuntu-2404-64-cores-amd
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
@@ -27,7 +27,7 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v6
         with:
-          python-version: "3.13"
+          python-version: "3.14"
 
       - name: Only use `build` and `features`, if any, from devcontainer.json
         run: |
@@ -93,7 +93,7 @@ jobs:
 
       - name: Tag main as latest
         if: ${{ github.ref == 'refs/heads/main' }}
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         with:
           github-token: ${{ github.token }}
           script: |
