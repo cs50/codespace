@@ -99,6 +99,7 @@ RUN npm install --global @vscode/vsce yarn && \
 
 # Final stage
 FROM cs50/cli:${TAG}
+ENV DOCKER_API_VERSION=1.43
 
 
 # Unset user
