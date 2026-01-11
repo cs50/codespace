@@ -1,4 +1,4 @@
-{
+  {
     "build": {
         "args": {
             "TAG": "${localEnv:TAG}",
