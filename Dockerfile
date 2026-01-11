@@ -1,4 +1,4 @@
-# Build stage
+ # Build stage
 ARG TAG
 FROM cs50/cli:${TAG} AS builder
 ARG DEBIAN_FRONTEND=noninteractive
