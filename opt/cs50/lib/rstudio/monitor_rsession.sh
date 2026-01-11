@@ -1,5 +1,5 @@
 #!/bin/bash
-
+#monitor_rsession.sh 
 cleanup() {
   kill -TERM 1
 }
