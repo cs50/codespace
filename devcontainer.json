@@ -105,6 +105,7 @@
                     "Codeium.codeium",
                     "Codeium.codeium-enterprise-updater",
                     "github.copilot",
+                    "GitHub.copilot-chat",
                     "ms-toolsai.vscode-jupyter-cell-tags",
                     "tabnine.tabnine-vscode"
                 ],
