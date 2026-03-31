@@ -145,9 +145,9 @@
                 ],
                 "java.inlayHints.parameterNames.enabled": "none",
                 "java.debug.settings.enableRunDebugCodeLens": false,
-                "javascript.format.insertSpaceAfterFunctionKeywordForAnonymousFunctions": false,
-                "javascript.suggest.enabled": false,
-                "javascript.validate.enable": false, /* Disable red squiggles */
+                "js/ts.format.insertSpaceAfterFunctionKeywordForAnonymousFunctions": false,
+                "js/ts.suggest.enabled": false,
+                "js/ts.validate.enabled": false, /* Disable red squiggles */
                 "Prettier-SQL.keywordCase": "upper",
                 "problems.decorations.enabled": false,
                 "problems.visibility": false,
