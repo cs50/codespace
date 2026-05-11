@@ -70,7 +70,7 @@
                 "editor.foldingHighlight": false,
                 "editor.formatOnSave": false,
                 "editor.guides.indentation": false,
-                "editor.hover.enabled": false,
+                "editor.hover.enabled": "off",
                 "editor.lightbulb.enabled": "off",
                 "editor.matchBrackets": "never",
                 "editor.mouseWheelZoom": true,
