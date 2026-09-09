@@ -46,6 +46,9 @@ fi
 # Pull latest image
 docker pull "$IMAGE"
 
+# Ensure preferences exist
+touch "/workspaces/$RepositoryName/rstudio-prefs.json"
+
 # Create container
 # https://rocker-project.org/images/versioned/rstudio.html#environment-variables
 docker create \
@@ -57,6 +60,7 @@ docker create \
     --publish 8787:8787 \
     --rm \
     --volume "$LOCAL_WORKSPACE_FOLDER":"/workspaces/$RepositoryName" \
+    --volume "/workspaces/$RepositoryName/rstudio-prefs.json":/home/rstudio/.config/rstudio/rstudio-prefs.json \
     "$IMAGE" > /dev/null
 
 # Customize rstudio-prefs.json
