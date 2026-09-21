@@ -97,6 +97,12 @@ if [ `id -u` -ne 0 ]; then
         ( command50 help50.showButton "$1" "$2" > /dev/null 2>&1 & )
         _HELP50_BUTTON=1
     }
+    _help50_hide() {
+        if [[ -n "$_HELP50_BUTTON" ]]; then
+            ( command50 help50.hideButton > /dev/null 2>&1 & )
+            unset _HELP50_BUTTON
+        fi
+    }
 
     # A helper had advice: show it here (as in cs50/cli) and let the duck repeat it
     _helpful() {
@@ -108,10 +114,11 @@ if [ `id -u` -ne 0 ]; then
     }
 
     # No helper matched: offer the duck the failed command's output to explain.
-    # Skip when there's no output (e.g., grep with no match, or a program exiting 1),
-    # since there'd be nothing to explain and most such exits aren't errors.
+    # If there's no output (e.g., grep with no match, or a program exiting 1), there's
+    # nothing to explain, and any button still showing is about an earlier command.
     _helpless() {
         if [[ -z "${1//[[:space:]]/}" ]]; then
+            _help50_hide
             return
         fi
         _alert "$(_ansi "🦆 Click \`help50\` above for help with that error.")"
@@ -120,9 +127,6 @@ if [ `id -u` -ne 0 ]; then
 
     # Command succeeded: hide the button, if showing
     _helped() {
-        if [[ -n "$_HELP50_BUTTON" ]]; then
-            ( command50 help50.hideButton > /dev/null 2>&1 & )
-            unset _HELP50_BUTTON
-        fi
+        _help50_hide
     }
 fi
