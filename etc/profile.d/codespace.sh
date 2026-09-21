@@ -89,8 +89,9 @@ if [ `id -u` -ne 0 ]; then
     }
 
     # help50 hooks, called by _help50 in /etc/profile.d/help50.sh after each command.
-    # These relay to the help50 VS Code extension via command50, which shows a "help50"
-    # button in the terminal's title bar; clicking it hands the message to the CS50 Duck.
+    # When no local helper has advice, these relay the failed command's output to the
+    # help50 VS Code extension via command50, which shows a "help50" button in the
+    # terminal's title bar; clicking it asks the CS50 Duck to explain the error.
     # command50 runs detached with output discarded so the prompt isn't delayed and a
     # missing extension server degrades silently.
     _help50_button() {
@@ -104,13 +105,14 @@ if [ `id -u` -ne 0 ]; then
         fi
     }
 
-    # A helper had advice: show it here (as in cs50/cli) and let the duck repeat it
+    # A helper had advice: show it here, as in cs50/cli. No button, since the advice is
+    # already on screen; a button still showing is about an earlier command.
     _helpful() {
         for name in n no y yes; do
             alias $name=_rhetorical # Intercept answers to the rhetorical question
         done
         _alert "$(_ansi "$1")"
-        _help50_button say "$1"
+        _help50_hide
     }
 
     # No helper matched: offer the duck the failed command's output to explain.
