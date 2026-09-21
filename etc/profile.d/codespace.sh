@@ -1,8 +1,10 @@
 # If not root
 if [ `id -u` -ne 0 ]; then
 
-    # Library (from cs50/cli)
-    . /opt/cs50/lib/cli
+    # Library (from cs50/cli; absent in images built before help50 landed there)
+    if [ -f /opt/cs50/lib/cli ]; then
+        . /opt/cs50/lib/cli
+    fi
 
     # Check if running locally and set $RepositoryName if not already set
     if [[ "$CODESPACES" != "true" && -z "$RepositoryName" ]]; then
