@@ -42,6 +42,11 @@ jobs:
           npm install -g @devcontainers/cli
           devcontainer build --workspace-folder . --config devcontainer.json --image-name cs50/codespace:${{ github.sha }} --image-name cs50/codespace:latest
 
+      - name: Smoke-test (latest)
+        if: ${{ github.ref == 'refs/heads/main' }}
+        run: |
+          bash tests/smoke.sh cs50/codespace:latest
+
       - name: Push (latest) to GitHub Packages
         if: ${{ github.ref == 'refs/heads/main' }}
         run: |
@@ -71,6 +76,11 @@ jobs:
           export VCS_REF=$(git rev-parse HEAD)
           npm install -g @devcontainers/cli
           devcontainer build --workspace-folder . --config devcontainer.json --image-name cs50/codespace:${{ github.sha }} --image-name cs50/codespace:${{ github.ref_name }}
+
+      - name: Smoke-test (${{ github.ref_name }})
+        if: ${{ github.ref != 'refs/heads/main' }}
+        run: |
+          bash tests/smoke.sh cs50/codespace:${{ github.ref_name }}
 
       - name: Squash (${{ github.ref_name }})
         if: ${{ github.ref != 'refs/heads/main' }}
