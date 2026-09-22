@@ -38,6 +38,15 @@ if run "$IMAGE" bash --login -c 'test -f /etc/profile.d/help50.sh -a -f /opt/cs5
         test -z "$(_helpless "   " 2>&1)" &&
         _helpless "cat: x: No such file" 2>&1 | grep -q help50'
 
+    # _help50_button discards command50's output, so stub it to see the payload
+    check "the duck gets the command line and output as a transcript (or output alone without a command)"
+    run "$IMAGE" bash --login -c '
+        _alert() { :; }
+        _help50_button() { printf "%s" "$2"; }
+        test "$(_helpless "cat: x: No such file" "cat x")" = "$(printf "%s\n%s" "$ cat x" "cat: x: No such file")" &&
+        test "$(_helpless "cat: x: No such file")" = "cat: x: No such file" &&
+        test -z "$(_helpless "   " "cat x")"'
+
     check "root shells (Sysadmins profile) do not start help50"
     run --user root "$IMAGE" bash --login -c 'test -z "${HELP50:-}" && ! declare -F _helpful > /dev/null'
 else
