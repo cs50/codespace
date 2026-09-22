@@ -118,13 +118,18 @@ if [ `id -u` -ne 0 ]; then
     # No helper matched: offer the duck the failed command's output to explain.
     # If there's no output (e.g., grep with no match, or a program exiting 1), there's
     # nothing to explain, and any button still showing is about an earlier command.
+    # $1 is the output, $2 the command line; the duck gets both, as a transcript.
     _helpless() {
         if [[ -z "${1//[[:space:]]/}" ]]; then
             _help50_hide
             return
         fi
         _alert "$(_ansi "🦆 Click \`help50\` above for help with that error.")"
-        _help50_button ask "$1"
+        if [[ -n "$2" ]]; then
+            _help50_button ask "$ $2"$'\n'"$1"
+        else
+            _help50_button ask "$1"
+        fi
     }
 
     # Command succeeded: hide the button, if showing
