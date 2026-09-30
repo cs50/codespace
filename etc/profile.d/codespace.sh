@@ -1,11 +1,19 @@
 # If not root
-if [ "$(whoami)" != "root" ]; then
+if [ `id -u` -ne 0 ]; then
+
+    # Library (from cs50/cli; absent in images built before help50 landed there)
+    if [ -f /opt/cs50/lib/cli ]; then
+        . /opt/cs50/lib/cli
+    fi
 
     # Check if running locally and set $RepositoryName if not already set
     if [[ "$CODESPACES" != "true" && -z "$RepositoryName" ]]; then
         export RepositoryName=$(ls -1t --color=never /workspaces | tail -1 | sed 's:/*$::')
         export LOCAL_WORKSPACE_FOLDER="/workspaces/$RepositoryName"
     fi
+
+    # Where help50's helpers look for misplaced files (cs50/cli defaults this to $HOME)
+    export WORKDIR="/workspaces/$RepositoryName"
 
     # Rewrites URLs of the form http://HOST:PORT as https://$CODESPACE_NAME.app.github.dev:PORT
     _hostname() {
@@ -78,5 +86,54 @@ if [ "$(whoami)" != "root" ]; then
     # Rewrite URLs in stdout
     http-server() {
         command http-server "$@" | _hostname | _version | uniq
+    }
+
+    # help50 hooks, called by _help50 in /etc/profile.d/help50.sh after each command.
+    # When no local helper has advice, these relay the failed command's output to the
+    # help50 VS Code extension via command50, which shows a "help50" button in the
+    # terminal's title bar; clicking it asks the CS50 Duck to explain the error.
+    # command50 runs detached with output discarded so the prompt isn't delayed and a
+    # missing extension server degrades silently.
+    _help50_button() {
+        ( command50 help50.showButton "$1" "$2" > /dev/null 2>&1 & )
+        _HELP50_BUTTON=1
+    }
+    _help50_hide() {
+        if [[ -n "$_HELP50_BUTTON" ]]; then
+            ( command50 help50.hideButton > /dev/null 2>&1 & )
+            unset _HELP50_BUTTON
+        fi
+    }
+
+    # A helper had advice: show it here, as in cs50/cli. No button, since the advice is
+    # already on screen; a button still showing is about an earlier command.
+    _helpful() {
+        for name in n no y yes; do
+            alias $name=_rhetorical # Intercept answers to the rhetorical question
+        done
+        _alert "$(_ansi "$1")"
+        _help50_hide
+    }
+
+    # No helper matched: offer the duck the failed command's output to explain.
+    # If there's no output (e.g., grep with no match, or a program exiting 1), there's
+    # nothing to explain, and any button still showing is about an earlier command.
+    # $1 is the output, $2 the command line; the duck gets both, as a transcript.
+    _helpless() {
+        if [[ -z "${1//[[:space:]]/}" ]]; then
+            _help50_hide
+            return
+        fi
+        _alert "$(_ansi "🦆 Click \`help50\` above for help with that error.")"
+        if [[ -n "$2" ]]; then
+            _help50_button ask "$ $2"$'\n'"$1"
+        else
+            _help50_button ask "$1"
+        fi
+    }
+
+    # Command succeeded: hide the button, if showing
+    _helped() {
+        _help50_hide
     }
 fi
