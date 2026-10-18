@@ -3,7 +3,14 @@ on:
   - workflow_dispatch
 jobs:
   build:
-    runs-on: ubuntu-2404-64-cores-amd
+    strategy:
+      matrix:
+        include:
+          - arch: amd64
+            runner: ubuntu-2404-64-cores-amd
+          - arch: arm64
+            runner: ubuntu-24.04-arm
+    runs-on: ${{ matrix.runner }}
     steps:
       - name: Checkout
         uses: actions/checkout@v7
@@ -37,29 +44,26 @@ jobs:
       - name: Build (latest)
         if: ${{ github.ref == 'refs/heads/main' }}
         run: |
-          export TAG=amd64
+          export TAG=${{ matrix.arch }}
           export VCS_REF=$(git rev-parse HEAD)
           npm install -g @devcontainers/cli
-          devcontainer build --workspace-folder . --config devcontainer.json --image-name cs50/codespace:${{ github.sha }} --image-name cs50/codespace:latest
+          devcontainer build --workspace-folder . --config devcontainer.json --image-name cs50/codespace:${{ github.sha }}-${{ matrix.arch }}
 
       - name: Smoke-test (latest)
         if: ${{ github.ref == 'refs/heads/main' }}
         run: |
-          bash tests/smoke.sh cs50/codespace:latest
+          bash tests/smoke.sh cs50/codespace:${{ github.sha }}-${{ matrix.arch }}
 
       - name: Push (latest) to GitHub Packages
         if: ${{ github.ref == 'refs/heads/main' }}
         run: |
-          docker tag cs50/codespace:${{ github.sha }} ghcr.io/cs50/codespace:${{ github.sha }}
-          docker tag cs50/codespace:latest ghcr.io/cs50/codespace:latest
-          docker push ghcr.io/cs50/codespace:${{ github.sha }}
-          docker push ghcr.io/cs50/codespace:latest
+          docker tag cs50/codespace:${{ github.sha }}-${{ matrix.arch }} ghcr.io/cs50/codespace:${{ github.sha }}-${{ matrix.arch }}
+          docker push ghcr.io/cs50/codespace:${{ github.sha }}-${{ matrix.arch }}
 
       - name: Push to Docker Hub (latest)
         if: ${{ github.ref == 'refs/heads/main' }}
         run: |
-          docker push cs50/codespace:${{ github.sha }}
-          docker push cs50/codespace:latest
+          docker push cs50/codespace:${{ github.sha }}-${{ matrix.arch }}
 
       - name: Build (canary)
         if: ${{ github.ref == 'refs/heads/canary' }}
@@ -67,39 +71,76 @@ jobs:
           export TAG=canary
           export VCS_REF=$(git rev-parse HEAD)
           npm install -g @devcontainers/cli
-          devcontainer build --workspace-folder . --config devcontainer.json --image-name cs50/codespace:${{ github.sha }} --image-name cs50/codespace:${{ github.ref_name }}
+          devcontainer build --workspace-folder . --config devcontainer.json --image-name cs50/codespace:${{ github.ref_name }}-${{ matrix.arch }}
 
       - name: Build (${{ github.ref_name}})
         if: ${{ github.ref != 'refs/heads/main' && github.ref != 'refs/heads/canary' }}
         run: |
-          export TAG=amd64
+          export TAG=${{ matrix.arch }}
           export VCS_REF=$(git rev-parse HEAD)
           npm install -g @devcontainers/cli
-          devcontainer build --workspace-folder . --config devcontainer.json --image-name cs50/codespace:${{ github.sha }} --image-name cs50/codespace:${{ github.ref_name }}
+          devcontainer build --workspace-folder . --config devcontainer.json --image-name cs50/codespace:${{ github.ref_name }}-${{ matrix.arch }}
 
       - name: Smoke-test (${{ github.ref_name }})
         if: ${{ github.ref != 'refs/heads/main' }}
         run: |
-          bash tests/smoke.sh cs50/codespace:${{ github.ref_name }}
+          bash tests/smoke.sh cs50/codespace:${{ github.ref_name }}-${{ matrix.arch }}
 
       - name: Squash (${{ github.ref_name }})
         if: ${{ github.ref != 'refs/heads/main' }}
         run: |
           pip3 install docker-squash
-          docker-squash --tag cs50/codespace:${{ github.ref_name }} cs50/codespace:${{ github.ref_name }}
+          docker-squash --tag cs50/codespace:${{ github.ref_name }}-${{ matrix.arch }} cs50/codespace:${{ github.ref_name }}-${{ matrix.arch }}
 
       - name: Push (${{ github.ref_name }}) to GitHub Packages
         if: ${{ github.ref != 'refs/heads/main' }}
         run: |
-          docker tag cs50/codespace:${{ github.ref_name }} ghcr.io/cs50/codespace:${{ github.ref_name }}
-          docker push ghcr.io/cs50/codespace:${{ github.ref_name }}
+          docker tag cs50/codespace:${{ github.ref_name }}-${{ matrix.arch }} ghcr.io/cs50/codespace:${{ github.ref_name }}-${{ matrix.arch }}
+          docker push ghcr.io/cs50/codespace:${{ github.ref_name }}-${{ matrix.arch }}
 
       - name: Push to Docker Hub (${{ github.ref_name }})
         if: ${{ github.ref != 'refs/heads/main' }}
         run: |
-          docker tag cs50/codespace:${{ github.ref_name }} cs50/codespace:${{ github.sha }}
-          docker push cs50/codespace:${{ github.ref_name }}
-          docker push cs50/codespace:${{ github.sha }}
+          docker push cs50/codespace:${{ github.ref_name }}-${{ matrix.arch }}
+
+  manifest:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v4
+
+      - name: Log into Docker Hub
+        uses: docker/login-action@v4
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Log into GitHub Packages
+        uses: docker/login-action@v4
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create multi-arch tags (latest)
+        if: ${{ github.ref == 'refs/heads/main' }}
+        run: |
+          for repo in ghcr.io/cs50/codespace cs50/codespace; do
+            docker buildx imagetools create \
+              --tag $repo:${{ github.sha }} --tag $repo:latest \
+              $repo:${{ github.sha }}-amd64 $repo:${{ github.sha }}-arm64
+          done
+
+      - name: Create multi-arch tags (${{ github.ref_name }})
+        if: ${{ github.ref != 'refs/heads/main' }}
+        run: |
+          docker buildx imagetools create \
+            --tag ghcr.io/cs50/codespace:${{ github.ref_name }} \
+            ghcr.io/cs50/codespace:${{ github.ref_name }}-amd64 ghcr.io/cs50/codespace:${{ github.ref_name }}-arm64
+          docker buildx imagetools create \
+            --tag cs50/codespace:${{ github.ref_name }} --tag cs50/codespace:${{ github.sha }} \
+            cs50/codespace:${{ github.ref_name }}-amd64 cs50/codespace:${{ github.ref_name }}-arm64
 
       - name: Tag main as latest
         if: ${{ github.ref == 'refs/heads/main' }}
