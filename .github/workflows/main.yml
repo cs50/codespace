@@ -2,8 +2,27 @@ on:
   - push
   - workflow_dispatch
 jobs:
+
+  # Build, smoke-test and push one image per architecture, each on a native runner
+  # (no QEMU emulation). Images are pushed as <sha>-<arch>; the publish job below
+  # joins them into the tags that cs50.dev and students actually reference.
   build:
-    runs-on: ubuntu-2404-64-cores-amd
+    name: build (${{ matrix.arch }})
+    strategy:
+      # Never let an arm64 failure cancel the amd64 build: GitHub Codespaces runs on amd64,
+      # so the amd64 image is the one deployments depend on. arm64 is additive.
+      fail-fast: false
+      matrix:
+        include:
+          - arch: amd64
+            runner: ubuntu-2404-64-cores-amd
+          - arch: arm64
+            runner: ubuntu-2404-64-cores-arm # Same larger runner cs50/cli builds on
+    runs-on: ${{ matrix.runner }}
+    # A normal build takes a few minutes; a hung leg must not hold up publishing the other one
+    timeout-minutes: 60
+    env:
+      IMAGE: cs50/codespace:${{ github.sha }}-${{ matrix.arch }}
     steps:
       - name: Checkout
         uses: actions/checkout@v7
@@ -34,75 +53,110 @@ jobs:
           pip3 install jsmin
           python3 -c "import jsmin, json; f = open('devcontainer.json', 'r'); data = json.loads(jsmin.jsmin(f.read())); o = {}; o['build']=data['build']; o['features']=data.get('features', []); o['remoteEnv']=data['remoteEnv']; f.close(); f = open('devcontainer.json', 'w'); f.write(json.dumps(o, indent=4)); f.close()"
 
-      - name: Build (latest)
-        if: ${{ github.ref == 'refs/heads/main' }}
+      # TAG selects the cs50/cli base image: canary builds track cs50/cli:canary (a multi-arch
+      # manifest, so each runner gets its own architecture); everything else uses cs50/cli:<arch>.
+      - name: Build (${{ github.ref_name }}, ${{ matrix.arch }})
         run: |
-          export TAG=amd64
+          export TAG=${{ github.ref == 'refs/heads/canary' && 'canary' || matrix.arch }}
           export VCS_REF=$(git rev-parse HEAD)
           npm install -g @devcontainers/cli
-          devcontainer build --workspace-folder . --config devcontainer.json --image-name cs50/codespace:${{ github.sha }} --image-name cs50/codespace:latest
+          devcontainer build --workspace-folder . --config devcontainer.json --image-name "$IMAGE"
 
-      - name: Smoke-test (latest)
-        if: ${{ github.ref == 'refs/heads/main' }}
+      - name: Smoke-test (${{ github.ref_name }}, ${{ matrix.arch }})
         run: |
-          bash tests/smoke.sh cs50/codespace:latest
+          bash tests/smoke.sh "$IMAGE"
 
-      - name: Push (latest) to GitHub Packages
-        if: ${{ github.ref == 'refs/heads/main' }}
-        run: |
-          docker tag cs50/codespace:${{ github.sha }} ghcr.io/cs50/codespace:${{ github.sha }}
-          docker tag cs50/codespace:latest ghcr.io/cs50/codespace:latest
-          docker push ghcr.io/cs50/codespace:${{ github.sha }}
-          docker push ghcr.io/cs50/codespace:latest
-
-      - name: Push to Docker Hub (latest)
-        if: ${{ github.ref == 'refs/heads/main' }}
-        run: |
-          docker push cs50/codespace:${{ github.sha }}
-          docker push cs50/codespace:latest
-
-      - name: Build (canary)
-        if: ${{ github.ref == 'refs/heads/canary' }}
-        run: |
-          export TAG=canary
-          export VCS_REF=$(git rev-parse HEAD)
-          npm install -g @devcontainers/cli
-          devcontainer build --workspace-folder . --config devcontainer.json --image-name cs50/codespace:${{ github.sha }} --image-name cs50/codespace:${{ github.ref_name }}
-
-      - name: Build (${{ github.ref_name}})
-        if: ${{ github.ref != 'refs/heads/main' && github.ref != 'refs/heads/canary' }}
-        run: |
-          export TAG=amd64
-          export VCS_REF=$(git rev-parse HEAD)
-          npm install -g @devcontainers/cli
-          devcontainer build --workspace-folder . --config devcontainer.json --image-name cs50/codespace:${{ github.sha }} --image-name cs50/codespace:${{ github.ref_name }}
-
-      - name: Smoke-test (${{ github.ref_name }})
-        if: ${{ github.ref != 'refs/heads/main' }}
-        run: |
-          bash tests/smoke.sh cs50/codespace:${{ github.ref_name }}
-
-      - name: Squash (${{ github.ref_name }})
+      - name: Squash (${{ github.ref_name }}, ${{ matrix.arch }})
         if: ${{ github.ref != 'refs/heads/main' }}
         run: |
           pip3 install docker-squash
-          docker-squash --tag cs50/codespace:${{ github.ref_name }} cs50/codespace:${{ github.ref_name }}
+          docker-squash --tag "$IMAGE" "$IMAGE"
 
-      - name: Push (${{ github.ref_name }}) to GitHub Packages
-        if: ${{ github.ref != 'refs/heads/main' }}
+      - name: Push (${{ github.ref_name }}, ${{ matrix.arch }}) to GitHub Packages and Docker Hub
         run: |
-          docker tag cs50/codespace:${{ github.ref_name }} ghcr.io/cs50/codespace:${{ github.ref_name }}
-          docker push ghcr.io/cs50/codespace:${{ github.ref_name }}
+          docker tag "$IMAGE" "ghcr.io/$IMAGE"
+          docker push "ghcr.io/$IMAGE"
+          docker push "$IMAGE"
 
-      - name: Push to Docker Hub (${{ github.ref_name }})
-        if: ${{ github.ref != 'refs/heads/main' }}
+  # Join the per-architecture images into multi-arch tags. Runs even if a build leg failed:
+  # the amd64 image is required (deployments depend on it), arm64 is included when available.
+  publish:
+    needs: build
+    if: ${{ !cancelled() }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v4
+
+      - name: Log into Docker Hub
+        uses: docker/login-action@v4
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Log into GitHub Packages
+        uses: docker/login-action@v4
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      # Tags are unchanged from the single-arch workflow:
+      #   main:   <sha> and latest on GitHub Packages and Docker Hub
+      #   others: <branch> on GitHub Packages; <branch> and <sha> on Docker Hub
+      # latest only moves if this commit is still the head of main, so re-running an older run
+      # (e.g. after an arm64 flake) can never roll cs50.dev back to an older image.
+      - name: Create multi-arch tags (${{ github.ref_name }})
+        id: publish
         run: |
-          docker tag cs50/codespace:${{ github.ref_name }} cs50/codespace:${{ github.sha }}
-          docker push cs50/codespace:${{ github.ref_name }}
-          docker push cs50/codespace:${{ github.sha }}
+          set -o errexit -o nounset -o pipefail
+          if [ "$GITHUB_REF" = "refs/heads/main" ]; then
+            head=$(git ls-remote --exit-code "https://github.com/$GITHUB_REPOSITORY" refs/heads/main | cut -f1)
+            if [ "$head" = "$GITHUB_SHA" ]; then
+              latest=latest
+              echo "latest=true" >> "$GITHUB_OUTPUT"
+            else
+              echo "::warning::main has moved on to $head; publishing $GITHUB_SHA without moving latest"
+              latest=
+            fi
+            ghcr_tags="$GITHUB_SHA $latest"
+            hub_tags="$GITHUB_SHA $latest"
+          else
+            ghcr_tags="$GITHUB_REF_NAME"
+            hub_tags="$GITHUB_REF_NAME $GITHUB_SHA"
+          fi
 
+          # publish REPO TAG...: creates each REPO:TAG from whichever REPO:<sha>-<arch> images were pushed
+          publish() {
+            local repo="$1"; shift
+            local sources=()
+            for arch in amd64 arm64; do
+              if docker buildx imagetools inspect "$repo:$GITHUB_SHA-$arch" > /dev/null 2>&1; then
+                sources+=("$repo:$GITHUB_SHA-$arch")
+              elif [ "$arch" = "amd64" ]; then
+                echo "::error::$repo:$GITHUB_SHA-amd64 was not published; not tagging $repo"
+                return 1
+              else
+                echo "::warning::$repo:$GITHUB_SHA-$arch was not published; $repo tags will be amd64-only"
+              fi
+            done
+            local tags=()
+            for tag in "$@"; do
+              tags+=(--tag "$repo:$tag")
+            done
+            docker buildx imagetools create "${tags[@]}" "${sources[@]}"
+            for tag in "$@"; do
+              docker buildx imagetools inspect "$repo:$tag"
+            done
+          }
+
+          publish ghcr.io/cs50/codespace $ghcr_tags
+          publish cs50/codespace $hub_tags
+
+      # cs50.dev resolves this git tag to the <sha> it serves as ghcr.io/cs50/codespace:<sha>,
+      # so it must only move after that image exists on GitHub Packages (the step above).
       - name: Tag main as latest
-        if: ${{ github.ref == 'refs/heads/main' }}
+        if: ${{ github.ref == 'refs/heads/main' && steps.publish.outputs.latest == 'true' }}
         uses: actions/github-script@v9
         with:
           github-token: ${{ github.token }}

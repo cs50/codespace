@@ -21,7 +21,7 @@ run "$IMAGE" bash --login -c 'echo ok' | grep -qx ok
 echo true | run --interactive "$IMAGE" bash --login
 
 # The rest applies once the cs50/cli base image carries help50 (cs50/cli#210).
-# Branch builds use cs50/cli:amd64 (main), canary uses cs50/cli:canary.
+# Branch builds use cs50/cli:<arch> (main), canary uses cs50/cli:canary.
 if run "$IMAGE" bash --login -c 'test -f /etc/profile.d/help50.sh -a -f /opt/cs50/lib/cli'; then
 
     check "help50 is inherited from cs50/cli and its hooks are overridden by codespace.sh"
