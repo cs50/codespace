@@ -160,7 +160,7 @@ RUN pip3 install --no-cache-dir \
         black \
         djhtml \
         matplotlib \
-        pillow==10.4.0 \
+        pillow==11.3.0 \
         pytz \
         setuptools
 
