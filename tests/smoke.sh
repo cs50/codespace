@@ -56,6 +56,13 @@ fi
 check "help50 extension is packaged for installation"
 run "$IMAGE" bash --login -c 'test -f /opt/cs50/extensions/help50-0.0.1.vsix && command -v command50 > /dev/null'
 
+# The workflow strips settings from devcontainer.json before building, so read the committed copy when there is one
+check "devcontainer.json declares the base image's JDK as the Java runtime (java.configuration.runtimes)"
+repo="$(cd "$(dirname "$0")/.." && pwd)"
+declared=$( (git -C "$repo" show HEAD:devcontainer.json 2> /dev/null || cat "$repo/devcontainer.json") | sed -nE 's/.*"name": *"JavaSE-([0-9]+)".*/\1/p' | head -n 1)
+actual=$(run "$IMAGE" bash --login -c '/opt/jdk/bin/java -version 2>&1 | sed -nE "s/^openjdk version \"([0-9]+).*/\1/p"')
+test -n "$declared" && test -n "$actual" && test "$declared" = "$actual" || { echo "devcontainer.json declares JavaSE-${declared:-?} but the image has JDK ${actual:-?}" >&2; false; }
+
 check "glibc sources match the installed libc and gdb finds them when stepping into libc"
 run --user root "$IMAGE" bash --login -c '
     test -f /usr/src/glibc/glibc.tar.gz || { echo "glibc.tar.gz missing" >&2; exit 1; }
