@@ -15,9 +15,9 @@ jobs:
       matrix:
         include:
           - arch: amd64
-            runner: ubuntu-2404-64-cores-amd
+            runner: ubuntu-2604-64-cores-amd
           - arch: arm64
-            runner: ubuntu-2404-64-cores-arm # Same larger runner cs50/cli builds on
+            runner: ubuntu-2604-64-cores-arm # Same larger runner cs50/cli builds on
     runs-on: ${{ matrix.runner }}
     # A normal build takes a few minutes; a hung leg must not hold up publishing the other one
     timeout-minutes: 60
