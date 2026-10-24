@@ -56,4 +56,14 @@ fi
 check "help50 extension is packaged for installation"
 run "$IMAGE" bash --login -c 'test -f /opt/cs50/extensions/help50-0.0.1.vsix && command -v command50 > /dev/null'
 
+check "glibc sources match the installed libc and gdb finds them when stepping into libc"
+run --user root "$IMAGE" bash --login -c '
+    test -f /usr/src/glibc/glibc.tar.gz || { echo "glibc.tar.gz missing" >&2; exit 1; }
+    tar --extract --file /usr/src/glibc/glibc.tar.gz --directory /usr/src/glibc && rm /usr/src/glibc/glibc.tar.gz
+    upstream=$(dpkg-query --showformat="\${Version}" --show libc6 | cut -d- -f1)
+    grep -q "#define VERSION \"$upstream\"" /usr/src/glibc/version.h || { echo "glibc sources are not $upstream" >&2; exit 1; }
+    cd /tmp && printf "#include <stdio.h>\nint main(void) { puts(\"hi\"); return 0; }\n" > t.c && gcc -g t.c -o t
+    gdb -batch -ex "break puts" -ex run -ex "info source" ./t 2>&1 | grep -q "^Located in /usr/src/glibc/" || { echo "gdb did not resolve libc source" >&2; exit 1; }
+    env -u DEBUGINFOD_URLS gdb -q --interpreter=mi -batch -ex "break puts" -ex run -ex "info source" ./t 2>&1 | grep -q "Located in /usr/src/glibc/"'
+
 echo "OK"

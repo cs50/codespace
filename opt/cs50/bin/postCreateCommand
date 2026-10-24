@@ -55,6 +55,8 @@ find . -size +100M | cut -c 2- | cat >> .gitignore
 awk '!NF||$1~/^#/ {print; next} {$1=$1} !seen[$0]++' .gitignore > /tmp/.gitignore
 mv -f /tmp/.gitignore .gitignore
 
-# unzip /build/glibc-sMfBJT/glibc.tar.gz
-sudo tar --extract --file /build/glibc-sMfBJT/glibc.tar.gz --directory /build/glibc-sMfBJT
-sudo rm --force /build/glibc-sMfBJT/glibc.tar.gz
+# Extract glibc sources for the debugger (kept compressed in the image; see Dockerfile)
+if [ -f /usr/src/glibc/glibc.tar.gz ]; then
+    sudo tar --extract --file /usr/src/glibc/glibc.tar.gz --directory /usr/src/glibc
+    sudo rm --force /usr/src/glibc/glibc.tar.gz
+fi

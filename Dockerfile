@@ -10,15 +10,18 @@ USER root
 
 # Install glibc sources for debugger
 # https://github.com/Microsoft/vscode-cpptools/issues/1123#issuecomment-335867997
-RUN echo "deb-src http://archive.ubuntu.com/ubuntu/ jammy main restricted" > /etc/apt/sources.list.d/_.list && \
+# Ubuntu's libc6-dbg records source paths relative to the glibc source tree (e.g., ./libio/ioputs.c), so gdb finds them
+# via the source search path in etc/gdb/gdbinit.d/glibc.gdb. Sources are the installed libc6's exact version, kept
+# compressed in the image and extracted by opt/cs50/bin/postCreateCommand.
+RUN sed --in-place 's/^Types: deb$/Types: deb deb-src/' /etc/apt/sources.list.d/ubuntu.sources && \
     apt update && \
     apt install --no-install-recommends --no-install-suggests --yes \
         dpkg-dev && \
     cd /tmp && \
-    apt source glibc && \
-    rm --force --recursive *.dsc *.tar.* && \
-    mkdir --parents /build/glibc-sMfBJT && \
-    tar --create --gzip --file /build/glibc-sMfBJT/glibc.tar.gz glibc*
+    apt source glibc="$(dpkg-query --showformat='${Version}' --show libc6)" && \
+    mkdir --parents /usr/src/glibc && \
+    tar --create --gzip --file /usr/src/glibc/glibc.tar.gz --directory glibc-*/ . && \
+    rm --force --recursive glibc*
 
 
 # Install Lua 5.x
@@ -115,7 +118,7 @@ ARG DEBIAN_FRONTEND=noninteractive
 
 
 # Copy files from builder
-COPY --from=builder /build /build
+COPY --from=builder /usr/src/glibc /usr/src/glibc
 COPY --from=builder /opt /opt
 COPY --from=builder /usr/local /usr/local
 RUN pip3 install --no-cache-dir /opt/cs50/extensions/cs50vsix-client/ && \
