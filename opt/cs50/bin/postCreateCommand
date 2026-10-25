@@ -1,5 +1,11 @@
 #!/bin/bash
 
+# Extract glibc sources for the debugger (kept compressed in the image; see Dockerfile)
+if [ -f /usr/src/glibc/glibc.tar.gz ]; then
+    sudo tar --extract --file /usr/src/glibc/glibc.tar.gz --directory /usr/src/glibc
+    sudo rm --force /usr/src/glibc/glibc.tar.gz
+fi
+
 # If not using Codespaces
 if [ "$CODESPACES" != "true" ]; then
     exit
@@ -54,9 +60,3 @@ echo -en "\n# Ignore files larger than 100M\n" >> .gitignore
 find . -size +100M | cut -c 2- | cat >> .gitignore
 awk '!NF||$1~/^#/ {print; next} {$1=$1} !seen[$0]++' .gitignore > /tmp/.gitignore
 mv -f /tmp/.gitignore .gitignore
-
-# Extract glibc sources for the debugger (kept compressed in the image; see Dockerfile)
-if [ -f /usr/src/glibc/glibc.tar.gz ]; then
-    sudo tar --extract --file /usr/src/glibc/glibc.tar.gz --directory /usr/src/glibc
-    sudo rm --force /usr/src/glibc/glibc.tar.gz
-fi

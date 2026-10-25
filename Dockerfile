@@ -10,15 +10,17 @@ USER root
 
 # Install glibc sources for debugger
 # https://github.com/Microsoft/vscode-cpptools/issues/1123#issuecomment-335867997
-# Ubuntu's libc6-dbg records source paths relative to the glibc source tree (e.g., ./libio/ioputs.c), so gdb finds them
-# via the source search path in etc/gdb/gdbinit.d/glibc.gdb. Sources are the installed libc6's exact version, kept
-# compressed in the image and extracted by opt/cs50/bin/postCreateCommand.
+# Ubuntu's libc6-dbg (from cs50/cli) records source paths relative to the glibc source tree (e.g., ./libio/ioputs.c), so
+# gdb finds them via the source search path in etc/gdb/gdbinit.d/glibc.gdb. Sources are the installed libc6's exact
+# version, kept compressed in the image and extracted by opt/cs50/bin/postCreateCommand. The archive only carries the
+# current version of each source package, so once Ubuntu publishes a newer libc6, cs50/cli must be rebuilt first.
 RUN sed --in-place 's/^Types: deb$/Types: deb deb-src/' /etc/apt/sources.list.d/ubuntu.sources && \
     apt update && \
     apt install --no-install-recommends --no-install-suggests --yes \
         dpkg-dev && \
     cd /tmp && \
-    apt source glibc="$(dpkg-query --showformat='${Version}' --show libc6)" && \
+    version="$(dpkg-query --showformat='${Version}' --show libc6)" && \
+    { apt source glibc="$version" || { echo "glibc $version is no longer in the Ubuntu archive; rebuild cs50/cli to pick up the current libc6" >&2; exit 1; }; } && \
     mkdir --parents /usr/src/glibc && \
     tar --create --gzip --file /usr/src/glibc/glibc.tar.gz --directory glibc-*/ . && \
     rm --force --recursive glibc*

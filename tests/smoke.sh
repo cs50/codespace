@@ -63,13 +63,15 @@ declared=$( (git -C "$repo" show HEAD:devcontainer.json 2> /dev/null || cat "$re
 actual=$(run "$IMAGE" bash --login -c '/opt/jdk/bin/java -version 2>&1 | sed -nE "s/^openjdk version \"([0-9]+).*/\1/p"')
 test -n "$declared" && test -n "$actual" && test "$declared" = "$actual" || { echo "devcontainer.json declares JavaSE-${declared:-?} but the image has JDK ${actual:-?}" >&2; false; }
 
-check "glibc sources match the installed libc and gdb finds them when stepping into libc"
-run --user root "$IMAGE" bash --login -c '
+# As in a codespace: postCreateCommand runs as ubuntu in the workspace folder (docker creates it root-owned, hence the chown)
+check "postCreateCommand extracts glibc sources matching the installed libc, and gdb finds them when stopped in libc"
+run --workdir /workspaces/smoke "$IMAGE" bash --login -c '
     test -f /usr/src/glibc/glibc.tar.gz || { echo "glibc.tar.gz missing" >&2; exit 1; }
-    tar --extract --file /usr/src/glibc/glibc.tar.gz --directory /usr/src/glibc && rm /usr/src/glibc/glibc.tar.gz
+    sudo chown ubuntu:ubuntu /workspaces/smoke && /opt/cs50/bin/postCreateCommand
+    test ! -f /usr/src/glibc/glibc.tar.gz || { echo "postCreateCommand did not extract glibc.tar.gz" >&2; exit 1; }
     upstream=$(dpkg-query --showformat="\${Version}" --show libc6 | cut -d- -f1)
     grep -q "#define VERSION \"$upstream\"" /usr/src/glibc/version.h || { echo "glibc sources are not $upstream" >&2; exit 1; }
-    cd /tmp && printf "#include <stdio.h>\nint main(void) { puts(\"hi\"); return 0; }\n" > t.c && gcc -g t.c -o t
+    printf "#include <stdio.h>\nint main(void) { puts(\"hi\"); return 0; }\n" > t.c && gcc -g t.c -o t
     gdb -batch -ex "break puts" -ex run -ex "info source" ./t 2>&1 | grep -q "^Located in /usr/src/glibc/" || { echo "gdb did not resolve libc source" >&2; exit 1; }
     env -u DEBUGINFOD_URLS gdb -q --interpreter=mi -batch -ex "break puts" -ex run -ex "info source" ./t 2>&1 | grep -q "Located in /usr/src/glibc/"'
 
