@@ -53,12 +53,11 @@ jobs:
           pip3 install jsmin
           python3 -c "import jsmin, json; f = open('devcontainer.json', 'r'); data = json.loads(jsmin.jsmin(f.read())); o = {}; o['build']=data['build']; o['features']=data.get('features', []); o['remoteEnv']=data['remoteEnv']; f.close(); f = open('devcontainer.json', 'w'); f.write(json.dumps(o, indent=4)); f.close()"
 
-      # TAG selects the cs50/cli base image: canary builds track cs50/cli:canary and ubuntu-26.04 builds track
-      # cs50/cli:ubuntu-26.04 (multi-arch manifests, so each runner gets its own architecture); everything else
-      # uses cs50/cli:<arch>.
+      # TAG selects the cs50/cli base image: canary builds track cs50/cli:canary (a multi-arch
+      # manifest, so each runner gets its own architecture); everything else uses cs50/cli:<arch>.
       - name: Build (${{ github.ref_name }}, ${{ matrix.arch }})
         run: |
-          export TAG=${{ github.ref == 'refs/heads/canary' && 'canary' || github.ref == 'refs/heads/ubuntu-26.04' && 'ubuntu-26.04' || matrix.arch }}
+          export TAG=${{ github.ref == 'refs/heads/canary' && 'canary' || matrix.arch }}
           export VCS_REF=$(git rev-parse HEAD)
           npm install -g @devcontainers/cli
           devcontainer build --workspace-folder . --config devcontainer.json --image-name "$IMAGE"
