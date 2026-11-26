@@ -161,13 +161,15 @@ RUN (type -p wget >/dev/null || (sudo apt update && sudo apt-get install wget -y
 
 
 # Install Python packages
+# Pinned, so that a rebuild for an unrelated reason cannot change what students get. Pillow must
+# produce the same JPEGs as the Pillow in cs50/check, which byte-hashes students' output.
 RUN pip3 install --no-cache-dir \
-        black \
-        djhtml \
-        matplotlib \
-        pillow==11.3.0 \
-        pytz \
-        setuptools
+        black==26.10.1 \
+        djhtml==3.0.11 \
+        matplotlib==3.11.2 \
+        pillow==13.0.0 \
+        pytz==2026.6 \
+        setuptools==84.2.1
 
 
 # Copy files to image
