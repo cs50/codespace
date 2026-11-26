@@ -21,11 +21,16 @@ jobs:
     runs-on: ${{ matrix.runner }}
     # A normal build takes a few minutes; a hung leg must not hold up publishing the other one
     timeout-minutes: 60
-    env:
-      IMAGE: cs50/codespace:${{ github.sha }}-${{ matrix.arch }}
     steps:
       - name: Checkout
         uses: actions/checkout@v7
+
+      # Keyed by branch as well as SHA: develop and canary (or main and canary) can build the same
+      # commit at the same time on different base images, and with SHA-only names the two runs
+      # overwrote each other's intermediates, so canary once published a develop (3.14) build.
+      # A / in a branch name is not valid in a tag, so it becomes -.
+      - name: Name the image
+        run: echo "IMAGE=cs50/codespace:$GITHUB_SHA-${GITHUB_REF_NAME//\//-}-${{ matrix.arch }}" >> "$GITHUB_ENV"
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v4
@@ -102,15 +107,18 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      # Tags are unchanged from the single-arch workflow:
+      # Tags:
       #   main:   <sha> and latest on GitHub Packages and Docker Hub
-      #   others: <branch> on GitHub Packages; <branch> and <sha> on Docker Hub
+      #   others: <branch> on GitHub Packages; <branch> and <branch>-<sha> on Docker Hub
+      # A branch's SHA tag carries the branch name because the same commit on develop and canary
+      # builds on different base images; a bare <sha> would mean whichever run finished last.
       # latest only moves if this commit is still the head of main, so re-running an older run
       # (e.g. after an arm64 flake) can never roll cs50.dev back to an older image.
       - name: Create multi-arch tags (${{ github.ref_name }})
         id: publish
         run: |
           set -o errexit -o nounset -o pipefail
+          branch="${GITHUB_REF_NAME//\//-}"
           if [ "$GITHUB_REF" = "refs/heads/main" ]; then
             head=$(git ls-remote --exit-code "https://github.com/$GITHUB_REPOSITORY" refs/heads/main | cut -f1)
             if [ "$head" = "$GITHUB_SHA" ]; then
@@ -123,22 +131,24 @@ jobs:
             ghcr_tags="$GITHUB_SHA $latest"
             hub_tags="$GITHUB_SHA $latest"
           else
-            ghcr_tags="$GITHUB_REF_NAME"
-            hub_tags="$GITHUB_REF_NAME $GITHUB_SHA"
+            ghcr_tags="$branch"
+            hub_tags="$branch $branch-$GITHUB_SHA"
           fi
 
-          # publish REPO TAG...: creates each REPO:TAG from whichever REPO:<sha>-<arch> images were pushed
+          # publish REPO TAG...: creates each REPO:TAG from whichever REPO:<sha>-<branch>-<arch> images this
+          # run's build jobs pushed
           publish() {
             local repo="$1"; shift
             local sources=()
             for arch in amd64 arm64; do
-              if docker buildx imagetools inspect "$repo:$GITHUB_SHA-$arch" > /dev/null 2>&1; then
-                sources+=("$repo:$GITHUB_SHA-$arch")
+              local source="$repo:$GITHUB_SHA-$branch-$arch"
+              if docker buildx imagetools inspect "$source" > /dev/null 2>&1; then
+                sources+=("$source")
               elif [ "$arch" = "amd64" ]; then
-                echo "::error::$repo:$GITHUB_SHA-amd64 was not published; not tagging $repo"
+                echo "::error::$source was not published; not tagging $repo"
                 return 1
               else
-                echo "::warning::$repo:$GITHUB_SHA-$arch was not published; $repo tags will be amd64-only"
+                echo "::warning::$source was not published; $repo tags will be amd64-only"
               fi
             done
             local tags=()
